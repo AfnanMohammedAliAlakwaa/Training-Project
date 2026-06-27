@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}نظام الجودة الأكاديمية{% endblock %}</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f4f7fb;
+            direction: rtl;
+        }
+
+        .sidebar {
+            width: 270px;
+            height: 100vh;
+            background: #1f3b57;
+            color: white;
+            position: fixed;
+            right: 0;
+            top: 0;
+            padding: 30px 22px;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            font-size: 22px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            font-size: 17px;
+        }
+
+        .sidebar a:hover {
+            background: #2f5c85;
+        }
+
+        .content {
+            margin-right: 270px;
+            padding: 45px;
+        }
+
+        .page-title {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .page-subtitle {
+            color: #4b5563;
+            margin-bottom: 35px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+            min-height: 120px;
+        }
+
+        .card h3 {
+            margin: 0 0 15px;
+            color: #4b5563;
+            font-size: 18px;
+        }
+
+        .card p {
+            margin: 0;
+            color: #1f3b57;
+            font-size: 34px;
+            font-weight: bold;
+        }
+
+        .section-box {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #1f3b57;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>نظام الجودة الأكاديمية</h2>
+
+    <a href="{% url 'home' %}">لوحة التحكم</a>
+
+    <a href="{% url 'data_entry' %}">إدخال بيانات المعايير</a>
+
+    <a href="{% url 'evaluation' %}">التقييم</a>
+
+    <a href="{% url 'analysis' %}">التحليل</a>
+
+    <a href="{% url 'improvement_plans' %}">خطط التحسين</a>
+
+    <a href="{% url 'reports' %}">التقارير</a>
+
+    <a href="{% url 'system_management' %}">إدارة النظام</a>
+</div>
+
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

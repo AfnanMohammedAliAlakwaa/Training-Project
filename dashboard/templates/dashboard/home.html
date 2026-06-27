@@ -1,0 +1,35 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}لوحة التحكم{% endblock %}
+
+{% block content %}
+<h1 class="page-title">لوحة التحكم</h1>
+<p class="page-subtitle">نظرة عامة على نظام تحسين أداء البرامج الأكاديمية</p>
+
+<div class="cards">
+    <div class="card">
+        <h3>البرامج الأكاديمية</h3>
+        <p>{{ programs_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>التقييمات</h3>
+        <p>{{ evaluations_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>المعايير</h3>
+        <p>{{ standards_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>خطط التحسين</h3>
+        <p>0</p>
+    </div>
+</div>
+
+<div class="section-box">
+    <h2>آخر التنبيهات</h2>
+    <p>لا توجد تنبيهات حالياً.</p>
+</div>
+{% endblock %}

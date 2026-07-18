@@ -42,6 +42,14 @@ class CurrentUserMiddleware:
 
 
 class MainSystemLoginRequiredMiddleware:
+    # مسارات يجب السماح بها كما هي تمامًا
+    EXEMPT_PATHS = (
+        "/",
+        "/gateway/system-login/",
+        "/gateway/admin-login/",
+    )
+
+    # مسارات يُسمح بكل ما يبدأ بها
     EXEMPT_PREFIXES = (
         "/login/",
         "/logout/",
@@ -54,13 +62,21 @@ class MainSystemLoginRequiredMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        path = request.path_info
-
         if request.user.is_authenticated:
+            return self.get_response(request)
+
+        path = request.path
+
+        if path in self.EXEMPT_PATHS:
             return self.get_response(request)
 
         if any(path.startswith(prefix) for prefix in self.EXEMPT_PREFIXES):
             return self.get_response(request)
 
-        query_string = urlencode({"next": request.get_full_path()})
-        return redirect(f"{settings.LOGIN_URL}?{query_string}")
+        query_string = urlencode(
+            {"next": request.get_full_path()}
+        )
+
+        return redirect(
+            f"{settings.LOGIN_URL}?{query_string}"
+        )

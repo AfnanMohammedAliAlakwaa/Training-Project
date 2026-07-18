@@ -71,21 +71,15 @@ def login_gateway(request):
 def gateway_system_login(request):
     logout(request)
 
-    return redirect(
-        f"{reverse('system_login')}?source=gateway"
-    )
+    return redirect("system_login")
 
 
 @login_not_required
+@never_cache
 def gateway_admin_login(request):
     logout(request)
 
-    admin_login_url = reverse("admin:login")
-    admin_index_url = reverse("admin:index")
-
-    return redirect(
-        f"{admin_login_url}?next={admin_index_url}"
-    )
+    return redirect("/admin/login/")
 # ============================================================
 # Constants
 # ============================================================

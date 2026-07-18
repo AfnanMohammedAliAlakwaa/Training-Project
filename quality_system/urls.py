@@ -24,6 +24,12 @@ urlpatterns = [
         admin.site.urls,
     ),
 
+    # مسارات النظام الرئيسية
+    path(
+        "",
+        include("dashboard.urls"),
+    ),
+
     # تطبيق التقييم
     path(
         "",
@@ -34,12 +40,6 @@ urlpatterns = [
     path(
         "",
         include("improvements.urls"),
-    ),
-
-    # لوحة النظام
-    path(
-        "",
-        include("dashboard.urls"),
     ),
 ]
 

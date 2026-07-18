@@ -1,0 +1,1241 @@
+:root {
+    --primary: #2486c4;
+    --primary-dark: #0d5f99;
+    --primary-soft: #dceeff;
+
+    --navy: #082e51;
+    --text: #173b59;
+    --muted: #71879a;
+
+    --border: #cde1f1;
+    --white: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        "Tahoma",
+        "Arial",
+        sans-serif;
+
+    color: var(--text);
+    background: #f6fafc;
+}
+
+/* =========================================================
+   الصفحة والخلفية الأكاديمية الهادئة
+========================================================= */
+
+.portal-page {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    isolation: isolate;
+
+    padding: 20px 18px 28px;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(66, 158, 216, 0.08) 0%,
+            rgba(66, 158, 216, 0.025) 34%,
+            transparent 63%
+        ),
+        linear-gradient(
+            180deg,
+            #fbfdff 0%,
+            #f4f9fc 54%,
+            #f8fbfd 100%
+        );
+}
+
+/* شبكة أكاديمية خفيفة */
+.portal-page::before {
+    content: "";
+
+    position: absolute;
+    z-index: 0;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.22;
+
+    background-image:
+        linear-gradient(
+            rgba(36, 134, 196, 0.10) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(36, 134, 196, 0.10) 1px,
+            transparent 1px
+        );
+
+    background-size: 56px 56px;
+
+    -webkit-mask-image:
+        radial-gradient(
+            circle at center,
+            #000 0%,
+            rgba(0, 0, 0, 0.72) 48%,
+            transparent 88%
+        );
+
+    mask-image:
+        radial-gradient(
+            circle at center,
+            #000 0%,
+            rgba(0, 0, 0, 0.72) 48%,
+            transparent 88%
+        );
+}
+
+/* توهج خفيف خلف البطاقة */
+.portal-page::after {
+    content: "";
+
+    position: absolute;
+    z-index: 0;
+
+    top: 54%;
+    left: 50%;
+
+    width: 720px;
+    height: 500px;
+
+    pointer-events: none;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(44, 145, 207, 0.10) 0%,
+            rgba(44, 145, 207, 0.035) 43%,
+            transparent 72%
+        );
+
+    transform: translate(-50%, -50%);
+}
+
+/* =========================================================
+   عناصر خلفية مستوحاة من لوحات البيانات
+========================================================= */
+
+.portal-bg-decor {
+    position: absolute;
+    z-index: 1;
+
+    inset: 0;
+
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* عقد بيانات صغيرة */
+.portal-shape {
+    position: absolute;
+
+    display: block;
+
+    width: 9px;
+    height: 9px;
+
+    border: 2px solid rgba(36, 134, 196, 0.24);
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.78);
+
+    box-shadow:
+        0 0 0 7px rgba(36, 134, 196, 0.035);
+
+    animation:
+        portalNodeFloat 8s ease-in-out infinite alternate;
+}
+
+.portal-shape-one {
+    top: 20%;
+    right: 14%;
+}
+
+.portal-shape-two {
+    bottom: 21%;
+    left: 13%;
+
+    animation-delay: -3s;
+}
+
+.portal-shape-three {
+    top: 51%;
+    left: 8%;
+
+    width: 7px;
+    height: 7px;
+
+    animation-delay: -5s;
+}
+
+/* بطاقات بيانات شفافة في الخلفية */
+.portal-ring {
+    position: absolute;
+
+    display: block;
+
+    width: 150px;
+    height: 88px;
+
+    border: 1px solid rgba(36, 134, 196, 0.12);
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.44),
+            rgba(228, 244, 253, 0.18)
+        );
+
+    box-shadow:
+        0 16px 38px rgba(18, 94, 145, 0.025);
+
+    opacity: 0.72;
+
+    animation:
+        portalCardFloat 10s ease-in-out infinite alternate;
+}
+
+.portal-ring::before,
+.portal-ring::after {
+    content: "";
+
+    position: absolute;
+    right: 18px;
+
+    height: 5px;
+
+    border-radius: 999px;
+
+    background: rgba(36, 134, 196, 0.10);
+}
+
+.portal-ring::before {
+    top: 24px;
+    width: 62px;
+}
+
+.portal-ring::after {
+    top: 40px;
+    width: 92px;
+}
+
+.portal-ring-one {
+    top: 17%;
+    left: 7%;
+
+    transform: rotate(-4deg);
+}
+
+.portal-ring-two {
+    right: 7%;
+    bottom: 15%;
+
+    width: 166px;
+    height: 96px;
+
+    transform: rotate(4deg);
+
+    animation-delay: -4s;
+}
+
+/* خطوط اتصال بسيطة */
+.portal-line {
+    position: absolute;
+
+    display: block;
+
+    width: 250px;
+    height: 1px;
+
+    opacity: 0.58;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(36, 134, 196, 0.17),
+            transparent
+        );
+}
+
+.portal-line::after {
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    right: 34%;
+
+    width: 6px;
+    height: 6px;
+
+    border: 1px solid rgba(36, 134, 196, 0.20);
+    border-radius: 50%;
+
+    background: #f8fcff;
+
+    transform: translateY(-50%);
+}
+
+.portal-line-one {
+    top: 34%;
+    left: -34px;
+
+    transform: rotate(-23deg);
+}
+
+.portal-line-two {
+    right: -35px;
+    bottom: 31%;
+
+    transform: rotate(23deg);
+}
+
+@keyframes portalNodeFloat {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: translate3d(5px, -7px, 0);
+    }
+}
+
+@keyframes portalCardFloat {
+    from {
+        margin-top: 0;
+    }
+
+    to {
+        margin-top: -7px;
+    }
+}
+
+/* =========================================================
+   عنوان الصفحة
+========================================================= */
+
+.portal-heading {
+    position: relative;
+    z-index: 3;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-bottom: 14px;
+
+    text-align: center;
+}
+
+.portal-heading h1 {
+    margin: 0;
+
+    color: var(--navy);
+
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1.35;
+}
+
+.portal-heading p {
+    margin: 5px 0 0;
+
+    color: var(--muted);
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   البطاقة المقسومة قطريًا
+========================================================= */
+
+.portal-card {
+    position: relative;
+    z-index: 3;
+
+    width: min(500px, calc(100vw - 34px));
+    height: 410px;
+
+    overflow: hidden;
+    isolation: isolate;
+
+    border: 1px solid var(--border);
+    border-radius: 26px;
+
+    background: var(--white);
+
+    box-shadow:
+        0 22px 50px rgba(15, 74, 115, 0.11),
+        0 7px 20px rgba(15, 74, 115, 0.055);
+}
+
+.portal-option {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+
+    font: inherit;
+    text-align: inherit;
+
+    cursor: pointer;
+
+    transition:
+        filter 0.3s ease,
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+/* القسم العلوي الأيمن */
+.portal-main-system {
+    z-index: 1;
+
+    background:
+        linear-gradient(
+            135deg,
+            #edf7ff 0%,
+            #dceeff 100%
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            100% 100%
+        );
+}
+
+/* القسم السفلي الأيسر */
+.portal-admin-system {
+    z-index: 2;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #f8fcff 100%
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 100%,
+            0 100%
+        );
+}
+
+/* الخط القطري */
+.portal-diagonal-line {
+    position: absolute;
+    z-index: 4;
+
+    top: 50%;
+    left: 50%;
+
+    width: 720px;
+    height: 1px;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(36, 134, 196, 0.38),
+            transparent
+        );
+
+    transform:
+        translate(-50%, -50%)
+        rotate(41.2deg);
+
+    transform-origin: center;
+}
+
+/* =========================================================
+   شعار الجامعة داخل البطاقة دون مربع
+========================================================= */
+
+.portal-card-logo {
+    position: absolute;
+    z-index: 15;
+
+    top: 11px;
+    left: 50%;
+
+    width: 72px;
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 0;
+
+    background: transparent;
+    box-shadow: none;
+
+    transform: translateX(-50%);
+
+    pointer-events: none;
+}
+
+.portal-card-logo img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 4px 9px rgba(17, 84, 129, 0.10)
+        );
+}
+
+/* =========================================================
+   محتوى القسمين
+========================================================= */
+
+.portal-option-content {
+    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+
+    pointer-events: none;
+}
+
+/* تضييق القسم الأكاديمي حتى لا يدخل في القسم الأبيض */
+.main-content {
+    top: 96px;
+    right: 22px;
+
+    width: 178px;
+
+    align-items: flex-start;
+    text-align: right;
+}
+
+/* قسم الإدارة */
+.admin-content {
+    bottom: 34px;
+    left: 28px;
+
+    width: 185px;
+
+    align-items: flex-end;
+    text-align: left;
+}
+
+.portal-icon {
+    width: 48px;
+    height: 48px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 8px;
+
+    border: 1px solid rgba(36, 134, 196, 0.21);
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, 0.74);
+
+    color: var(--primary);
+
+    box-shadow:
+        0 7px 17px rgba(28, 116, 173, 0.07);
+}
+
+.portal-icon svg {
+    width: 25px;
+    height: 25px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.portal-option-title {
+    color: var(--navy);
+
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1.35;
+}
+
+.portal-option-description {
+    margin-top: 5px;
+
+    color: #59778e;
+
+    font-size: 10.7px;
+    font-weight: 700;
+    line-height: 1.65;
+}
+
+/* الزران بنفس المقاس وبداخل كل قسم */
+.portal-enter {
+    width: 150px;
+    min-height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    margin-top: 8px;
+    padding: 0 9px;
+
+    border: 1px solid rgba(36, 134, 196, 0.22);
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.66);
+
+    color: var(--primary-dark);
+
+    font-size: 10.2px;
+    font-weight: 900;
+    line-height: 1.2;
+
+    white-space: nowrap;
+
+    transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+/* تثبيت زر النظام في يمين قسمه */
+.main-content .portal-enter {
+    align-self: flex-start;
+
+    margin-right: 0;
+    margin-left: auto;
+}
+
+/* تثبيت زر الإدارة في يسار قسمها */
+.admin-content .portal-enter {
+    align-self: flex-end;
+
+    margin-right: auto;
+    margin-left: 0;
+}
+
+/* =========================================================
+   Hover والتركيز
+========================================================= */
+
+.portal-main-system:hover {
+    filter: saturate(1.04) brightness(0.995);
+}
+
+.portal-admin-system:hover {
+    filter: brightness(0.992);
+}
+
+.portal-main-system:hover .portal-enter,
+.portal-admin-system:hover .portal-enter {
+    transform: translateX(-3px);
+
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.portal-option:focus-visible {
+    outline: 4px solid rgba(36, 134, 196, 0.28);
+    outline-offset: -8px;
+}
+
+/* =========================================================
+   حركة الانتقال
+========================================================= */
+
+.portal-transition {
+    --transition-color: #dceeff;
+    --x: 50%;
+    --y: 50%;
+
+    position: absolute;
+    z-index: 20;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background: var(--transition-color);
+
+    clip-path:
+        circle(
+            0 at var(--x) var(--y)
+        );
+
+    transition:
+        clip-path 0.65s
+        cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.portal-transition.is-active {
+    clip-path:
+        circle(
+            150% at var(--x) var(--y)
+        );
+}
+
+.portal-card.is-loading
+.portal-option:not(.is-selected) {
+    opacity: 0.25;
+    filter: blur(1px);
+}
+
+.portal-card.is-loading
+.portal-option.is-selected {
+    transform: scale(1.015);
+}
+
+/* =========================================================
+   النص السفلي
+========================================================= */
+
+.portal-help-text {
+    position: relative;
+    z-index: 3;
+
+    margin: 13px 0 0;
+
+    color: #7b91a3;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   الشاشات المتوسطة والصغيرة
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .portal-page {
+        padding: 18px 12px 24px;
+    }
+
+    .portal-heading h1 {
+        font-size: 24px;
+    }
+
+    .portal-heading p {
+        font-size: 12px;
+    }
+
+    .portal-card {
+        width: min(460px, calc(100vw - 24px));
+        height: 390px;
+
+        border-radius: 23px;
+    }
+
+    .portal-card-logo {
+        top: 10px;
+
+        width: 64px;
+        height: 64px;
+    }
+
+    .main-content {
+        top: 88px;
+        right: 17px;
+
+        width: 166px;
+    }
+
+    .admin-content {
+        bottom: 28px;
+        left: 20px;
+
+        width: 172px;
+    }
+
+    .portal-option-title {
+        font-size: 18px;
+    }
+
+    .portal-option-description {
+        font-size: 9.8px;
+    }
+
+    .portal-icon {
+        width: 44px;
+        height: 44px;
+
+        border-radius: 14px;
+    }
+
+    .portal-icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .portal-enter {
+        width: 138px;
+        min-height: 32px;
+
+        padding: 0 7px;
+
+        font-size: 9.6px;
+    }
+
+    .portal-ring {
+        opacity: 0.45;
+    }
+
+    .portal-ring-one {
+        left: -45px;
+    }
+
+    .portal-ring-two {
+        right: -55px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .portal-card {
+        height: 365px;
+    }
+
+    .portal-card-logo {
+        width: 56px;
+        height: 56px;
+    }
+
+    .main-content {
+        top: 78px;
+        right: 14px;
+
+        width: 148px;
+    }
+
+    .admin-content {
+        bottom: 23px;
+        left: 14px;
+
+        width: 154px;
+    }
+
+    .portal-option-title {
+        font-size: 16px;
+    }
+
+    .portal-option-description {
+        font-size: 9px;
+        line-height: 1.55;
+    }
+
+    .portal-enter {
+        width: 125px;
+        min-height: 30px;
+
+        margin-top: 6px;
+
+        font-size: 8.9px;
+    }
+}
+
+/* الشاشات القصيرة */
+@media (max-height: 650px) and (min-width: 701px) {
+
+    .portal-page {
+        padding-top: 12px;
+        padding-bottom: 15px;
+    }
+
+    .portal-heading {
+        margin-bottom: 9px;
+    }
+
+    .portal-heading h1 {
+        font-size: 24px;
+    }
+
+    .portal-card {
+        height: 380px;
+    }
+
+    .portal-card-logo {
+        width: 62px;
+        height: 62px;
+    }
+
+    .main-content {
+        top: 84px;
+    }
+
+    .admin-content {
+        bottom: 25px;
+    }
+
+    .portal-help-text {
+        margin-top: 8px;
+    }
+}
+/* =========================================================
+   خلفية أكاديمية هادئة مرتبطة بالتحليل والبيانات
+========================================================= */
+
+.portal-page {
+    position: relative !important;
+
+    isolation: isolate !important;
+    overflow: hidden !important;
+
+    background:
+        radial-gradient(
+            circle at 50% 48%,
+            rgba(47, 145, 207, 0.075) 0%,
+            rgba(47, 145, 207, 0.022) 38%,
+            transparent 67%
+        ),
+        linear-gradient(
+            180deg,
+            #fbfdff 0%,
+            #f4f9fc 54%,
+            #fafcfd 100%
+        ) !important;
+}
+
+/* شبكة تحليل خفيفة */
+.portal-page::before {
+    content: "";
+
+    position: absolute;
+    z-index: 0;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.12;
+
+    background-image:
+        linear-gradient(
+            rgba(36, 134, 196, 0.13) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(36, 134, 196, 0.13) 1px,
+            transparent 1px
+        );
+
+    background-size: 68px 68px;
+
+    -webkit-mask-image:
+        radial-gradient(
+            circle at center,
+            #000 0%,
+            rgba(0, 0, 0, 0.55) 52%,
+            transparent 88%
+        );
+
+    mask-image:
+        radial-gradient(
+            circle at center,
+            #000 0%,
+            rgba(0, 0, 0, 0.55) 52%,
+            transparent 88%
+        );
+}
+
+/* توهج خلف البطاقة فقط */
+.portal-page::after {
+    content: "";
+
+    position: absolute;
+    z-index: 0;
+
+    top: 54%;
+    left: 50%;
+
+    width: 690px;
+    height: 470px;
+
+    pointer-events: none;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(43, 145, 207, 0.09) 0%,
+            rgba(43, 145, 207, 0.022) 47%,
+            transparent 74%
+        );
+
+    transform: translate(-50%, -50%);
+}
+
+/* حاوية الرسومات */
+.portal-analytics-bg {
+    position: absolute;
+    z-index: 1;
+
+    inset: 0;
+
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* الرسوم الخلفية */
+.portal-bg-chart {
+    position: absolute;
+
+    display: block;
+
+    width: 275px;
+    height: 155px;
+
+    opacity: 0.19;
+
+    filter:
+        drop-shadow(
+            0 10px 20px rgba(20, 100, 151, 0.025)
+        );
+}
+
+/* خطوط الشبكة داخل الرسوم */
+.portal-bg-chart line {
+    stroke: rgba(36, 134, 196, 0.18);
+    stroke-width: 1;
+    stroke-dasharray: 5 7;
+}
+
+/* خط الاتجاه */
+.portal-bg-chart path {
+    fill: none;
+
+    stroke: rgba(36, 134, 196, 0.27);
+    stroke-width: 2.2;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* نقاط الاتجاه */
+.portal-bg-chart circle {
+    fill: #f9fcff;
+
+    stroke: rgba(36, 134, 196, 0.30);
+    stroke-width: 2;
+}
+
+/* أعمدة المؤشرات */
+.portal-bg-chart rect {
+    fill: rgba(36, 134, 196, 0.11);
+
+    stroke: rgba(36, 134, 196, 0.14);
+    stroke-width: 1;
+}
+
+/* الرسم الأيسر */
+.portal-bg-chart-line {
+    top: 18%;
+    left: 4%;
+
+    transform: rotate(-3deg);
+}
+
+/* الرسم الأيمن */
+.portal-bg-chart-bars {
+    right: 4%;
+    bottom: 13%;
+
+    transform: rotate(3deg);
+}
+
+/* نقاط بيانات بسيطة */
+.portal-data-node {
+    position: absolute;
+
+    width: 8px;
+    height: 8px;
+
+    border: 2px solid rgba(36, 134, 196, 0.20);
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.85);
+
+    box-shadow:
+        0 0 0 7px rgba(36, 134, 196, 0.025);
+
+    animation:
+        portalDataNodeFloat
+        7s ease-in-out infinite alternate;
+}
+
+.node-one {
+    top: 25%;
+    right: 18%;
+}
+
+.node-two {
+    bottom: 22%;
+    left: 18%;
+
+    animation-delay: -3s;
+}
+
+.node-three {
+    top: 57%;
+    left: 8%;
+
+    animation-delay: -5s;
+}
+
+@keyframes portalDataNodeFloat {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-6px);
+    }
+}
+
+/* إبقاء المحتوى فوق الخلفية */
+.portal-heading,
+.portal-card,
+.portal-help-text {
+    position: relative !important;
+    z-index: 3 !important;
+}
+
+@media (max-width: 950px) {
+    .portal-bg-chart {
+        width: 215px;
+        height: 120px;
+
+        opacity: 0.13;
+    }
+}
+
+@media (max-width: 700px) {
+    .portal-bg-chart {
+        display: none;
+    }
+
+    .portal-data-node {
+        opacity: 0.45;
+    }
+}
+/* =========================================================
+   رفع عنوان البوابة وزيادة المسافة عن البطاقة
+========================================================= */
+
+.portal-heading {
+    position: relative !important;
+    top: -8px !important;
+    margin-bottom: 22px !important;
+}
+
+.portal-heading h1 {
+    margin-bottom: 4px !important;
+}
+
+.portal-heading p {
+    margin-top: 0 !important;
+}
+
+
+/* =========================================================
+   توضيح رسومات التحليل في الخلفية بدرجة هادئة
+========================================================= */
+
+.portal-page::before {
+    opacity: 0.21 !important;
+}
+
+.portal-bg-chart {
+    opacity: 0.29 !important;
+
+    filter:
+        drop-shadow(
+            0 9px 20px rgba(20, 100, 151, 0.045)
+        ) !important;
+}
+
+/* الخطوط الداخلية للرسوم */
+.portal-bg-chart line {
+    stroke: rgba(36, 134, 196, 0.24) !important;
+}
+
+/* خط اتجاه الأداء */
+.portal-bg-chart path {
+    stroke: rgba(36, 134, 196, 0.36) !important;
+    stroke-width: 2.4px !important;
+}
+
+/* نقاط خط الأداء */
+.portal-bg-chart circle {
+    fill: #f8fcff !important;
+    stroke: rgba(36, 134, 196, 0.40) !important;
+}
+
+/* أعمدة المؤشرات */
+.portal-bg-chart rect {
+    fill: rgba(36, 134, 196, 0.17) !important;
+    stroke: rgba(36, 134, 196, 0.21) !important;
+}
+
+/* نقاط البيانات الصغيرة */
+.portal-data-node {
+    border-color: rgba(36, 134, 196, 0.30) !important;
+
+    box-shadow:
+        0 0 0 7px rgba(36, 134, 196, 0.045) !important;
+}

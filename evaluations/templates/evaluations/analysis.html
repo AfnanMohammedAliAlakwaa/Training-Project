@@ -1,0 +1,1888 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load l10n %}
+
+{% block title %}تحليل التقييمات الأكاديمية{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet"
+      href="{% static 'dashboard/css/analysis.css' %}?v=149">
+
+<style>
+
+/* بطاقة رسم مقارنة البرامج */
+.analysis-program-chart-card {
+    margin-top: 22px !important;
+    padding: 22px !important;
+    background: #ffffff !important;
+    border: 1px solid #d3e7f6 !important;
+    border-radius: 18px !important;
+}
+
+/* عنوان الرسم */
+.analysis-program-chart-header {
+    margin-bottom: 24px !important;
+}
+
+.analysis-program-chart-header h3 {
+    margin: 0 0 6px !important;
+    color: #0b5f98 !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+}
+
+.analysis-program-chart-header p {
+    margin: 0 !important;
+    color: #647b8d !important;
+    font-size: 14px !important;
+}
+
+/* الحاوية القابلة للتمرير */
+.analysis-program-chart-scroll {
+    width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 10px 0 14px !important;
+}
+
+/* صف الأعمدة */
+.analysis-program-chart {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-around !important;
+    gap: 24px !important;
+
+    min-width: 760px !important;
+    height: 330px !important;
+    padding: 20px 20px 8px !important;
+
+    border-bottom: 2px solid #d5e5f0 !important;
+
+    background:
+        repeating-linear-gradient(
+            to top,
+            transparent 0,
+            transparent 64px,
+            #e7f0f7 65px
+        ) !important;
+}
+
+/* عمود البرنامج كاملًا */
+.analysis-program-column {
+    width: 110px !important;
+    height: 300px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex-shrink: 0 !important;
+}
+
+/* النسبة فوق العمود */
+.analysis-program-column-value {
+    display: block !important;
+    margin-bottom: 8px !important;
+
+    color: #0b5f98 !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    direction: ltr !important;
+}
+
+/* خلفية العمود */
+.analysis-program-column-track {
+    display: flex !important;
+    align-items: flex-end !important;
+
+    width: 60px !important;
+    height: 220px !important;
+
+    overflow: hidden !important;
+    background: #edf6fc !important;
+    border: 1px solid #cfe4f3 !important;
+    border-radius: 13px 13px 6px 6px !important;
+}
+
+/* الجزء الملون */
+.analysis-program-column-fill {
+    display: block !important;
+    width: 100% !important;
+    min-height: 3px !important;
+
+    background: linear-gradient(
+        180deg,
+        #4cb2ea 0%,
+        #1687c8 100%
+    ) !important;
+
+    border-radius: 11px 11px 4px 4px !important;
+}
+
+/* اسم البرنامج أسفل العمود */
+.analysis-program-column-name {
+    display: block !important;
+    width: 110px !important;
+    min-height: 44px !important;
+    margin-top: 10px !important;
+
+    color: #173f5a !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1.5 !important;
+    text-align: center !important;
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+{% localize off %}
+
+<div class="analysis-page" dir="rtl">
+
+
+    <section class="analysis-hero analysis-hero-clean">
+        <div class="analysis-hero-content">
+            <span class="analysis-kicker">تحليل أداء البرامج الأكاديمية</span>
+
+            <h1>التحليل</h1>
+
+            <p>
+                هذه الصفحة تساعدك على فهم نتيجة التقييم: ما النتيجة العامة، أين الضعف،
+                لماذا ظهرت هذه الأرقام، وما الذي يحتاج متابعة أو تحسين.
+            </p>
+
+            <div class="analysis-scope-inline">
+                <span>النطاق الحالي:</span>
+
+                <strong>
+                    {% if is_all_programs and is_all_years %}
+                        كل البرامج والتخصصات - كل السنوات
+                    {% elif is_all_programs %}
+                        كل البرامج والتخصصات - {{ selected_academic_year }}
+                    {% elif is_all_years %}
+                        برنامج محدد - كل السنوات
+                    {% elif selected_file %}
+                        {{ selected_file }}
+                    {% else %}
+                        لم يتم تحديد ملف تحليل
+                    {% endif %}
+                </strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="analysis-filter-card analysis-filter-card-clean">
+        <form method="get" class="analysis-filters">
+
+    <!-- حاوية مستقلة تضمن ظهور الحقول الثلاثة في سطر واحد -->
+    <div class="analysis-filter-fields"
+         style="
+            grid-column: 1 / -1 !important;
+            display: grid !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            gap: 16px !important;
+            align-items: end !important;
+            width: 100% !important;
+         ">
+
+        <!-- البرنامج الأكاديمي -->
+        <div class="analysis-field"
+             style="grid-column: auto !important; width: 100% !important;">
+            <label for="program_id">البرنامج الأكاديمي</label>
+
+            <select name="program_id" id="program_id">
+                <option value="all"
+                    {% if is_all_programs %}selected{% endif %}>
+                    كل البرامج والتخصصات
+                </option>
+
+                {% for program in program_options %}
+                    <option value="{{ program.id }}"
+                        {% if selected_program_id == program.id|stringformat:"s" %}selected{% endif %}>
+                        {{ program }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- السنة الأكاديمية -->
+        <div class="analysis-field"
+             style="grid-column: auto !important; width: 100% !important;">
+            <label for="academic_year">السنة الأكاديمية</label>
+
+            <select name="academic_year" id="academic_year">
+                <option value="all"
+                    {% if selected_academic_year == "all" %}selected{% endif %}>
+                    كل السنوات
+                </option>
+
+                {% for year in academic_year_options %}
+                    <option value="{{ year }}"
+                        {% if selected_academic_year == year %}selected{% endif %}>
+                        {{ year }}
+                    </option>
+                {% empty %}
+                    <option value="">لا توجد سنوات محفوظة</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- عرض المعايير -->
+        <div class="analysis-field"
+             style="grid-column: auto !important; width: 100% !important;">
+            <label for="status">عرض المعايير</label>
+
+            <select name="status" id="status">
+                {% for value, label in status_options %}
+                    <option value="{{ value }}"
+                        {% if selected_status == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+    </div>
+
+    <!-- تثبيت وضع التحليل دون إظهاره للمستخدم -->
+    <input type="hidden" name="mode" value="followup">
+
+    <button type="submit"
+            class="analysis-filter-btn"
+            style="
+                grid-column: 1 / -1 !important;
+                justify-self: center !important;
+                width: 230px !important;
+            ">
+        عرض التحليل
+    </button>
+
+</form>
+
+        <div class="analysis-filter-note-clean">
+            <strong>سيتم الحساب حسب الاختيارات أعلاه.</strong>
+
+            <span>
+                {% if is_all_programs and is_all_years %}
+                    النتيجة تمثل متوسط كل ملفات التقييم لكل البرامج وفي كل السنوات.
+                {% elif is_all_programs %}
+                    النتيجة تمثل متوسط كل البرامج في السنة المختارة.
+                {% elif is_all_years %}
+                    النتيجة تمثل متوسط سنوات البرنامج المختار.
+                {% else %}
+                    النتيجة تخص البرنامج والسنة المختارين فقط.
+                {% endif %}
+            </span>
+        </div>
+    </section>
+
+    {% if not has_analysis %}
+
+        <section class="analysis-empty-state">
+            <h2>لا توجد بيانات تحليل بعد</h2>
+
+            {% if is_all_programs and is_all_years %}
+                <p>
+                    لا توجد تقييمات محفوظة في النظام حتى الآن.
+                    ابدئي من صفحة إدخال البيانات ثم صفحة التقييم.
+                </p>
+            {% elif is_all_programs %}
+                <p>
+                    لا توجد تقييمات محفوظة لكل البرامج في السنة المحددة.
+                    اختار سنة أخرى أو ابدئ من صفحة إدخال البيانات والتقييم.
+                </p>
+            {% elif is_all_years %}
+                <p>
+                    لا توجد تقييمات محفوظة لهذا البرنامج في أي سنة.
+                    تأكدي من إدخال بيانات البرنامج وتوليد التقييم.
+                </p>
+            {% else %}
+                <p>
+                    لا يوجد ملف تقييم لهذا البرنامج في السنة المحددة.
+                    تأكدي من إدخال بيانات البرنامج والسنة من صفحة إدخال البيانات.
+                </p>
+            {% endif %}
+        </section>
+
+    {% else %}
+
+        <section class="analysis-alert
+            {% if selected_analysis_mode == 'official' and not can_issue_official %}
+                is-blocked
+            {% elif summary.draft_count or summary.needs_review_count %}
+                is-warning
+            {% else %}
+                is-complete
+            {% endif %}
+        ">
+
+            {% if is_aggregate_analysis %}
+
+                <div class="analysis-alert-icon">!</div>
+
+                <div class="analysis-alert-content">
+                    <h2>
+                        {% if is_all_programs and is_all_years %}
+                            متوسط كل البرامج عبر كل السنوات
+                        {% elif is_all_programs %}
+                            متوسط البرامج في السنة المحددة
+                        {% elif is_all_years %}
+                            متوسط البرنامج عبر كل السنوات
+                        {% else %}
+                            متوسط النطاق
+                        {% endif %}
+                    </h2>
+
+                    <p>
+                        هذه قراءة محسوبة من أكثر من ملف تقييم حسب الفلاتر. لذلك فهي توضّح الاتجاه العام
+                        والفجوات المشتركة، وليست حكمًا منفصلًا على معيار داخل برنامج واحد.
+                    </p>
+
+                    <div class="analysis-alert-stats">
+                        <span>
+                            عدد البرامج:
+                            <strong>{{ summary.total_programs }}</strong>
+                        </span>
+
+                        <span>
+                            ملفات التقييم:
+                            <strong>{{ summary.total_reviews }}</strong>
+                        </span>
+
+                        <span>
+                            السنوات:
+                            <strong>{{ summary.total_years }}</strong>
+                        </span>
+
+                        <span>
+                            بحاجة إلى مراجعة:
+                            <strong>{{ summary.needs_review_count }}</strong>
+                        </span>
+                    </div>
+                </div>
+
+            {% elif selected_analysis_mode == 'official' %}
+
+                {% if can_issue_official %}
+
+                    <div class="analysis-alert-icon">✓</div>
+
+                    <div class="analysis-alert-content">
+                        <h2>التحليل الرسمي مكتمل وقابل للاعتماد</h2>
+                        <p>
+                            جميع المعايير معتمدة، ويمكن الاعتماد على النتيجة الحالية كمؤشر رسمي
+                            لحالة جودة البرنامج الأكاديمي.
+                        </p>
+                    </div>
+
+                {% else %}
+
+                    <div class="analysis-alert-icon">!</div>
+
+                    <div class="analysis-alert-content">
+                        <h2>لا يمكن إصدار تحليل رسمي الآن</h2>
+                        <p>
+                            هذا الوضع مخصص للتحليل الرسمي، لكن لا يمكن اعتماد النتيجة نهائيًا
+                            لأن هناك معايير لم تُعتمد بعد.
+                        </p>
+
+                        <div class="analysis-alert-stats">
+                            <span>المسودات: <strong>{{ summary.draft_count }}</strong></span>
+                            <span>بحاجة إلى مراجعة: <strong>{{ summary.needs_review_count }}</strong></span>
+                            <span>إجمالي العوائق: <strong>{{ official_blockers_count }}</strong></span>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+            {% else %}
+
+                {% if summary.draft_count or summary.needs_review_count %}
+
+                    <div class="analysis-alert-icon">!</div>
+
+                    <div class="analysis-alert-content">
+                        <h2>تنبيه مهم: هذا تحليل متابعة وليس حكمًا نهائيًا</h2>
+                        <p>
+                            النتيجة الحالية تعكس حالة التقييم كما هي الآن، لكنها لا تعتبر نتيجة نهائية
+                            لأن هناك معايير لم تكتمل مراجعتها أو ما زالت محفوظة كمسودة.
+                        </p>
+
+                        <div class="analysis-alert-stats">
+                            <span>المسودات: <strong>{{ summary.draft_count }}</strong></span>
+                            <span>بحاجة إلى مراجعة: <strong>{{ summary.needs_review_count }}</strong></span>
+                        </div>
+                    </div>
+
+                {% else %}
+
+                    <div class="analysis-alert-icon">✓</div>
+
+                    <div class="analysis-alert-content">
+                        <h2>التحليل مكتمل وقابل للاعتماد</h2>
+                        <p>
+                            جميع المعايير معتمدة، ويمكن الاعتماد على النتيجة الحالية كمؤشر نهائي
+                            لحالة جودة البرنامج الأكاديمي.
+                        </p>
+                    </div>
+
+                {% endif %}
+
+            {% endif %}
+
+        </section>
+
+        
+        <nav class="analysis-view-tabs"
+             role="tablist"
+             aria-label="أقسام صفحة التحليل">
+
+            <button type="button"
+                    class="analysis-view-tab active"
+                    role="tab"
+                    aria-selected="true"
+                    data-analysis-tab="summary">
+                الملخص العام
+            </button>
+
+            <button type="button"
+                    class="analysis-view-tab"
+                    role="tab"
+                    aria-selected="false"
+                    data-analysis-tab="charts">
+                الرسوم والمؤشرات
+            </button>
+
+            <button type="button"
+                    class="analysis-view-tab"
+                    role="tab"
+                    aria-selected="false"
+                    data-analysis-tab="followup">
+                المتابعة والتحسين
+            </button>
+
+            <button type="button"
+                    class="analysis-view-tab"
+                    role="tab"
+                    aria-selected="false"
+                    data-analysis-tab="details">
+                التفاصيل والجداول
+            </button>
+
+            <button type="button"
+                    class="analysis-view-tab"
+                    role="tab"
+                    aria-selected="false"
+                    data-analysis-tab="conclusion">
+                الخلاصة والتوصيات
+            </button>
+
+        </nav>
+
+        <section class="analysis-tab-panel active"
+                 data-analysis-panel="summary"
+                 role="tabpanel">
+
+        <section class="analysis-section-intro">
+            <h2>ملخص الأرقام الأساسية</h2>
+            <p>هذه البطاقات تعطيك نظرة سريعة قبل الدخول في التفاصيل. كل بطاقة تشرح رقمًا واحدًا فقط.</p>
+        </section>
+
+        <section class="analysis-cards analysis-cards-six">
+
+            <article class="analysis-card is-main">
+                <span>
+                    {% if is_aggregate_analysis %}
+                        النسبة العامة للنطاق
+                    {% else %}
+                        النسبة النهائية للبرنامج
+                    {% endif %}
+                </span>
+
+                <strong>{{ summary.final_percentage }}%</strong>
+
+                <p>
+                    {% if is_aggregate_analysis %}
+                        متوسط النتائج حسب البرنامج والسنة المختارين في الفلاتر.
+                    {% else %}
+                        النسبة النهائية بعد احتساب وزن كل معيار.
+                    {% endif %}
+                </p>
+            </article>
+
+            <article class="analysis-card">
+                <span>
+                    {% if is_all_programs %}
+                        عدد البرامج المحللة
+                    {% elif is_all_years %}
+                        عدد ملفات التقييم
+                    {% else %}
+                        إجمالي المعايير
+                    {% endif %}
+                </span>
+
+                <strong>
+                    {% if is_all_programs %}
+                        {{ summary.total_programs }}
+                    {% elif is_all_years %}
+                        {{ summary.total_reviews }}
+                    {% else %}
+                        {{ summary.total_standards }}
+                    {% endif %}
+                </strong>
+
+                <p>
+                    {% if is_all_programs and is_all_years %}
+                        البرامج التي لديها تقييمات محفوظة.
+                    {% elif is_all_programs %}
+                        البرامج التي لديها تقييم في السنة المحددة.
+                    {% elif is_all_years %}
+                        سنوات التقييم المحفوظة للبرنامج المحدد.
+                    {% else %}
+                        عدد المعايير في ملف التقييم الحالي.
+                    {% endif %}
+                </p>
+            </article>
+
+            <article class="analysis-card">
+                <span>متوسط الدرجة</span>
+                <strong>{{ summary.average_score }} / 5</strong>
+                <p>متوسط درجات المعايير من 5 داخل النطاق الحالي.</p>
+            </article>
+
+            <article class="analysis-card is-orange">
+                <span>معايير تحتاج تحسين</span>
+                <strong>{{ summary.high_risk_count|add:summary.medium_risk_count }}</strong>
+                <p>معايير نتيجتها أقل من 80% وتحتاج متابعة.</p>
+            </article>
+
+            <article class="analysis-card is-danger">
+                <span>المعايير الضعيفة</span>
+                <strong>{{ summary.high_risk_count }}</strong>
+                <p>معايير نتيجتها منخفضة وتحتاج معالجة أسرع.</p>
+            </article>
+
+            <article class="analysis-card is-green">
+                <span>المعايير المعتمدة</span>
+                <strong>{{ summary.reviewed_count }}</strong>
+                <p>
+                    المسودات: {{ summary.draft_count }}
+                    |
+                    بحاجة مراجعة: {{ summary.needs_review_count }}
+                </p>
+            </article>
+
+        </section>
+
+        <details class="analysis-accordion-card analysis-user-system-guide">
+    <summary>
+        <span>
+            دليل المستخدم لفهم النظام
+
+            <small>
+                شرح مختصر للمصطلحات وطريقة حساب النتائج في هذه الصفحة
+            </small>
+        </span>
+    </summary>
+
+    <div class="analysis-accordion-body">
+
+        <div class="analysis-user-guide-lead">
+            <strong>كيف أقرأ هذه الصفحة؟</strong>
+
+            <p>
+                اختار البرنامج والسنة من الفلاتر، ثم اقرأ النتائج من الأعلى للأسفل.
+                الأرقام مأخوذة من ملفات إدخال البيانات التي تم توليد تقييم لها،
+                وليست مدخلة يدويًا في صفحة التحليل.
+            </p>
+        </div>
+
+        <div class="analysis-guide-blocks">
+
+            <article>
+                <strong>النطاق الحالي</strong>
+                <p>
+                    هو البرنامج والسنة المختاران من الفلاتر.
+                    إذا اخترتِ «كل البرامج» أو «كل السنوات»
+                    فالنظام يحسب متوسطًا عامًا حسب الاختيار.
+                </p>
+            </article>
+
+            <article>
+                <strong>النسبة النهائية</strong>
+                <p>
+                    هي نتيجة الأداء بعد تحويل درجات المعايير إلى نسبة مئوية.
+                    في البرنامج الفردي تعبر عن نتيجة ذلك الملف،
+                    وفي النطاق العام تعبر عن متوسط الملفات.
+                </p>
+            </article>
+
+            <article>
+                <strong>متوسط النطاق</strong>
+                <p>
+                    يعني أن الرقم ليس من ملف واحد فقط، بل من عدة ملفات تقييم
+                    حسب الفلاتر، مثل كل البرامج في سنة معينة
+                    أو كل سنوات برنامج واحد.
+                </p>
+            </article>
+
+            <article>
+                <strong>الوزن</strong>
+                <p>
+                    يمثل أهمية المعيار في النتيجة العامة.
+                    المعيار صاحب الوزن الأكبر يؤثر أكثر من غيره
+                    عند حساب النتيجة النهائية.
+                </p>
+            </article>
+
+            <article>
+                <strong>المسودة وبحاجة مراجعة</strong>
+                <p>
+                    المسودة محفوظة لكنها غير معتمدة.
+                    وبحاجة مراجعة تعني أن المعيار لم يكتمل اعتماده،
+                    لذلك لا تعد النتيجة حكمًا نهائيًا.
+                </p>
+            </article>
+
+            <article>
+                <strong>أولوية التحسين</strong>
+                <p>
+                    تظهر للمعايير الضعيفة أو المؤثرة في النتيجة.
+                    كلما كان المعيار ضعيفًا ووزنه أكبر
+                    زادت أولوية تحسينه.
+                </p>
+            </article>
+
+        </div>
+
+        {% if calculation_explanation %}
+            <div class="analysis-guide-calculation">
+                <h3>كيف تم حساب النتائج؟</h3>
+
+                <div class="analysis-calculation-grid">
+                    {% for item in calculation_explanation %}
+                        <article class="analysis-calculation-item">
+                            <strong>{{ item.title }}</strong>
+                            <p>{{ item.text }}</p>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</details>
+
+
+        {% if approval_indicator %}
+            <section class="analysis-approval-card {{ approval_indicator.class }}">
+                <div class="analysis-approval-text">
+                    <h2>مؤشر حالة الاعتماد</h2>
+                    <p>
+                        هذا المؤشر يترجم الأرقام إلى قرار مبسط: هل النطاق جاهز؟ هل يحتاج تحسين؟
+                        وهل توجد معايير تمنع الحكم النهائي؟
+                    </p>
+
+                    <div class="analysis-approval-note">
+                        {{ approval_indicator.note }}
+                    </div>
+                </div>
+
+                <div class="analysis-approval-badge">
+                    <span>{{ approval_indicator.label }}</span>
+                    <strong>{{ approval_indicator.percentage }}%</strong>
+                </div>
+            </section>
+        {% endif %}
+
+        </section>
+
+        <section class="analysis-tab-panel"
+                 data-analysis-panel="charts"
+                 role="tabpanel"
+                 hidden>
+
+        <section class="student-analysis-dashboard">
+
+            <div class="student-analysis-heading">
+                <div>
+                    <span class="student-analysis-kicker">
+                        تحليل الأداء الأكاديمي للطلبة
+                    </span>
+
+                    <h2>مؤشرات الأداء الستة</h2>
+
+                    <p>
+                        تعرض هذه اللوحة القيم الموجودة في جدول معدلات الأداء الأكاديمي:
+                        النجاح، المعدل التراكمي، التقدم، البقاء، التدفق أو النمو،
+                        ومعدل الانسحاب. لا تعتمد اللوحة على مقارنة الطلاب بالطالبات.
+                    </p>
+                </div>
+
+                {% if student_analysis.is_aggregate %}
+                    <span class="student-analysis-scope">
+                        متوسط {{ student_analysis.source_files_count }} ملفات
+                    </span>
+                {% else %}
+                    <span class="student-analysis-scope">
+                        ملف البرنامج والسنة المحددين
+                    </span>
+                {% endif %}
+            </div>
+
+            <div class="academic-metrics-grid">
+                {% for metric in student_analysis.rates %}
+                    <article class="academic-metric-card {{ metric.class_name }}">
+                        <div class="academic-metric-card-head">
+                            <span>{{ metric.label }}</span>
+
+                            {% if metric.is_percentage %}
+                                <small>نسبة مئوية</small>
+                            {% else %}
+                                <small>قيمة تراكمية</small>
+                            {% endif %}
+                        </div>
+
+                        <strong>{{ metric.display }}</strong>
+
+                        {% if metric.is_percentage %}
+                            <div class="academic-metric-track">
+                                <span style="width: {{ metric.bar_width }}%;"></span>
+                            </div>
+                        {% else %}
+                            <div class="academic-gpa-badge">
+                                يعرض كما تم إدخاله في صف المتوسط
+                            </div>
+                        {% endif %}
+
+                        <p>{{ metric.note }}</p>
+                    </article>
+                {% endfor %}
+            </div>
+
+            {% if student_analysis.has_rates_data %}
+
+                <div class="academic-analysis-grid">
+
+                    <article class="academic-analysis-card">
+                        <div class="academic-analysis-card-head">
+                            <h3>مقارنة مؤشرات الأداء</h3>
+                            <p>
+                                مقارنة مؤشرات الأداء الأكاديمي الستة حسب القيم المسجلة.
+                            </p>
+                        </div>
+
+                        <div class="academic-comparison-list">
+                            {% for metric in student_analysis.rates %}
+                                {% if metric.is_percentage %}
+                                    <div class="academic-comparison-row {{ metric.class_name }}">
+                                        <div class="academic-comparison-label">
+                                            <strong>{{ metric.label }}</strong>
+                                            <span>{{ metric.note }}</span>
+                                        </div>
+
+                                        <div class="academic-comparison-chart">
+                                            <div class="academic-comparison-value">
+                                                {{ metric.display }}
+                                            </div>
+
+                                            <div class="academic-comparison-track">
+                                                <span style="width: {{ metric.bar_width }}%;"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </article>
+
+                    <article class="academic-analysis-card academic-reading-card">
+                        <div class="academic-analysis-card-head">
+                            <h3>قراءة إدارية سريعة</h3>
+                            <p>
+                                ملخص يساعد الإدارة على تحديد نقاط القوة وأولوية المتابعة.
+                            </p>
+                        </div>
+
+                        <div class="academic-reading-list">
+                            <div>
+                                <span>أعلى مؤشر إيجابي</span>
+
+                                {% if student_analysis.best_metric %}
+                                    <strong>
+                                        {{ student_analysis.best_metric.label }}
+                                        —
+                                        {{ student_analysis.best_metric.display }}
+                                    </strong>
+                                {% else %}
+                                    <strong>غير متاح</strong>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <span>أقل مؤشر إيجابي</span>
+
+                                {% if student_analysis.weakest_metric %}
+                                    <strong>
+                                        {{ student_analysis.weakest_metric.label }}
+                                        —
+                                        {{ student_analysis.weakest_metric.display }}
+                                    </strong>
+                                {% else %}
+                                    <strong>غير متاح</strong>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <span>معدل الانسحاب</span>
+
+                                {% if student_analysis.withdrawal_metric %}
+                                    <strong>
+                                        {{ student_analysis.withdrawal_metric.display }}
+                                    </strong>
+                                {% else %}
+                                    <strong>غير مسجل</strong>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <span>المعدل التراكمي</span>
+
+                                {% for metric in student_analysis.rates %}
+                                    {% if metric.key == "cumulative_gpa" %}
+                                        <strong>{{ metric.display }}</strong>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+            {% else %}
+
+                <div class="analysis-empty-inline">
+                    لم يتم إدخال قيم مؤشرات الأداء الستة في المعيار الخامس لهذا النطاق.
+                </div>
+
+            {% endif %}
+
+        </section>
+
+{% if temporal_comparison.has_previous %}
+            <article class="analysis-chart-card analysis-temporal-chart-card">
+                <div class="analysis-chart-card-head analysis-chart-head-with-legend">
+                    <div>
+                        <span class="analysis-chart-kicker">الاتجاه الزمني</span>
+                        <h2>مقارنة أداء المعايير بالعام السابق</h2>
+                        <p>
+                            يقارن درجات كل معيار بين العام الحالي والعام السابق لاكتشاف التحسن أو التراجع.
+                        </p>
+                    </div>
+
+                    <div class="analysis-line-legend">
+                        <span><i class="is-current"></i> العام الحالي</span>
+                        <span><i class="is-previous"></i> العام السابق</span>
+                    </div>
+                </div>
+
+                <div class="analysis-line-chart-wrap">
+                    <svg id="analysisTemporalChart"
+                         class="analysis-temporal-svg"
+                         viewBox="0 0 820 320"
+                         role="img"
+                         aria-label="مقارنة أداء المعايير بين العام الحالي والعام السابق"></svg>
+                </div>
+
+                <div id="analysisTemporalData" hidden>
+                    {% for item in temporal_comparison.rows %}
+                        <span
+                            data-number="{{ item.standard_number }}"
+                            data-label="{{ item.standard_title }}"
+                            data-current="{{ item.current_score }}"
+                            data-previous="{{ item.previous_score }}">
+                        </span>
+                    {% endfor %}
+                </div>
+            </article>
+        {% else %}
+            <article class="analysis-chart-card analysis-temporal-chart-card">
+                <div class="analysis-chart-card-head">
+                    <div>
+                        <span class="analysis-chart-kicker">الاتجاه الزمني</span>
+                        <h2>مقارنة الأداء عبر السنوات</h2>
+                        <p>
+                            يظهر هذا الرسم عند وجود سنة سابقة محفوظة لنفس البرنامج أو النطاق.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="analysis-empty-inline">
+                    {{ temporal_comparison.message }}
+                </div>
+            </article>
+        {% endif %}
+
+        <section class="analysis-main-grid">
+
+            <details class="analysis-accordion-card" open>
+                <summary>
+                    <span>
+                        الرسم البياني لأداء المعايير
+                        <small>
+                            {% if is_aggregate_analysis %}
+                                متوسط نسبة تحقق كل معيار ضمن النطاق المحدد
+                            {% else %}
+                                نسبة تحقق كل معيار
+                            {% endif %}
+                        </small>
+                    </span>
+                </summary>
+
+                <div class="analysis-accordion-body">
+                    <div class="analysis-section-help">
+                        <strong>ما فائدة هذا القسم؟</strong>
+                        <p>
+                            كل سطر يمثل معيارًا. طول الخط يوضح نسبة تحقق المعيار: كلما كان الخط أطول كانت النتيجة أفضل.
+                            اللون يساعدك على معرفة هل المعيار جيد أو يحتاج تحسين.
+                        </p>
+                    </div>
+
+                    {% if performance_bars %}
+                        <div class="analysis-performance-list">
+                            {% for item in performance_bars %}
+
+                                {% if item.is_aggregate %}
+                                    <div class="analysis-performance-row is-aggregate">
+                                        <div class="analysis-performance-title">
+                                            <strong>{{ item.standard_title }}</strong>
+                                            <span>
+                                                {{ item.quality_label }}
+                                                -
+                                                متوسط {{ item.programs_count }} ملف
+                                            </span>
+                                        </div>
+
+                                        <div class="analysis-performance-track">
+                                            <span class="{{ item.performance_class }}"
+                                                  style="width: {{ item.bar_width }}%;"></span>
+                                        </div>
+
+                                        <strong class="analysis-performance-value">
+                                            {{ item.bar_width }}%
+                                        </strong>
+                                    </div>
+                                {% else %}
+                                    <div class="analysis-performance-row">
+                                        <div class="analysis-performance-title">
+                                            <strong>{{ item.standard_title }}</strong>
+                                            <span>{{ item.quality_label }}</span>
+                                        </div>
+
+                                        <div class="analysis-performance-track">
+                                            <span class="{{ item.performance_class }}"
+                                                  style="width: {{ item.bar_width }}%;"></span>
+                                        </div>
+
+                                        <strong class="analysis-performance-value">
+                                            {{ item.final_percentage }}%
+                                        </strong>
+                                    </div>
+                                {% endif %}
+
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="analysis-empty-inline">
+                            لا توجد بيانات كافية لرسم أداء المعايير.
+                        </div>
+                    {% endif %}
+                </div>
+            </details>
+
+            <details class="analysis-accordion-card" open>
+                <summary>
+                    <span>
+                        المؤشر العام
+                        <small>
+                            {% if is_aggregate_analysis %}
+                                متوسط النسبة العامة للنطاق
+                            {% else %}
+                                النسبة النهائية العامة
+                            {% endif %}
+                        </small>
+                    </span>
+                </summary>
+
+                <div class="analysis-accordion-body">
+                    <div class="analysis-section-help">
+                        <strong>ما معنى المؤشر العام؟</strong>
+                        <p>
+                            هذا يلخص الأداء في رقم واحد. إذا كان النطاق برنامجًا واحدًا فهو نتيجة البرنامج،
+                            وإذا كان النطاق كل البرامج أو كل السنوات فهو متوسط عام للملفات المختارة.
+                        </p>
+                    </div>
+
+                    <div class="analysis-overall-box">
+                        <div class="analysis-donut"
+                             style="--value: {{ summary.final_percentage_float }};">
+                            <div>
+                                <strong>{{ summary.final_percentage }}%</strong>
+                                <span>الأداء العام</span>
+                            </div>
+                        </div>
+
+                        <div class="analysis-overall-list">
+                            <div>
+                                <span>
+                                    {% if is_aggregate_analysis %}
+                                        ملفات التقييم
+                                    {% else %}
+                                        عدد المعايير
+                                    {% endif %}
+                                </span>
+
+                                <strong>
+                                    {% if is_aggregate_analysis %}
+                                        {{ summary.total_reviews }}
+                                    {% else %}
+                                        {{ summary.total_standards }}
+                                    {% endif %}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>التقدير النهائي</span>
+                                <strong>{{ summary.final_status_label }}</strong>
+                            </div>
+
+                            {% if summary.strongest_row %}
+                                <div>
+                                    <span>أقوى معيار</span>
+                                    <strong>{{ summary.strongest_row.standard_title }}</strong>
+                                </div>
+                            {% endif %}
+
+                            {% if summary.weakest_row %}
+                                <div>
+                                    <span>أضعف معيار</span>
+                                    <strong>{{ summary.weakest_row.standard_title }}</strong>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+        </section>
+
+        </section>
+
+        <section class="analysis-tab-panel"
+                 data-analysis-panel="followup"
+                 role="tabpanel"
+                 hidden>
+
+        <details class="analysis-accordion-card">
+            <summary>
+                <span>
+                    المقارنة الزمنية
+                    <small>
+                        {% if is_all_years %}
+                            غير متاحة عند اختيار كل السنوات
+                        {% elif is_all_programs %}
+                            مقارنة متوسط البرامج بين السنة الحالية والسنة السابقة
+                        {% else %}
+                            مقارنة نتائج البرنامج الحالي بالعام السابق
+                        {% endif %}
+                    </small>
+                </span>
+            </summary>
+
+            <div class="analysis-accordion-body">
+                <div class="analysis-section-help">
+                    <strong>كيف تقرئين المقارنة الزمنية؟</strong>
+                    <p>
+                        هذا القسم يقارن النتيجة الحالية بأقرب سنة سابقة محفوظة. الفرق الموجب يعني تحسنًا،
+                        والفرق السالب يعني تراجعًا يحتاج مراجعة سبب الانخفاض.
+                    </p>
+                </div>
+
+                {% if temporal_comparison.has_previous %}
+
+                    <div class="analysis-temporal-summary {{ temporal_comparison.overall_trend_class }}">
+                        <strong>
+                            {{ temporal_comparison.overall_trend_label }}
+                            بمقدار {{ temporal_comparison.overall_difference }} نقطة
+                        </strong>
+                        <span>
+                            مقارنة العام {{ temporal_comparison.current_year }}
+                            بالعام {{ temporal_comparison.previous_year }}
+                        </span>
+                    </div>
+
+                    <div class="analysis-temporal-cards">
+                        <div>
+                            <span>العام الحالي</span>
+                            <strong>{{ temporal_comparison.current_year }}</strong>
+                        </div>
+
+                        <div>
+                            <span>العام السابق</span>
+                            <strong>{{ temporal_comparison.previous_year }}</strong>
+                        </div>
+
+                        <div>
+                            <span>فرق النتيجة الكلية</span>
+                            <strong>{{ temporal_comparison.overall_difference }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="analysis-table-wrap">
+                        <table class="analysis-table analysis-compact-table">
+                            <thead>
+                                <tr>
+                                    <th>المعيار</th>
+                                    <th>درجة العام الحالي</th>
+                                    <th>درجة العام السابق</th>
+                                    <th>الفرق</th>
+                                    <th>الاتجاه</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for item in temporal_comparison.rows %}
+                                    <tr>
+                                        <td class="standard-cell">
+                                            <span>معيار {{ item.standard_number }}</span>
+                                            <strong>{{ item.standard_title }}</strong>
+                                        </td>
+                                        <td>{{ item.current_score }} / 5</td>
+                                        <td>{{ item.previous_score }} / 5</td>
+                                        <td>{{ item.score_difference }}</td>
+                                        <td>
+                                            <span class="trend-pill {{ item.trend_class }}">
+                                                {{ item.trend_label }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                {% else %}
+
+                    <div class="analysis-empty-inline">
+                        {{ temporal_comparison.message }}
+                    </div>
+
+                {% endif %}
+            </div>
+        </details>
+
+        <details class="analysis-accordion-card">
+            <summary>
+                <span>
+                    أولويات التحسين الذكية
+                    <small>ترتيب المعايير حسب الدرجة والوزن والخطورة</small>
+                </span>
+            </summary>
+
+            <div class="analysis-accordion-body">
+                <div class="analysis-section-help">
+                    <strong>كيف يحدد النظام الأولوية؟</strong>
+                    <p>
+                        الأولوية لا تعتمد على الدرجة فقط. النظام ينظر إلى انخفاض النسبة، وزن المعيار،
+                        حالة المراجعة، وعدد مرات ظهور الضعف في النطاق الحالي.
+                    </p>
+                </div>
+
+                {% if smart_priorities %}
+
+                    <div class="analysis-formula-note">
+                        يتم حساب أولوية التحسين للمعايير التي تحتاج متابعة، مع مراعاة
+                        الدرجة الحالية، وزن المعيار، وحالة المراجعة.
+                        {% if is_aggregate_analysis %}
+                            وفي التحليل الجماعي يتم أخذ تكرار ضعف المعيار داخل ملفات التقييم بعين الاعتبار.
+                        {% endif %}
+                    </div>
+
+                    <div class="analysis-priority-grid">
+                        {% for item in smart_priorities %}
+                            <article class="analysis-priority-card {{ item.risk_class }}">
+                                <div class="analysis-priority-head">
+                                    <span>مؤشر الأولوية</span>
+                                    <strong>{{ item.priority_value }}</strong>
+                                </div>
+
+                                <h3>{{ item.standard_title }}</h3>
+
+                                <p>
+                                    درجته {{ item.final_score }} من 5،
+                                    ونسبته {{ item.final_percentage }}%.
+                                </p>
+
+                                <div class="analysis-priority-mini">
+                                    <span>الوزن: {{ item.weight }}%</span>
+                                    <span>الحالة: {{ item.status_label }}</span>
+                                    <span>{{ item.priority_label }}</span>
+
+                                    {% if item.is_aggregate %}
+                                        <span>ضعيف في {{ item.weak_programs_count }} ملف</span>
+                                    {% endif %}
+                                </div>
+
+                                {% if item.has_improvement_plan %}
+                                    <a href="{{ item.improvement_plan_url }}"
+                                       class="analysis-row-action analysis-improvement-action is-view">
+                                        عرض خطة التحسين
+                                    </a>
+                                {% elif item.should_show_improvement_action %}
+                                    <form method="post"
+                                          action="{% url 'create_improvement_plan_from_standard' %}"
+                                          class="analysis-improvement-form">
+                                        {% csrf_token %}
+
+                                        <input type="hidden"
+                                               name="standard_review_id"
+                                               value="{{ item.id }}">
+
+                                        <button type="submit"
+                                                class="analysis-row-action analysis-improvement-action">
+                                            إنشاء خطة تحسين لهذا المعيار
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </article>
+                        {% endfor %}
+                    </div>
+
+                {% else %}
+
+                    <div class="analysis-empty-inline">
+                        لا توجد أولويات تحسين حرجة حاليًا.
+                    </div>
+
+                {% endif %}
+            </div>
+        </details>
+
+        {% if is_all_programs %}
+        <details class="analysis-accordion-card">
+            <summary>
+                <span>
+                    المقارنة بين البرامج
+                    <small>
+                        {% if is_all_years %}
+                            مقارنة متوسط البرامج عبر كل السنوات
+                        {% else %}
+                            مقارنة كل البرامج الأكاديمية في سنة {{ selected_academic_year }}
+                        {% endif %}
+                    </small>
+                </span>
+            </summary>
+
+            <div class="analysis-accordion-body">
+                <div class="analysis-section-help">
+                    <strong>متى يظهر هذا القسم؟</strong>
+                    <p>
+                        يظهر عند اختيار كل البرامج. الهدف منه معرفة البرنامج الأعلى أداءً، البرنامج الأضعف،
+                        والمعيار الذي يتكرر ضعفه بين البرامج.
+                    </p>
+                </div>
+
+                {% if program_comparison.rows %}
+
+                    <div class="analysis-comparison-summary">
+                        {% if program_comparison.best_program %}
+                            <div>
+                                <span>أفضل برنامج</span>
+                                <strong>
+                                    {{ program_comparison.best_program.program_name }}
+                                    - {{ program_comparison.best_program.final_percentage }}%
+                                </strong>
+                            </div>
+                        {% endif %}
+
+                        {% if program_comparison.weakest_program %}
+                            <div>
+                                <span>أضعف برنامج</span>
+                                <strong>
+                                    {{ program_comparison.weakest_program.program_name }}
+                                    - {{ program_comparison.weakest_program.final_percentage }}%
+                                </strong>
+                            </div>
+                        {% endif %}
+
+                        <div>
+                            <span>المعيار الأضعف تكرارًا</span>
+                            <strong>
+                                {% if program_comparison.common_weak_standard %}
+                                    {{ program_comparison.common_weak_standard }}
+                                    - {{ program_comparison.common_weak_count }} برامج
+                                {% else %}
+                                    لا يوجد
+                                {% endif %}
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="analysis-table-wrap">
+                        <table class="analysis-table analysis-compact-table">
+                            <thead>
+                                <tr>
+                                    <th>البرنامج</th>
+                                    <th>النطاق الزمني</th>
+                                    <th>النتيجة الكلية</th>
+                                    <th>متوسط الدرجة</th>
+                                    <th>المعايير الضعيفة</th>
+                                    <th>المعايير القوية</th>
+                                    <th>أضعف معيار</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for item in program_comparison.rows %}
+                                    <tr>
+                                        <td class="standard-cell">
+                                            <strong>{{ item.program_name }}</strong>
+                                        </td>
+
+                                        <td>{{ item.academic_year }}</td>
+                                        <td>{{ item.final_percentage }}%</td>
+                                        <td>{{ item.average_score }} / 5</td>
+                                        <td>{{ item.weak_count }}</td>
+                                        <td>{{ item.strong_count }}</td>
+                                        <td>
+                                            {{ item.weakest_standard }}
+                                            <br>
+                                            <span class="muted">
+                                                {{ item.weakest_standard_score }} / 5
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="risk-pill {{ item.status_class }}">
+                                                {{ item.status_label }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                                        <!-- ==========================================
+                         الرسم البصري للمقارنة بين البرامج
+                    =========================================== -->
+                    <section class="analysis-program-chart-card">
+                        <div class="analysis-program-chart-header">
+                            <div>
+                                <h3>المقارنة البصرية لنتائج البرامج</h3>
+                                <p>
+                                    توضح الأعمدة النتيجة الكلية لكل برنامج
+                                    ضمن النطاق الزمني المحدد.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="analysis-program-chart-scroll">
+                            <div class="analysis-program-chart">
+
+                                {% for item in program_comparison.rows %}
+                                    <div class="analysis-program-column">
+
+                                        <span class="analysis-program-column-value">
+                                            {{ item.final_percentage }}%
+                                        </span>
+
+                                        <div class="analysis-program-column-track"
+                                             title="{{ item.program_name }}: {{ item.final_percentage }}%">
+
+                                            <div class="analysis-program-column-fill"
+                                                 style="height: {{ item.final_percentage|default:'0' }}%;">
+                                            </div>
+                                        </div>
+
+                                        <strong class="analysis-program-column-name">
+                                            {{ item.program_name }}
+                                        </strong>
+
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </section>
+
+                {% else %}
+
+                    <div class="analysis-empty-inline">
+                        لا توجد برامج أخرى للمقارنة في النطاق المحدد.
+                    </div>
+
+                {% endif %}
+            </div>
+        </details>
+        {% endif %}
+
+        </section>
+
+        <section class="analysis-tab-panel"
+                 data-analysis-panel="details"
+                 role="tabpanel"
+                 hidden>
+
+        <details class="analysis-accordion-card">
+            <summary>
+                <span>
+                    التحليل التفصيلي للمعايير
+                    <small>
+                        {% if is_aggregate_analysis %}
+                            متوسط تفاصيل الحساب لكل معيار ضمن النطاق المحدد
+                        {% else %}
+                            تفاصيل الحساب لكل معيار
+                        {% endif %}
+                    </small>
+                </span>
+            </summary>
+
+            <div class="analysis-accordion-body">
+                <div class="analysis-section-help">
+                    <strong>لماذا هذا القسم تفصيلي؟</strong>
+                    <p>
+                        هذا القسم يشرح كل معيار وحده: وزنه، درجته، نسبته، ومستوى أدائه.
+                        استخدميه عندما تريدين معرفة سبب النتيجة العامة بالتفصيل.
+                    </p>
+                </div>
+
+                <form method="get" class="analysis-inline-filter">
+                    <input type="hidden" name="program_id" value="{{ selected_program_id }}">
+                    <input type="hidden" name="academic_year" value="{{ selected_academic_year }}">
+                    <input type="hidden" name="mode" value="{{ selected_analysis_mode }}">
+                    <input type="hidden" name="status" value="{{ selected_status }}">
+
+                    <label for="detail_sort">ترتيب المعايير</label>
+
+                    <select name="detail_sort"
+                            id="detail_sort"
+                            onchange="this.form.submit()">
+                        {% for value, label in detail_sort_options %}
+                            <option value="{{ value }}"
+                                {% if selected_detail_sort == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+
+                <div class="analysis-detail-note">
+                    <strong>ملاحظة توضيحية:</strong>
+                    الوزن يوضح أهمية المعيار من إجمالي التقييم. الدرجة الموزونة هي مقدار
+                    مساهمة المعيار في النتيجة الكلية بعد احتساب درجته ووزنه.
+                    {% if is_aggregate_analysis %}
+                        في التحليل الجماعي تظهر القيم كمتوسطات ضمن النطاق المحدد.
+                    {% endif %}
+                </div>
+
+                {% if detailed_rows %}
+                    <div class="analysis-table-wrap">
+                        <table class="analysis-table analysis-detail-table">
+                            <thead>
+                                <tr>
+                                    <th>معيار التقييم</th>
+                                    <th>الوزن</th>
+                                    <th>الدرجة</th>
+                                    <th>النسبة</th>
+                                    <th>مستوى الأداء</th>
+                                    <th>مؤشر التحقق</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for row in detailed_rows %}
+                                    <tr>
+                                        <td class="standard-cell">
+                                            <span>معيار {{ row.standard_number }}</span>
+                                            <strong>{{ row.standard_title }}</strong>
+
+                                            {% if row.risk_note %}
+                                                <p class="analysis-small-note">
+                                                    {{ row.risk_note }}
+                                                </p>
+                                            {% endif %}
+
+                                            {% if row.is_aggregate %}
+                                                <p class="analysis-small-note">
+                                                    ظهر ضعيفًا في {{ row.weak_programs_count }} ملف،
+                                                    ويحتاج تحسينًا في {{ row.needs_improvement_programs_count }} ملف.
+                                                </p>
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            <span class="weight-pill">{{ row.weight }}%</span>
+                                        </td>
+
+                                        <td>{{ row.final_score }} / 5</td>
+
+                                        <td>{{ row.bar_width }}%</td>
+
+                                        <td>
+                                            <span class="risk-pill {{ row.risk_class }}">
+                                                {{ row.quality_label }}
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <div class="analysis-current-progress"
+                                                 data-progress="{{ row.final_percentage }}"
+                                                 style="--progress-width: {{ row.bar_width|default:'0' }}%;">
+                                                <span class="analysis-current-progress-fill {{ row.performance_class }}"></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="analysis-empty-inline">
+                        لا توجد معايير مطابقة لخيارات الفرز الحالية.
+                    </div>
+                {% endif %}
+            </div>
+        </details>
+
+        <details class="analysis-accordion-card analysis-table-accordion">
+            <summary>
+                <span>
+                    جدول حالة المعايير الحالية
+                    <small>
+                        يعرض هذا الجدول المعايير حسب الفلاتر المحددة.
+                    {% if is_aggregate_analysis %}
+                        في التحليل الجماعي تظهر القيم كمتوسطات ضمن النطاق المحدد.
+                    {% else %}
+                        في وضع البرنامج الواحد تظهر إجراءات فتح التقييم أو إنشاء خطة تحسين.
+                    {% endif %}
+                    </small>
+                </span>
+            </summary>
+
+            <div class="analysis-accordion-body analysis-table-accordion-body">
+                <div class="analysis-section-help">
+                    <strong>ما وظيفة هذا الجدول؟</strong>
+                    <p>
+                        هذا جدول متابعة. يوضح حالة كل معيار: هل هو معتمد، مسودة، أو غير مكتمل،
+                        ويعرض النواقص وخطة التحسين إن وجدت. في متوسط النطاق لا يتم إنشاء خطة مباشرة لأن الصف لا يمثل برنامجًا واحدًا.
+                    </p>
+                </div>
+
+                <div class="analysis-column-guide">
+                    <span><strong>الحالة:</strong> هل المعيار معتمد أم يحتاج مراجعة.</span>
+                    <span><strong>النسبة النهائية:</strong> نتيجة المعيار بعد اختيار درجة المراجع أو الآلي.</span>
+                    <span><strong>الخطورة:</strong> تنبيه مبسط حسب انخفاض النسبة أو عدم اكتمال المراجعة.</span>
+                    <span><strong>النواقص:</strong> عدد العناصر أو الأدلة غير المكتملة.</span>
+                </div>
+
+<div class="analysis-table-wrap">
+                <table class="analysis-table analysis-current-standards-table">
+                    <colgroup>
+                        <col class="col-standard">
+                        <col class="col-status">
+                        <col class="col-percentage">
+                        <col class="col-rating">
+                        <col class="col-risk">
+                        <col class="col-indicators">
+                        <col class="col-missing">
+                        <col class="col-plan">
+                        <col class="col-action">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>المعيار</th>
+                            <th>الحالة</th>
+                            <th>النسبة النهائية</th>
+                            <th>التقدير</th>
+                            <th>الخطورة</th>
+                            <th>المؤشرات</th>
+                            <th>النواقص</th>
+                            <th>خطة التحسين</th>
+                            <th>الإجراء</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for row in standard_rows %}
+                            <tr>
+                                <td class="standard-cell">
+                                    <span>معيار {{ row.standard_number }}</span>
+                                    <strong>{{ row.standard_title }}</strong>
+
+                                    {% if row.is_aggregate %}
+                                        <p class="analysis-small-note">
+                                            متوسط {{ row.programs_count }} ملف تقييم.
+                                        </p>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    <span class="status-pill {{ row.status_class }}">
+                                        {{ row.status_label }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="analysis-current-percent-box">
+    <div class="analysis-current-percent-head">
+        <strong>{{ row.final_percentage }}%</strong>
+        <span>{{ row.quality_label }}</span>
+    </div>
+
+    <div class="analysis-current-progress"
+         data-progress="{{ row.bar_width|default:'0' }}">
+        <span class="analysis-current-progress-fill {{ row.performance_class }}"></span>
+    </div>
+</div>
+                                </td>
+
+                                <td class="rating-column">{{ row.final_score_label }}</td>
+
+                                <td>
+                                    <span class="risk-pill {{ row.risk_class }}">
+                                        {{ row.risk_label }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="indicator-mini">
+                                        <span>الإجمالي: {{ row.indicators_count }}</span>
+                                        <span>قوية: {{ row.strong_count }}</span>
+                                        <span>ضعيفة: {{ row.weak_count }}</span>
+                                    </div>
+                                </td>
+
+                                <td class="missing-column">{{ row.missing_items_count }}</td>
+
+                                <td class="plan-cell">
+                                    {% if row.is_aggregate %}
+                                        <span class="muted">
+                                            هذا متوسط عام حسب الفلاتر، ولا يرتبط ببرنامج واحد لإنشاء خطة مباشرة.
+                                        </span>
+                                    {% elif row.improvement_plan %}
+                                        {{ row.improvement_plan|truncatechars:90 }}
+                                    {% else %}
+                                        <span class="muted">لا توجد خطة مدخلة</span>
+                                    {% endif %}
+                                </td>
+
+                                <td class="action-column">
+                                    <div class="analysis-actions-stack">
+                                        {% if row.is_aggregate %}
+                                            <span class="analysis-no-plan-needed">
+                                                متوسط النطاق
+                                            </span>
+                                        {% else %}
+
+                                            {% if row.has_improvement_plan %}
+                                                <a href="{{ row.improvement_plan_url }}"
+                                                   class="analysis-row-action analysis-improvement-action is-view">
+                                                    عرض خطة التحسين
+                                                </a>
+                                            {% elif row.should_show_improvement_action %}
+                                                <form method="post"
+                                                      action="{% url 'create_improvement_plan_from_standard' %}"
+                                                      class="analysis-improvement-form">
+                                                    {% csrf_token %}
+
+                                                    <input type="hidden"
+                                                           name="standard_review_id"
+                                                           value="{{ row.id }}">
+
+                                                    <button type="submit"
+                                                            class="analysis-row-action analysis-improvement-action">
+                                                        إنشاء خطة تحسين
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="9" class="analysis-empty-cell">
+                                    لا توجد معايير مطابقة للفلاتر الحالية.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </details>
+
+
+        </section>
+
+        <section class="analysis-tab-panel"
+                 data-analysis-panel="conclusion"
+                 role="tabpanel"
+                 hidden>
+
+        <details class="analysis-accordion-card analysis-final-summary-accordion" open>
+            <summary>
+                <span>
+                    الخلاصة النهائية والتوصيات النهائية
+                    <small>آخر قراءة مختصرة بعد استعراض جميع مؤشرات التحليل</small>
+                </span>
+            </summary>
+
+            <div class="analysis-accordion-body">
+                <div class="analysis-section-help">
+                    <strong>لماذا هذا القسم في آخر الصفحة؟</strong>
+                    <p>
+                        هذه الخلاصة مبنية على كل الأقسام السابقة: النتيجة العامة، أداء المعايير، الأولويات،
+                        المقارنات، وجدول الحالة. لذلك تُقرأ في النهاية كقرار مختصر.
+                    </p>
+                </div>
+
+                <section class="analysis-reading-grid">
+
+                    <article class="analysis-reading-card">
+                        <h2>الخلاصة النهائية</h2>
+
+                        {% if analysis_reading %}
+                            <p>{{ analysis_reading.main_text }}</p>
+
+                            {% if analysis_reading.strong_text %}
+                                <p>{{ analysis_reading.strong_text }}</p>
+                            {% endif %}
+
+                            {% if analysis_reading.weak_text %}
+                                <p>{{ analysis_reading.weak_text }}</p>
+                            {% endif %}
+
+                            {% if analysis_reading.conclusion_text %}
+                                <p>{{ analysis_reading.conclusion_text }}</p>
+                            {% endif %}
+                        {% else %}
+                            <p>لا توجد خلاصة تحليلية متاحة حاليًا.</p>
+                        {% endif %}
+                    </article>
+
+                    <article class="analysis-reading-card">
+                        <h2>التوصيات النهائية</h2>
+
+                        {% if recommendations %}
+                            <ul class="analysis-recommendations-list">
+                                {% for recommendation in recommendations %}
+                                    <li>{{ recommendation }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>لا توجد توصيات حالية.</p>
+                        {% endif %}
+                    </article>
+
+                </section>
+            </div>
+        </details>
+
+        </section>
+
+    {% endif %}
+
+{{ program_years_map|json_script:"analysisProgramYearsMap" }}
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const tabButtons = Array.from(
+        document.querySelectorAll(".analysis-view-tab")
+    );
+
+    const tabPanels = Array.from(
+        document.querySelectorAll(".analysis-tab-panel")
+    );
+
+    if (!tabButtons.length || !tabPanels.length) {
+        return;
+    }
+
+    function activateAnalysisTab(tabName, updateHash = true) {
+        tabButtons.forEach(function (button) {
+            const isActive = button.dataset.analysisTab === tabName;
+
+            button.classList.toggle("active", isActive);
+            button.setAttribute(
+                "aria-selected",
+                isActive ? "true" : "false"
+            );
+        });
+
+        tabPanels.forEach(function (panel) {
+            const isActive = panel.dataset.analysisPanel === tabName;
+
+            panel.classList.toggle("active", isActive);
+            panel.hidden = !isActive;
+        });
+
+        if (tabName === "charts") {
+            window.requestAnimationFrame(function () {
+                if (typeof window.renderAnalysisTemporalChart === "function") {
+                    window.renderAnalysisTemporalChart();
+                }
+            });
+        }
+
+        if (updateHash) {
+            history.replaceState(
+                null,
+                "",
+                "#analysis-" + tabName
+            );
+        }
+
+        window.scrollTo({
+            top: document.querySelector(".analysis-view-tabs")
+                .getBoundingClientRect().top
+                + window.scrollY
+                - 18,
+            behavior: "smooth"
+        });
+    }
+
+    tabButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            activateAnalysisTab(button.dataset.analysisTab);
+        });
+    });
+
+    const hashTab = window.location.hash.replace(
+        "#analysis-",
+        ""
+    );
+
+    const validTabs = tabButtons.map(
+        button => button.dataset.analysisTab
+    );
+
+    if (validTabs.includes(hashTab)) {
+        activateAnalysisTab(hashTab, false);
+    }
+});
+</script>
+
+
+<script src="{% static 'dashboard/js/analysis.js' %}?v=130"></script>
+
+{% endlocalize %}
+
+{% endblock %}

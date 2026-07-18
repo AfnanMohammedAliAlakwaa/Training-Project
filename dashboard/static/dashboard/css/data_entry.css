@@ -55,49 +55,71 @@
 ========================= */
 
 .aq-header {
-    background: linear-gradient(135deg, var(--aq-primary), var(--aq-blue));
-    color: #ffffff;
-    border-radius: 18px;
-    padding: 20px 24px;
+    position: relative;
+    background:
+        radial-gradient(circle at left bottom, rgba(96, 183, 239, 0.13), transparent 30%),
+        linear-gradient(135deg, #ffffff 0%, #f7fcff 100%) !important;
+    color: var(--ust-text, #18324a) !important;
+    border: 1px solid var(--ust-border, #d3e8f8) !important;
+    border-radius: 28px !important;
+    padding: 26px 28px !important;
     margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
     gap: 16px;
     align-items: center;
-    box-shadow: 0 10px 28px rgba(15, 118, 110, 0.18);
+    box-shadow: var(--ust-shadow-soft, 0 8px 22px rgba(47, 142, 214, 0.08)) !important;
+    overflow: hidden;
+}
+
+.aq-header::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 22px;
+    bottom: 22px;
+    width: 6px;
+    border-radius: 999px 0 0 999px;
+    background: linear-gradient(180deg, #60b7ef, #2f8ed6);
 }
 
 .aq-header h1 {
-    font-size: 22px;
-    margin: 0 0 6px;
-    font-weight: 900;
-    line-height: 1.5;
+    font-size: 34px !important;
+    margin: 0 0 8px !important;
+    font-weight: 950 !important;
+    line-height: 1.45 !important;
+    color: var(--ust-blue-deep, #145d91) !important;
 }
 
 .aq-header p {
-    margin: 0;
-    font-size: 13px;
-    color: #e0f2fe;
+    margin: 0 !important;
+    font-size: 15px !important;
+    color: var(--ust-muted, #6b7f95) !important;
+    font-weight: 700 !important;
 }
 
 .aq-header-badge {
-    min-width: 150px;
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 14px;
-    padding: 10px 14px;
+    min-width: 150px !important;
+    background: linear-gradient(135deg, #60b7ef, #2f8ed6) !important;
+    border: 0 !important;
+    border-radius: 22px !important;
+    padding: 14px 18px !important;
     text-align: center;
     flex-shrink: 0;
+    box-shadow: 0 12px 24px rgba(47, 142, 214, 0.16) !important;
 }
 
 .aq-header-badge span {
     display: block;
     font-size: 12px;
-    color: #d1fae5;
+    color: #ffffff !important;
+    font-weight: 900 !important;
 }
 
 .aq-header-badge strong {
-    font-size: 18px;
+    font-size: 20px !important;
+    color: #ffffff !important;
+    font-weight: 950 !important;
 }
 
 /* =========================
@@ -433,7 +455,6 @@
 }
 
 .aq-modal-header {
-    background: linear-gradient(135deg, var(--aq-blue-dark), #2d6f8f);
     color: #ffffff;
     padding: 24px 26px;
     margin: 0;
@@ -2193,4 +2214,2268 @@
 .standard6-card.is-collapsed .standard6-collapse-icon,
 .standard6-card.is-collapsed .collapse-icon {
     transform: rotate(90deg) !important;
+}
+/* =========================================================
+   Data Entry Header Badge - Match Evaluation Style
+========================================================= */
+
+
+
+.aq-page.data-entry-page .aq-header > .aq-header-badge span {
+    display: block !important;
+    color: #ffffff !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+}
+
+.aq-page.data-entry-page .aq-header > .aq-header-badge strong {
+    display: block !important;
+    color: #ffffff !important;
+    font-size: 20px !important;
+    font-weight: 950 !important;
+    text-shadow: none !important;
+}
+
+/* =========================================================
+   DATA ENTRY HEADER RESTORE - FINAL
+========================================================= */
+
+.aq-page.data-entry-page .aq-header {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 124px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 22px !important;
+    padding: 26px 28px !important;
+    margin-bottom: 16px !important;
+    background:
+        radial-gradient(circle at left bottom, rgba(96, 183, 239, 0.12), transparent 30%),
+        linear-gradient(135deg, #ffffff 0%, #f7fcff 100%) !important;
+    color: #18324a !important;
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 28px !important;
+    box-shadow: 0 8px 22px rgba(47, 142, 214, 0.08) !important;
+    overflow: hidden !important;
+}
+
+.aq-page.data-entry-page .aq-header::before {
+    content: "" !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 22px !important;
+    bottom: 22px !important;
+    width: 6px !important;
+    border-radius: 999px 0 0 999px !important;
+    background: linear-gradient(180deg, #60b7ef, #2f8ed6) !important;
+}
+
+.aq-page.data-entry-page .aq-header-text {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    text-align: right !important;
+}
+
+
+
+.aq-page.data-entry-page .aq-header p {
+    margin: 0 !important;
+    color: #6b7f95 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.9 !important;
+    white-space: normal !important;
+}
+
+
+
+.aq-page.data-entry-page .aq-header > .aq-header-badge span {
+    display: block !important;
+    color: #ffffff !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+}
+
+.aq-page.data-entry-page .aq-header > .aq-header-badge strong {
+    display: block !important;
+    color: #ffffff !important;
+    font-size: 20px !important;
+    font-weight: 950 !important;
+    text-shadow: none !important;
+}
+
+
+
+/* =========================================================
+   Uploaded Files Button - Match Saved Files Button
+   توحيد زر المرفقات المرفوعة مع زر الملفات المدخلة
+========================================================= */
+
+.aq-page.data-entry-page .uploaded-files-open-btn,
+.aq-page.data-entry-page #openUploadedFilesBtn {
+    min-height: 42px !important;
+    padding: 0 16px !important;
+    border-radius: 18px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    background: #ffffff !important;
+    color: #145d91 !important;
+    border: 1px solid #bcdcf2 !important;
+    box-shadow: none !important;
+
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+    cursor: pointer !important;
+}
+
+.aq-page.data-entry-page .uploaded-files-open-btn:hover,
+.aq-page.data-entry-page #openUploadedFilesBtn:hover {
+    background: #edf8ff !important;
+    border-color: #acd9f6 !important;
+    color: #145d91 !important;
+}
+
+/* رقم المرفقات داخل الزر */
+.aq-page.data-entry-page .uploaded-files-open-btn .uploaded-files-count,
+.aq-page.data-entry-page #openUploadedFilesBtn .uploaded-files-count,
+.aq-page.data-entry-page #uploadedFilesCount {
+    min-width: 26px !important;
+    height: 26px !important;
+    padding: 0 8px !important;
+    border-radius: 999px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #145d91 !important;
+    color: #ffffff !important;
+    border: 0 !important;
+
+    font-size: 12px !important;
+    font-weight: 950 !important;
+}
+
+
+/* =========================================================
+   DATA ENTRY MODALS - BLUE SYSTEM THEME FINAL
+   توحيد ألوان النوافذ المنبثقة مع هوية النظام الجديدة
+========================================================= */
+
+/* خلفية النوافذ */
+.aq-modal,
+.saved-files-modal,
+.uploaded-files-modal {
+    background: rgba(15, 36, 56, 0.56) !important;
+    backdrop-filter: blur(6px) !important;
+}
+
+/* صندوق النافذة */
+.aq-modal-box,
+.saved-files-box,
+.uploaded-files-box {
+    background: #ffffff !important;
+    border: 1px solid #bfe2f8 !important;
+    border-radius: 26px !important;
+    box-shadow: 0 28px 80px rgba(20, 93, 145, 0.28) !important;
+    overflow: hidden !important;
+}
+
+/* الهيدر الأزرق */
+.aq-modal-header,
+#entryModeDialog .aq-modal-header,
+#programDialog .aq-modal-header,
+#autoTemplateDialog .aq-modal-header {
+    background:
+        radial-gradient(circle at left top, rgba(255, 255, 255, 0.18), transparent 34%),
+        linear-gradient(135deg, #145d91 0%, #2f8ed6 100%) !important;
+    color: #ffffff !important;
+    text-align: right !important;
+    padding: 28px 30px !important;
+}
+
+/* نص الهيدر واضح */
+.aq-modal-header h2,
+#entryModeDialog .aq-modal-header h2,
+#programDialog .aq-modal-header h2,
+#autoTemplateDialog .aq-modal-header h2 {
+    color: #ffffff !important;
+    font-size: 23px !important;
+    font-weight: 950 !important;
+    line-height: 1.6 !important;
+    margin: 0 0 8px !important;
+    text-shadow: none !important;
+}
+
+.aq-modal-header p,
+#entryModeDialog .aq-modal-header p,
+#programDialog .aq-modal-header p,
+#autoTemplateDialog .aq-modal-header p {
+    color: #eaf7ff !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.9 !important;
+    margin: 0 !important;
+}
+
+/* نافذة اختيار طريقة الإدخال */
+#entryModeDialog .entry-mode-box {
+    width: min(560px, 94vw) !important;
+}
+
+#entryModeDialog .entry-mode-grid {
+    padding: 24px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+    background: #ffffff !important;
+}
+
+/* كروت الخيارات */
+#entryModeDialog .entry-mode-card {
+    min-height: 190px !important;
+    padding: 22px 16px !important;
+    border-radius: 20px !important;
+    border: 1px solid #cfe6f7 !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f7fcff 100%) !important;
+    color: #17324d !important;
+    box-shadow: 0 10px 22px rgba(47, 142, 214, 0.08) !important;
+    transition: 0.22s ease !important;
+}
+
+#entryModeDialog .entry-mode-card:hover {
+    transform: translateY(-3px) !important;
+    border-color: #60b7ef !important;
+    background: linear-gradient(180deg, #ffffff 0%, #eef8ff 100%) !important;
+    box-shadow: 0 16px 34px rgba(47, 142, 214, 0.16) !important;
+}
+
+/* أيقونات الخيارات بدل الأخضر القديم */
+#entryModeDialog .entry-mode-icon {
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 18px !important;
+    background: #edf8ff !important;
+    border: 1px solid #cfe6f7 !important;
+    color: #145d91 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 28px !important;
+    font-weight: 950 !important;
+    margin-bottom: 14px !important;
+}
+
+#entryModeDialog .entry-mode-card strong {
+    display: block !important;
+    color: #17324d !important;
+    font-size: 18px !important;
+    font-weight: 950 !important;
+    line-height: 1.5 !important;
+    margin-bottom: 8px !important;
+}
+
+#entryModeDialog .entry-mode-card small {
+    display: block !important;
+    color: #6b7f95 !important;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.9 !important;
+}
+
+/* أزرار النوافذ */
+.aq-modal-btn,
+#confirmProgramBtn,
+#autoTemplateDialog .aq-modal-btn {
+    background: linear-gradient(135deg, #145d91, #2f8ed6) !important;
+    color: #ffffff !important;
+    border: 0 !important;
+    border-radius: 14px !important;
+    font-weight: 950 !important;
+    box-shadow: 0 12px 22px rgba(47, 142, 214, 0.18) !important;
+}
+
+.aq-modal-btn:hover:not(:disabled),
+#confirmProgramBtn:hover:not(:disabled),
+#autoTemplateDialog .aq-modal-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #0f4f7c, #247fc5) !important;
+}
+
+.aq-modal-btn:disabled,
+#confirmProgramBtn:disabled {
+    background: #dbe8f3 !important;
+    color: #7c93a8 !important;
+    box-shadow: none !important;
+    cursor: not-allowed !important;
+}
+
+/* الحقول داخل النوافذ */
+.aq-modal-field label {
+    color: #17324d !important;
+    font-weight: 950 !important;
+}
+
+.aq-modal-field select,
+.aq-modal-field input,
+.year-dropdown-btn,
+#templateYearBtn {
+    border: 1px solid #cfe0ee !important;
+    background: #ffffff !important;
+    color: #17324d !important;
+    border-radius: 14px !important;
+    font-weight: 800 !important;
+}
+
+.aq-modal-field select:focus,
+.aq-modal-field input:focus,
+.year-dropdown-btn:focus,
+#templateYearBtn:focus {
+    border-color: #60b7ef !important;
+    box-shadow: 0 0 0 4px rgba(47, 142, 214, 0.13) !important;
+    outline: none !important;
+}
+
+/* الملاحظات داخل النوافذ */
+.program-note {
+    background: #f7fcff !important;
+    border: 1px dashed #b9dcf4 !important;
+    color: #4f6b82 !important;
+    font-weight: 800 !important;
+}
+
+/* زر الرجوع في النوافذ */
+.program-back-btn,
+.auto-template-back-btn,
+#programDialog .program-back-btn,
+#autoTemplateDialog .auto-template-back-btn {
+    color: #ffffff !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.program-back-btn:hover,
+.auto-template-back-btn:hover,
+#programDialog .program-back-btn:hover,
+#autoTemplateDialog .auto-template-back-btn:hover {
+    color: #eaf7ff !important;
+}
+
+/* نافذة الملفات المحفوظة */
+.saved-files-header h3,
+.uploaded-files-header h3 {
+    color: #145d91 !important;
+    font-weight: 950 !important;
+}
+
+.saved-files-header p,
+.uploaded-files-header p {
+    color: #6b7f95 !important;
+    font-weight: 800 !important;
+}
+
+.saved-file-item,
+.saved-file-card {
+    border-color: #d3e8f8 !important;
+    background: #ffffff !important;
+}
+
+.saved-file-item:hover,
+.saved-file-card:hover {
+    border-color: #60b7ef !important;
+    background: #f7fcff !important;
+    box-shadow: 0 12px 24px rgba(47, 142, 214, 0.10) !important;
+}
+
+.saved-file-item.selected,
+.saved-file-card.selected {
+    border-color: #2f8ed6 !important;
+    background: #eef8ff !important;
+    box-shadow: 0 0 0 3px rgba(47, 142, 214, 0.13) !important;
+}
+
+/* زر فتح الملف بدل الأخضر */
+.saved-open-hint,
+.saved-edit-btn,
+.saved-files-btn {
+    background: #edf8ff !important;
+    color: #145d91 !important;
+    border: 1px solid #cfe6f7 !important;
+    box-shadow: none !important;
+}
+
+.saved-open-hint:hover,
+.saved-edit-btn:hover,
+.saved-files-btn:hover {
+    background: #dff1ff !important;
+    border-color: #60b7ef !important;
+}
+
+/* حالات الملفات */
+.saved-file-status,
+.saved-file-status-draft,
+.status-draft {
+    background: #f1f7fc !important;
+    color: #4f6b82 !important;
+    border: 1px solid #d6e7f4 !important;
+}
+
+.saved-file-status-in_progress,
+.status-in_progress {
+    background: #fff7df !important;
+    color: #9c7410 !important;
+    border: 1px solid #fde68a !important;
+}
+
+.saved-file-status-completed,
+.status-completed {
+    background: #ecfaf4 !important;
+    color: #1fa973 !important;
+    border: 1px solid #bfead8 !important;
+}
+
+/* أزرار الإغلاق */
+.saved-files-close,
+.uploaded-files-close {
+    background: #edf8ff !important;
+    color: #145d91 !important;
+    border: 1px solid #cfe6f7 !important;
+}
+
+.saved-files-close:hover,
+.uploaded-files-close:hover {
+    background: #dff1ff !important;
+    color: #0f4f7c !important;
+}
+
+/* Dropdown سنوات التقييم */
+.year-dropdown-list,
+#templateYearList {
+    border: 1px solid #cfe6f7 !important;
+    background: #ffffff !important;
+    box-shadow: 0 16px 34px rgba(20, 93, 145, 0.16) !important;
+}
+
+.year-option,
+.template-year-option {
+    color: #17324d !important;
+    font-weight: 800 !important;
+}
+
+.year-option:hover,
+.template-year-option:hover {
+    background: #edf8ff !important;
+    color: #145d91 !important;
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+    #entryModeDialog .entry-mode-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    #entryModeDialog .entry-mode-card {
+        min-height: auto !important;
+    }
+}
+/* =========================================================
+   DATA ENTRY MODALS — COLOR ONLY
+   يحافظ على التنسيق والحجم والمسافات الأصلية كما هي.
+   لا يحتوي على width / height / padding / margin / font-size.
+   الصقيه في نهاية static/dashboard/css/data_entry.css
+========================================================= */
+
+:root {
+    --de-primary-dark: var(--ust-blue-deep, #145d91);
+    --de-primary: var(--ust-blue, #2f8ed6);
+    --de-primary-light: var(--ust-blue-light, #60b7ef);
+    --de-soft: var(--ust-blue-soft, #edf8ff);
+    --de-border: var(--ust-border, #d3e8f8);
+    --de-text: var(--ust-text, #18324a);
+    --de-muted: var(--ust-muted, #6b7f95);
+}
+
+/* خلفية النوافذ فقط */
+#entryModeDialog,
+#programDialog,
+#autoTemplateDialog,
+#savedFilesModal,
+#uploadedFilesModal {
+    background-color: rgba(15, 36, 56, 0.58) !important;
+}
+
+/* لون صناديق النوافذ وحدودها */
+#entryModeDialog .aq-modal-box,
+#programDialog .aq-modal-box,
+#autoTemplateDialog .aq-modal-box,
+#savedFilesModal .saved-files-box,
+#uploadedFilesModal .uploaded-files-box {
+    background-color: #ffffff !important;
+    border-color: var(--de-border) !important;
+}
+
+/* الهيدر بنفس الشكل القديم، مع ألوان النظام */
+#entryModeDialog .aq-modal-header,
+#programDialog .aq-modal-header,
+#autoTemplateDialog .aq-modal-header {
+    background:
+        radial-gradient(
+            circle at left top,
+            rgba(255, 255, 255, 0.18),
+            transparent 36%
+        ),
+        linear-gradient(
+            135deg,
+            var(--de-primary-dark) 0%,
+            var(--de-primary) 100%
+        ) !important;
+    color: #ffffff !important;
+}
+
+#entryModeDialog .aq-modal-header h2,
+#programDialog .aq-modal-header h2,
+#autoTemplateDialog .aq-modal-header h2 {
+    color: #ffffff !important;
+}
+
+#entryModeDialog .aq-modal-header p,
+#programDialog .aq-modal-header p,
+#autoTemplateDialog .aq-modal-header p {
+    color: #eaf7ff !important;
+}
+
+/* زر الرجوع */
+#programDialog .program-back-btn,
+#autoTemplateDialog .auto-template-back-btn,
+#autoTemplateDialog #autoTemplateBackBtn,
+#autoTemplateDialog #backFromTemplateBtn,
+#entryModeDialog .program-back-btn {
+    color: #ffffff !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+
+#programDialog .program-back-btn:hover,
+#autoTemplateDialog .auto-template-back-btn:hover,
+#autoTemplateDialog #autoTemplateBackBtn:hover,
+#autoTemplateDialog #backFromTemplateBtn:hover,
+#entryModeDialog .program-back-btn:hover {
+    color: #dff1ff !important;
+}
+
+/* بطاقات اختيار طريقة الإدخال */
+#entryModeDialog .entry-mode-grid {
+    background-color: #ffffff !important;
+}
+
+#entryModeDialog .entry-mode-card {
+    background:
+        linear-gradient(180deg, #ffffff 0%, #f7fcff 100%) !important;
+    border-color: #cfe6f7 !important;
+    color: var(--de-text) !important;
+}
+
+#entryModeDialog .entry-mode-card:hover {
+    background:
+        linear-gradient(180deg, #ffffff 0%, #eef8ff 100%) !important;
+    border-color: var(--de-primary-light) !important;
+}
+
+#entryModeDialog .entry-mode-icon {
+    background-color: var(--de-soft) !important;
+    border-color: #cfe6f7 !important;
+    color: var(--de-primary-dark) !important;
+}
+
+#entryModeDialog .entry-mode-card strong {
+    color: var(--de-primary-dark) !important;
+}
+
+#entryModeDialog .entry-mode-card small {
+    color: var(--de-muted) !important;
+}
+
+/* أجسام النوافذ */
+#programDialog .aq-modal-body,
+#autoTemplateDialog .aq-modal-body {
+    background-color: #ffffff !important;
+}
+
+/* عناوين الحقول */
+#programDialog .aq-modal-field label,
+#autoTemplateDialog .aq-modal-field label,
+#programDialog label,
+#autoTemplateDialog label {
+    color: var(--de-text) !important;
+}
+
+/* الحقول والقوائم */
+#programDialog select,
+#programDialog input,
+#programDialog .year-dropdown-btn,
+#autoTemplateDialog select,
+#autoTemplateDialog input,
+#autoTemplateDialog .year-dropdown-btn,
+#templateYearBtn {
+    background-color: #ffffff !important;
+    border-color: #cfe0ee !important;
+    color: var(--de-text) !important;
+}
+
+#programDialog select:focus,
+#programDialog input:focus,
+#programDialog .year-dropdown-btn:focus,
+#autoTemplateDialog select:focus,
+#autoTemplateDialog input:focus,
+#autoTemplateDialog .year-dropdown-btn:focus,
+#templateYearBtn:focus {
+    border-color: var(--de-primary-light) !important;
+    outline-color: transparent !important;
+}
+
+#programDialog input::placeholder,
+#autoTemplateDialog input::placeholder {
+    color: #9aaabd !important;
+}
+
+/* الأزرار الرئيسية */
+#programDialog .aq-modal-btn,
+#autoTemplateDialog .aq-modal-btn,
+#confirmProgramBtn,
+#confirmTemplateBtn,
+#createTemplateBtn {
+    background:
+        linear-gradient(
+            135deg,
+            var(--de-primary-dark),
+            var(--de-primary)
+        ) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+#programDialog .aq-modal-btn:hover:not(:disabled),
+#autoTemplateDialog .aq-modal-btn:hover:not(:disabled),
+#confirmProgramBtn:hover:not(:disabled),
+#confirmTemplateBtn:hover:not(:disabled),
+#createTemplateBtn:hover:not(:disabled) {
+    background:
+        linear-gradient(135deg, #0f4f7c, #247fc5) !important;
+}
+
+#programDialog .aq-modal-btn:disabled,
+#autoTemplateDialog .aq-modal-btn:disabled,
+#confirmProgramBtn:disabled,
+#confirmTemplateBtn:disabled,
+#createTemplateBtn:disabled {
+    background: #dbe8f3 !important;
+    color: #7c93a8 !important;
+    border-color: #dbe8f3 !important;
+}
+
+/* =========================================================
+   نافذة الملفات المحفوظة
+========================================================= */
+
+#savedFilesModal .saved-files-box {
+    background-color: #ffffff !important;
+    border-color: var(--de-border) !important;
+}
+
+#savedFilesModal .saved-files-header {
+    background-color: #ffffff !important;
+    border-bottom-color: #d8eaf9 !important;
+}
+
+#savedFilesModal .saved-files-header h3 {
+    color: var(--de-primary-dark) !important;
+}
+
+#savedFilesModal .saved-files-header p {
+    color: var(--de-muted) !important;
+}
+
+#savedFilesModal .saved-files-count,
+#savedFilesModal .files-count-badge {
+    background-color: var(--de-soft) !important;
+    border-color: #cfe6f7 !important;
+    color: var(--de-primary-dark) !important;
+}
+
+#savedFilesModal .saved-files-search-box,
+#savedFilesModal .saved-files-list {
+    background-color: #ffffff !important;
+}
+
+#savedFilesModal #savedFilesSearchInput {
+    background-color: #ffffff !important;
+    border-color: #cfe0ee !important;
+    color: var(--de-text) !important;
+}
+
+#savedFilesModal #savedFilesSearchInput:focus {
+    border-color: var(--de-primary-light) !important;
+}
+
+#savedFilesModal #savedFilesSearchInput::placeholder {
+    color: #9aaabd !important;
+}
+
+#savedFilesModal .saved-file-card,
+#savedFilesModal .saved-file-item {
+    background-color: #ffffff !important;
+    border-color: #cfe6f7 !important;
+    border-right-color: var(--de-primary) !important;
+}
+
+#savedFilesModal .saved-file-card:hover,
+#savedFilesModal .saved-file-item:hover {
+    background-color: #f7fcff !important;
+    border-color: var(--de-primary-light) !important;
+    border-right-color: var(--de-primary) !important;
+}
+
+#savedFilesModal .saved-file-card strong,
+#savedFilesModal .saved-file-item strong,
+#savedFilesModal .saved-file-title,
+#savedFilesModal .saved-file-info {
+    color: var(--de-text) !important;
+}
+
+#savedFilesModal .saved-file-meta,
+#savedFilesModal .saved-file-details,
+#savedFilesModal .saved-file-date {
+    color: var(--de-muted) !important;
+}
+
+#savedFilesModal .saved-open-btn,
+#savedFilesModal .saved-file-open-btn,
+#savedFilesModal .file-action-btn.edit-btn {
+    background:
+        linear-gradient(
+            135deg,
+            var(--de-primary-light),
+            var(--de-primary)
+        ) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+#savedFilesModal .saved-files-close {
+    background-color: #ffffff !important;
+    color: var(--de-primary-dark) !important;
+    border-color: var(--de-border) !important;
+}
+
+/* الحالات الدلالية تبقى واضحة */
+#savedFilesModal .saved-file-status-in_progress,
+#savedFilesModal .status-in_progress {
+    background-color: #fff7df !important;
+    color: #78350f !important;
+    border-color: #f6c453 !important;
+}
+
+#savedFilesModal .saved-file-status-completed,
+#savedFilesModal .status-completed {
+    background-color: #ecfaf4 !important;
+    color: #1f8f64 !important;
+    border-color: #bfead8 !important;
+}
+
+#savedFilesModal .saved-file-status-draft,
+#savedFilesModal .status-draft {
+    background-color: var(--de-soft) !important;
+    color: var(--de-primary-dark) !important;
+    border-color: #cfe2f2 !important;
+}
+
+#savedFilesModal .saved-delete-btn,
+#savedFilesModal .file-action-btn.delete-btn {
+    background-color: #fff1f2 !important;
+    color: #c43d46 !important;
+    border-color: #ffd0d3 !important;
+}
+
+/* =========================================================
+   نافذة المرفقات المرفوعة
+========================================================= */
+
+#uploadedFilesModal .uploaded-files-header {
+    background-color: #ffffff !important;
+    border-bottom-color: #d8eaf9 !important;
+}
+
+#uploadedFilesModal .uploaded-files-header h3 {
+    color: var(--de-primary-dark) !important;
+}
+
+#uploadedFilesModal .uploaded-files-header p {
+    color: var(--de-muted) !important;
+}
+
+#uploadedFilesModal .uploaded-files-close {
+    background-color: #ffffff !important;
+    color: var(--de-primary-dark) !important;
+    border-color: var(--de-border) !important;
+}
+/* =========================================================
+   FINAL DATA ENTRY DIALOG THEME
+   ألوان مطابقة للقائمة الجانبية
+========================================================= */
+
+:root {
+    --dialog-sidebar-light: #60b7ef;
+    --dialog-sidebar-mid: #2f8ed6;
+    --dialog-sidebar-dark: #247fc5;
+    --dialog-sidebar-deep: #145d91;
+    --dialog-sidebar-soft: #edf8ff;
+    --dialog-sidebar-border: #d3e8f8;
+}
+
+/* هيدر جميع نوافذ إدخال البيانات */
+#entryModeDialog .aq-modal-header,
+#programDialog .aq-modal-header,
+#autoTemplateDialog .aq-modal-header {
+    background:
+        radial-gradient(
+            circle at left top,
+            rgba(255, 255, 255, 0.17),
+            transparent 36%
+        ),
+        linear-gradient(
+            135deg,
+            var(--dialog-sidebar-light) 0%,
+            var(--dialog-sidebar-mid) 48%,
+            var(--dialog-sidebar-dark) 100%
+        ) !important;
+
+    color: #ffffff !important;
+}
+
+#entryModeDialog .aq-modal-header h2,
+#programDialog .aq-modal-header h2,
+#autoTemplateDialog .aq-modal-header h2 {
+    color: #ffffff !important;
+}
+
+#entryModeDialog .aq-modal-header p,
+#programDialog .aq-modal-header p,
+#autoTemplateDialog .aq-modal-header p {
+    color: #edf8ff !important;
+}
+
+/* حجم نافذة اختيار طريقة الإدخال */
+#entryModeDialog .aq-modal-box,
+#entryModeDialog .entry-mode-box {
+    width: min(585px, 92vw) !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: calc(100vh - 36px) !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+}
+
+#entryModeDialog .aq-modal-header {
+    padding: 23px 31px 20px !important;
+}
+
+#entryModeDialog .aq-modal-header h2 {
+    margin: 0 0 5px !important;
+    font-size: 22px !important;
+    line-height: 1.45 !important;
+}
+
+#entryModeDialog .aq-modal-header p {
+    margin: 0 !important;
+    font-size: 12.5px !important;
+    line-height: 1.65 !important;
+}
+
+#entryModeDialog .entry-mode-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    padding: 19px !important;
+    background: #ffffff !important;
+}
+
+#entryModeDialog .entry-mode-card {
+    min-height: 148px !important;
+    height: auto !important;
+    padding: 16px 12px !important;
+    border: 1px solid var(--dialog-sidebar-border) !important;
+    border-radius: 12px !important;
+    background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #f7fbfc 100%
+    ) !important;
+
+    box-shadow: 0 8px 18px rgba(20, 93, 145, 0.07) !important;
+}
+
+#entryModeDialog .entry-mode-card:hover {
+    border-color: var(--dialog-sidebar-light) !important;
+    background: #f2fafb !important;
+    box-shadow: 0 12px 24px rgba(20, 93, 145, 0.13) !important;
+}
+
+#entryModeDialog .entry-mode-icon {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    min-height: 46px !important;
+    border: 1px solid var(--dialog-sidebar-border) !important;
+    border-radius: 10px !important;
+    background: var(--dialog-sidebar-soft) !important;
+    color: var(--dialog-sidebar-deep) !important;
+    font-size: 23px !important;
+}
+
+#entryModeDialog .entry-mode-card strong {
+    color: #17324d !important;
+    font-size: 15.5px !important;
+    line-height: 1.45 !important;
+}
+
+#entryModeDialog .entry-mode-card small {
+    color: #667f8b !important;
+    font-size: 11.3px !important;
+    line-height: 1.6 !important;
+}
+
+/* أزرار النوافذ */
+#programDialog .aq-modal-btn,
+#autoTemplateDialog .aq-modal-btn,
+#confirmProgramBtn,
+#confirmTemplateBtn,
+#createTemplateBtn {
+    background: linear-gradient(
+        135deg,
+        var(--dialog-sidebar-light) 0%,
+        var(--dialog-sidebar-mid) 48%,
+        var(--dialog-sidebar-dark) 100%
+    ) !important;
+
+    color: #ffffff !important;
+    border: 0 !important;
+}
+
+#programDialog .aq-modal-btn:hover:not(:disabled),
+#autoTemplateDialog .aq-modal-btn:hover:not(:disabled),
+#confirmProgramBtn:hover:not(:disabled),
+#confirmTemplateBtn:hover:not(:disabled),
+#createTemplateBtn:hover:not(:disabled) {
+    background: linear-gradient(
+        135deg,
+        var(--dialog-sidebar-mid),
+        var(--dialog-sidebar-dark)
+    ) !important;
+}
+
+/* حقول النوافذ */
+#programDialog select:focus,
+#programDialog input:focus,
+#programDialog .year-dropdown-btn:focus,
+#autoTemplateDialog select:focus,
+#autoTemplateDialog input:focus,
+#autoTemplateDialog .year-dropdown-btn:focus,
+#templateYearBtn:focus {
+    border-color: var(--dialog-sidebar-light) !important;
+    box-shadow: 0 0 0 4px rgba(47, 142, 214, 0.13) !important;
+}
+
+/* نافذة الملفات المحفوظة */
+#savedFilesModal .saved-files-header h3 {
+    color: var(--dialog-sidebar-dark) !important;
+}
+
+#savedFilesModal .saved-files-count,
+#savedFilesModal .saved-files-counter,
+#savedFilesModal #savedFilesSearchCount {
+    background: var(--dialog-sidebar-soft) !important;
+    color: var(--dialog-sidebar-deep) !important;
+    border-color: var(--dialog-sidebar-border) !important;
+}
+
+#savedFilesModal .saved-file-card,
+#savedFilesModal .saved-file-item {
+    border-color: var(--dialog-sidebar-border) !important;
+    border-right-color: var(--dialog-sidebar-mid) !important;
+}
+
+#savedFilesModal .saved-open-hint,
+#savedFilesModal .saved-open-btn,
+#savedFilesModal .saved-edit-btn {
+    background: linear-gradient(
+        135deg,
+        var(--dialog-sidebar-light),
+        var(--dialog-sidebar-mid),
+        var(--dialog-sidebar-dark)
+    ) !important;
+
+    color: #ffffff !important;
+    border: 0 !important;
+}
+
+/* منع الحركة أو اللون القديم وقت التحميل */
+#entryModeDialog .aq-modal-box,
+#programDialog .aq-modal-box,
+#autoTemplateDialog .aq-modal-box {
+    animation: none !important;
+}
+
+@media (max-width: 760px) {
+    #entryModeDialog .entry-mode-grid {
+        grid-template-columns: 1fr !important;
+        max-height: calc(100vh - 170px) !important;
+        overflow-y: auto !important;
+    }
+}
+/* =========================================================
+   DATA ENTRY PAGE — SIDEBAR COLORS + COMPACT LAYOUT
+   يجب أن يكون آخر تنسيق داخل data_entry.css
+========================================================= */
+
+.data-entry-page,
+.aq-page {
+    --entry-light: #60b7ef;
+    --entry-main: #5aa3b3;
+    --entry-dark: #247fc5;
+    --entry-deep: #145d91;
+
+    --entry-soft: #edf8ff;
+    --entry-soft-2: #f7fbfc;
+    --entry-border: #d3e8f8;
+    --entry-border-strong: #acd9f6;
+
+    --entry-text: #17324d;
+    --entry-muted: #647984;
+
+    --aq-primary: var(--entry-main) !important;
+    --aq-primary-dark: var(--entry-dark) !important;
+    --aq-primary-soft: var(--entry-soft) !important;
+    --aq-primary-border: var(--entry-border-strong) !important;
+
+    --aq-blue-dark: var(--entry-dark) !important;
+    --aq-blue: var(--entry-main) !important;
+
+    --aq-border: var(--entry-border) !important;
+    --aq-border-2: #d8e7eb !important;
+
+    --aq-text: var(--entry-text) !important;
+    --aq-heading: var(--entry-deep) !important;
+    --aq-muted: var(--entry-muted) !important;
+
+    --aq-shadow:
+        0 5px 15px rgba(20, 93, 145, 0.055) !important;
+
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+}
+
+/* =========================================================
+   الهيدر الرئيسي
+========================================================= */
+
+html body main.ust-content .aq-page > .aq-header,
+html body main.ust-content .aq-page.data-entry-page > .aq-header {
+    padding: 18px 22px !important;
+    margin-bottom: 12px !important;
+
+    border: 1px solid var(--entry-border) !important;
+    border-radius: 20px !important;
+
+    background:
+        radial-gradient(
+            circle at left bottom,
+            rgba(104, 173, 187, 0.12),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f5fbfc 100%
+        ) !important;
+
+    box-shadow:
+        0 6px 18px rgba(20, 93, 145, 0.07) !important;
+}
+
+html body main.ust-content .aq-page > .aq-header::before,
+html body main.ust-content .aq-page.data-entry-page > .aq-header::before {
+    top: 18px !important;
+    bottom: 18px !important;
+    width: 5px !important;
+
+    background: linear-gradient(
+        180deg,
+        var(--entry-light),
+        var(--entry-dark)
+    ) !important;
+}
+
+html body main.ust-content .aq-page > .aq-header h1,
+html body main.ust-content .aq-page.data-entry-page > .aq-header h1 {
+    margin: 0 0 5px !important;
+    color: var(--entry-deep) !important;
+
+    font-size: 28px !important;
+    font-weight: 900 !important;
+    line-height: 1.35 !important;
+}
+
+html body main.ust-content .aq-page > .aq-header p,
+html body main.ust-content .aq-page.data-entry-page > .aq-header p {
+    margin: 0 !important;
+    color: var(--entry-muted) !important;
+
+    font-size: 12.5px !important;
+    line-height: 1.7 !important;
+}
+
+html body main.ust-content .aq-page .aq-header-badge {
+    min-width: 128px !important;
+    padding: 10px 13px !important;
+
+    border: 0 !important;
+    border-radius: 15px !important;
+
+    background: linear-gradient(
+        135deg,
+        var(--entry-light),
+        var(--entry-main),
+        var(--entry-dark)
+    ) !important;
+
+    box-shadow:
+        0 7px 16px rgba(47, 142, 214, 0.15) !important;
+}
+
+html body main.ust-content .aq-page .aq-header-badge span {
+    color: #effbfc !important;
+    font-size: 11.5px !important;
+}
+
+html body main.ust-content .aq-page .aq-header-badge strong {
+    color: #ffffff !important;
+    font-size: 17px !important;
+}
+
+/* =========================================================
+   بطاقة بيانات البرنامج
+========================================================= */
+
+html body .aq-page .program-selection-card {
+    padding: 12px 14px !important;
+    margin-bottom: 10px !important;
+    gap: 11px !important;
+
+    border: 1px solid var(--entry-border) !important;
+    border-radius: 15px !important;
+
+    background: #ffffff !important;
+
+    box-shadow:
+        0 4px 13px rgba(20, 93, 145, 0.045) !important;
+}
+
+html body .aq-page .program-selection-card h2 {
+    margin: 0 0 3px !important;
+
+    color: var(--entry-deep) !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+}
+
+html body .aq-page .program-selection-card p {
+    font-size: 11.5px !important;
+    line-height: 1.6 !important;
+}
+
+html body .aq-page .program-selection-values {
+    gap: 6px !important;
+}
+
+html body .aq-page .program-selection-values span {
+    min-height: 32px !important;
+    padding: 5px 10px !important;
+
+    border: 1px solid var(--entry-border) !important;
+    border-radius: 999px !important;
+
+    background: var(--entry-soft) !important;
+    color: var(--entry-deep) !important;
+
+    font-size: 11.5px !important;
+    line-height: 1.4 !important;
+}
+
+/* تغيير البرنامج */
+html body .aq-page .change-program-btn {
+    min-height: 36px !important;
+    padding: 7px 13px !important;
+
+    border: 1px solid var(--entry-main) !important;
+    border-radius: 11px !important;
+
+    background: #ffffff !important;
+    color: var(--entry-deep) !important;
+
+    font-size: 11.5px !important;
+}
+
+html body .aq-page .change-program-btn:hover {
+    background: var(--entry-soft) !important;
+}
+
+/* =========================================================
+   أزرار الملفات والمرفقات
+========================================================= */
+
+html body .aq-page .saved-files-toolbar {
+    margin: 9px 0 !important;
+}
+
+html body .aq-page .saved-files-btn,
+html body .aq-page .uploaded-files-open-btn {
+    min-height: 40px !important;
+    padding: 8px 14px !important;
+    gap: 7px !important;
+
+    border: 1px solid var(--entry-border-strong) !important;
+    border-radius: 12px !important;
+
+    background: #ffffff !important;
+    color: var(--entry-deep) !important;
+
+    font-size: 12px !important;
+
+    box-shadow:
+        0 4px 11px rgba(20, 93, 145, 0.05) !important;
+}
+
+html body .aq-page .saved-files-btn:hover,
+html body .aq-page .uploaded-files-open-btn:hover {
+    background: var(--entry-soft) !important;
+    border-color: var(--entry-main) !important;
+}
+
+html body .aq-page .saved-files-count,
+html body .aq-page .uploaded-files-count {
+    min-width: 25px !important;
+    height: 25px !important;
+
+    background: var(--entry-main) !important;
+    color: #ffffff !important;
+
+    font-size: 11px !important;
+}
+
+/* =========================================================
+   شريط المعايير الثمانية
+   جميع المعايير تظهر كاملة دون قص
+========================================================= */
+
+html body .aq-page .aq-tabs-wrapper {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 30 !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 8px 0 11px !important;
+    padding: 6px !important;
+
+    border: 1px solid var(--entry-border) !important;
+    border-radius: 13px !important;
+
+    background: #ffffff !important;
+
+    box-shadow:
+        0 5px 14px rgba(20, 93, 145, 0.055) !important;
+
+    overflow: hidden !important;
+}
+
+/*
+   استخدام Grid بدل flex يمنع خروج المعايير خارج الشريط.
+   كل معيار يأخذ خانة متساوية.
+*/
+html body .aq-page .aq-tabs {
+    width: 100% !important;
+    min-width: 0 !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+
+    gap: 5px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    overflow: visible !important;
+}
+
+/*
+   لا نستخدم ellipsis.
+   الاسم الكامل يمكن أن ينزل إلى سطرين.
+*/
+html body .aq-page .aq-tab {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    height: auto !important;
+
+    margin: 0 !important;
+    padding: 5px 5px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border: 1px solid var(--entry-border) !important;
+    border-radius: 10px !important;
+
+    background: #ffffff !important;
+    color: #315f6d !important;
+
+    font-family: inherit !important;
+    font-size: 10.2px !important;
+    font-weight: 800 !important;
+    line-height: 1.35 !important;
+    text-align: center !important;
+
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+
+    box-shadow: none !important;
+}
+
+html body .aq-page .aq-tab:hover {
+    border-color: var(--entry-light) !important;
+    background: var(--entry-soft) !important;
+    color: var(--entry-deep) !important;
+}
+
+html body .aq-page .aq-tab.active {
+    border-color: var(--entry-main) !important;
+
+    background: linear-gradient(
+        135deg,
+        var(--entry-light),
+        var(--entry-main),
+        var(--entry-dark)
+    ) !important;
+
+    color: #ffffff !important;
+
+    box-shadow:
+        0 5px 12px rgba(47, 142, 214, 0.17) !important;
+}
+
+/* إخفاء شريط التمرير القديم */
+html body .aq-page .aq-tabs-wrapper::-webkit-scrollbar,
+html body .aq-page .aq-tabs::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* =========================================================
+   عنوان المعيار
+========================================================= */
+
+html body .aq-page .aq-panel-title {
+    min-height: 54px !important;
+    padding: 10px 14px !important;
+    margin-bottom: 10px !important;
+
+    border: 1px solid var(--entry-border) !important;
+    border-radius: 13px !important;
+
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        var(--entry-soft-2)
+    ) !important;
+
+    box-shadow:
+        0 3px 10px rgba(20, 93, 145, 0.035) !important;
+}
+
+html body .aq-page .aq-panel-title h2 {
+    margin: 0 !important;
+    color: var(--entry-deep) !important;
+
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    line-height: 1.45 !important;
+}
+
+html body .aq-page .aq-panel-title span {
+    padding: 5px 10px !important;
+
+    background: var(--entry-soft) !important;
+    border: 1px solid var(--entry-border) !important;
+
+    color: var(--entry-deep) !important;
+    font-size: 11px !important;
+}
+
+/* =========================================================
+   الكروت
+========================================================= */
+
+html body .aq-page .aq-card {
+    padding: 12px !important;
+    margin-bottom: 10px !important;
+
+    border: 1px solid var(--entry-border) !important;
+    border-radius: 13px !important;
+
+    background: #ffffff !important;
+
+    box-shadow:
+        0 4px 12px rgba(20, 93, 145, 0.045) !important;
+}
+
+html body .aq-page .aq-card h3 {
+    margin: 0 0 9px !important;
+    padding-right: 7px !important;
+
+    border-right: 3px solid var(--entry-main) !important;
+
+    color: var(--entry-deep) !important;
+
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    line-height: 1.55 !important;
+}
+
+html body .aq-page .aq-card-head {
+    min-height: 48px !important;
+    margin-bottom: 8px !important;
+    gap: 9px !important;
+}
+
+html body .aq-page .aq-card-head h3 {
+    margin-bottom: 2px !important;
+}
+
+html body .aq-page .aq-card-head p {
+    color: var(--entry-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.55 !important;
+}
+
+/* رؤوس الكروت القابلة للطي */
+html body .aq-page .collapse-header {
+    min-height: 46px !important;
+    margin-bottom: 8px !important;
+    gap: 9px !important;
+}
+
+html body .aq-page .collapse-title {
+    padding-right: 7px !important;
+    border-right: 3px solid var(--entry-main) !important;
+
+    color: var(--entry-deep) !important;
+
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+}
+
+html body .aq-page .collapse-icon {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+
+    border-color: var(--entry-border-strong) !important;
+    background: var(--entry-soft) !important;
+    color: var(--entry-deep) !important;
+
+    font-size: 15px !important;
+}
+
+/* =========================================================
+   المرفقات المطلوبة
+========================================================= */
+
+html body .aq-page .aq-attachments,
+html body .aq-page .aq-attachments-collapsible {
+    padding: 0 !important;
+
+    border: 1px solid var(--entry-border) !important;
+    border-radius: 13px !important;
+
+    background: #fbfefe !important;
+
+    overflow: hidden !important;
+}
+
+html body .aq-page .aq-attachment-head {
+    min-height: 58px !important;
+    padding: 10px 14px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    border-bottom: 1px solid var(--entry-border) !important;
+
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        var(--entry-soft)
+    ) !important;
+}
+
+html body .aq-page .aq-attachment-title h3 {
+    margin: 0 0 2px !important;
+    padding-right: 7px !important;
+
+    border-right: 3px solid var(--entry-main) !important;
+
+    color: var(--entry-deep) !important;
+    font-size: 14px !important;
+}
+
+html body .aq-page .aq-attachment-title p {
+    margin: 0 !important;
+
+    color: var(--entry-muted) !important;
+
+    font-size: 10.8px !important;
+    line-height: 1.55 !important;
+}
+
+html body .aq-page .aq-attachment-body {
+    padding: 12px !important;
+}
+
+html body .aq-page .aq-attachment-collapse-icon {
+    width: 28px !important;
+    height: 28px !important;
+
+    border: 1px solid var(--entry-border-strong) !important;
+    background: #ffffff !important;
+    color: var(--entry-deep) !important;
+}
+
+/* =========================================================
+   الحقول والنصوص
+========================================================= */
+
+html body .aq-page .aq-grid {
+    gap: 9px !important;
+}
+
+html body .aq-page .aq-field {
+    gap: 4px !important;
+}
+
+html body .aq-page .aq-field label {
+    color: #344f5c !important;
+
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.5 !important;
+}
+
+html body .aq-page .aq-field input,
+html body .aq-page .aq-field select,
+html body .aq-page .aq-table input,
+html body .aq-page .aq-table select {
+    height: 35px !important;
+    padding: 6px 8px !important;
+
+    border: 1px solid #d5e5e9 !important;
+    border-radius: 8px !important;
+
+    font-size: 11.5px !important;
+}
+
+html body .aq-page .aq-field textarea {
+    min-height: 76px !important;
+    padding: 7px 9px !important;
+
+    border: 1px solid #d5e5e9 !important;
+    border-radius: 8px !important;
+
+    font-size: 11.5px !important;
+}
+
+html body .aq-page .aq-field input[type="file"] {
+    height: 37px !important;
+    padding: 5px 7px !important;
+
+    background: #ffffff !important;
+    font-size: 10.8px !important;
+}
+
+html body .aq-page .aq-field input:focus,
+html body .aq-page .aq-field select:focus,
+html body .aq-page .aq-field textarea:focus,
+html body .aq-page .aq-table input:focus,
+html body .aq-page .aq-table select:focus {
+    border-color: var(--entry-main) !important;
+
+    box-shadow:
+        0 0 0 3px rgba(85, 163, 179, 0.12) !important;
+}
+
+/* =========================================================
+   الجداول والأزرار
+========================================================= */
+
+html body .aq-page .aq-table {
+    font-size: 11.5px !important;
+}
+
+html body .aq-page .aq-table th {
+    padding: 8px !important;
+
+    background: var(--entry-soft) !important;
+    color: var(--entry-deep) !important;
+
+    border-color: var(--entry-border) !important;
+}
+
+html body .aq-page .aq-table td {
+    padding: 6px !important;
+    border-color: var(--entry-border) !important;
+}
+
+html body .aq-page .table-actions button,
+html body .aq-page .import-btn {
+    min-height: 33px !important;
+    padding: 6px 11px !important;
+
+    border: 1px solid var(--entry-main) !important;
+    border-radius: 9px !important;
+
+    background: #ffffff !important;
+    color: var(--entry-deep) !important;
+
+    font-size: 11px !important;
+}
+
+html body .aq-page .table-actions button:hover,
+html body .aq-page .import-btn:hover {
+    background: var(--entry-soft) !important;
+}
+
+/* أزرار الحفظ */
+html body .aq-page .data-entry-save-btn,
+html body .aq-page .btn-primary {
+    min-height: 38px !important;
+    padding: 8px 16px !important;
+
+    border-radius: 10px !important;
+
+    background: linear-gradient(
+        135deg,
+        var(--entry-light),
+        var(--entry-main),
+        var(--entry-dark)
+    ) !important;
+
+    color: #ffffff !important;
+    font-size: 12px !important;
+}
+
+html body .aq-page .btn-secondary,
+html body .aq-page .draft-save-btn {
+    min-height: 38px !important;
+    padding: 8px 16px !important;
+
+    border: 1px solid var(--entry-border-strong) !important;
+    border-radius: 10px !important;
+
+    background: var(--entry-soft) !important;
+    color: var(--entry-deep) !important;
+
+    font-size: 12px !important;
+}
+
+/*
+   لا نغير الأخضر والأصفر الخاصين بحالة الاكتمال؛
+   لأنها ألوان دلالية وليست من ألوان التصميم العامة.
+*/
+
+/* =========================================================
+   الاستجابة للشاشات الأصغر
+========================================================= */
+
+@media (max-width: 1200px) {
+    html body .aq-page .aq-tabs {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+
+    html body .aq-page .aq-tab {
+        min-height: 38px !important;
+        font-size: 10.5px !important;
+    }
+}
+
+@media (max-width: 700px) {
+    html body .aq-page .aq-tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    html body main.ust-content .aq-page > .aq-header h1 {
+        font-size: 21px !important;
+    }
+
+    html body .aq-page .aq-panel-title h2 {
+        font-size: 16px !important;
+    }
+}
+/* =========================================================
+   FINAL DATA ENTRY COLORS
+   المصدر الوحيد للعنوان والمربع وأزرار الحفظ
+========================================================= */
+
+:root {
+    --de-light: #60b7ef;
+    --de-main: #2f8ed6;
+    --de-dark: #247fc5;
+    --de-deep: #145d91;
+    --de-soft: #edf8ff;
+    --de-soft-hover: #d3e8f8;
+    --de-border: #b9d8df;
+}
+
+/* =========================================================
+   العنوان الرئيسي
+========================================================= */
+
+html body main.ust-content
+.aq-page.data-entry-page > .aq-header h1 {
+    color: var(--de-deep) !important;
+}
+
+/* الخط الموجود بجانب الهيدر */
+html body main.ust-content
+.aq-page.data-entry-page > .aq-header::before {
+    background-color: var(--de-main) !important;
+
+    background-image: linear-gradient(
+        180deg,
+        var(--de-light) 0%,
+        var(--de-main) 50%,
+        var(--de-dark) 100%
+    ) !important;
+}
+
+/* مربع نموذج إدخال البيانات */
+html body main.ust-content
+.aq-page.data-entry-page > .aq-header .aq-header-badge {
+    background-color: var(--de-main) !important;
+
+    background-image: linear-gradient(
+        135deg,
+        var(--de-light) 0%,
+        var(--de-main) 48%,
+        var(--de-dark) 100%
+    ) !important;
+
+    color: #ffffff !important;
+    border-color: transparent !important;
+
+    box-shadow:
+        0 9px 20px rgba(47, 142, 214, 0.18) !important;
+}
+
+html body main.ust-content
+.aq-page.data-entry-page > .aq-header .aq-header-badge span,
+
+html body main.ust-content
+.aq-page.data-entry-page > .aq-header .aq-header-badge strong {
+    color: #ffffff !important;
+}
+
+/* =========================================================
+   حاوية أزرار الحفظ
+========================================================= */
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions {
+    width: 100% !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    gap: 10px !important;
+
+    margin: 18px 0 8px !important;
+    padding: 0 4px !important;
+
+    direction: rtl !important;
+}
+
+
+/* التنسيق المشترك للزرين */
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button[name="save_mode"] {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+
+    min-width: 125px !important;
+    height: 42px !important;
+
+    padding: 0 18px !important;
+
+    border-radius: 11px !important;
+
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 850 !important;
+    line-height: 1 !important;
+
+    cursor: pointer !important;
+    transition: 0.18s ease !important;
+}
+
+/* =========================================================
+   حفظ البيانات
+========================================================= */
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button.btn-primary,
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button.final-save-btn,
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button[name="save_mode"][value="final"] {
+    background-color: var(--de-main) !important;
+
+    background-image: linear-gradient(
+        135deg,
+        var(--de-light) 0%,
+        var(--de-main) 48%,
+        var(--de-dark) 100%
+    ) !important;
+
+    color: #ffffff !important;
+
+    border: 1px solid var(--de-dark) !important;
+
+    box-shadow:
+        0 7px 16px rgba(47, 142, 214, 0.20) !important;
+}
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button.btn-primary:hover,
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button.final-save-btn:hover,
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button[name="save_mode"][value="final"]:hover {
+    background-color: var(--de-dark) !important;
+
+    background-image: linear-gradient(
+        135deg,
+        var(--de-main),
+        var(--de-dark)
+    ) !important;
+
+    color: #ffffff !important;
+    border-color: var(--de-dark) !important;
+
+    transform: translateY(-1px) !important;
+
+    box-shadow:
+        0 9px 19px rgba(47, 142, 214, 0.24) !important;
+}
+
+/* =========================================================
+   حفظ كمسودة
+========================================================= */
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button.btn-secondary,
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button.draft-save-btn,
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button[name="save_mode"][value="draft"] {
+    background-color: var(--de-soft) !important;
+    background-image: none !important;
+
+    color: var(--de-deep) !important;
+
+    border: 1px solid var(--de-light) !important;
+
+    box-shadow: none !important;
+}
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button.btn-secondary:hover,
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button.draft-save-btn:hover,
+
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button[name="save_mode"][value="draft"]:hover {
+    background-color: var(--de-soft-hover) !important;
+    background-image: none !important;
+
+    color: var(--de-deep) !important;
+
+    border-color: var(--de-dark) !important;
+
+    transform: translateY(-1px) !important;
+
+    box-shadow:
+        0 6px 14px rgba(47, 142, 214, 0.10) !important;
+}
+
+/* الضغط */
+html body
+.aq-page.data-entry-page
+.aq-actions.data-entry-save-actions
+button[name="save_mode"]:active {
+    transform: translateY(0) !important;
+}
+/* =========================================================
+   FINAL FIX — وضع أزرار الحفظ في الجهة اليمنى
+========================================================= */
+
+html body
+main.ust-content
+.aq-page.data-entry-page
+#dataEntryForm
+.aq-actions.data-entry-save-actions {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+
+    /* نجعل اتجاه الحاوية LTR حتى يكون flex-end هو اليمين فعليًا */
+    direction: ltr !important;
+
+    gap: 10px !important;
+
+    margin: 18px 0 8px 0 !important;
+    padding: 0 4px !important;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    align-self: stretch !important;
+    float: none !important;
+
+    position: relative !important;
+    right: auto !important;
+    left: auto !important;
+
+    box-sizing: border-box !important;
+}
+
+/* إعادة اتجاه النص العربي داخل الأزرار */
+html body
+main.ust-content
+.aq-page.data-entry-page
+#dataEntryForm
+.data-entry-save-actions
+button {
+    direction: rtl !important;
+    text-align: center !important;
+}
+
+/* حفظ البيانات يكون أقصى اليمين */
+html body
+.aq-page.data-entry-page
+.data-entry-save-actions
+button[name="save_mode"][value="final"] {
+    order: 1 !important;
+}
+
+html body
+.aq-page.data-entry-page
+.data-entry-save-actions
+button[name="save_mode"][value="draft"] {
+    order: 2 !important;
+}
+/* =========================================================
+   إصلاح اختفاء العمود الأخير في جداول إدخال البيانات
+   ========================================================= */
+
+/* حاوية كل جدول */
+.data-table-wrapper,
+.table-wrapper,
+.table-responsive,
+.table-scroll-wrapper,
+.criteria-table-wrapper,
+.standard-table-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    padding-right: 8px !important;
+    padding-left: 8px !important;
+
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* إجبار الجدول على البقاء داخل البطاقة */
+.data-table-wrapper table,
+.table-wrapper table,
+.table-responsive table,
+.table-scroll-wrapper table,
+.criteria-table-wrapper table,
+.standard-table-wrapper table,
+table.data-entry-table,
+table.criteria-table {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}
+
+
+/* منع الأعمدة من توسيع الجدول خارج البطاقة */
+.data-table-wrapper th,
+.data-table-wrapper td,
+.table-wrapper th,
+.table-wrapper td,
+.table-responsive th,
+.table-responsive td,
+.table-scroll-wrapper th,
+.table-scroll-wrapper td,
+.criteria-table-wrapper th,
+.criteria-table-wrapper td,
+.standard-table-wrapper th,
+.standard-table-wrapper td,
+table.data-entry-table th,
+table.data-entry-table td,
+table.criteria-table th,
+table.criteria-table td {
+    min-width: 0 !important;
+    max-width: none !important;
+
+    padding: 8px 6px !important;
+
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* عمود الترقيم "م" */
+.data-table-wrapper th:first-child,
+.data-table-wrapper td:first-child,
+.table-wrapper th:first-child,
+.table-wrapper td:first-child,
+.table-responsive th:first-child,
+.table-responsive td:first-child,
+table.data-entry-table th:first-child,
+table.data-entry-table td:first-child,
+table.criteria-table th:first-child,
+table.criteria-table td:first-child {
+    width: 58px !important;
+    min-width: 58px !important;
+    max-width: 58px !important;
+
+    text-align: center !important;
+}
+
+
+/* إعطاء العمود الأخير جهة اليسار مساحة كافية */
+.data-table-wrapper th:last-child,
+.data-table-wrapper td:last-child,
+.table-wrapper th:last-child,
+.table-wrapper td:last-child,
+.table-responsive th:last-child,
+.table-responsive td:last-child,
+table.data-entry-table th:last-child,
+table.data-entry-table td:last-child,
+table.criteria-table th:last-child,
+table.criteria-table td:last-child {
+    width: 18% !important;
+}
+
+
+/* الحقول داخل خلايا الجدول */
+.data-table-wrapper td input,
+.data-table-wrapper td select,
+.data-table-wrapper td textarea,
+.table-wrapper td input,
+.table-wrapper td select,
+.table-wrapper td textarea,
+.table-responsive td input,
+.table-responsive td select,
+.table-responsive td textarea,
+table.data-entry-table td input,
+table.data-entry-table td select,
+table.data-entry-table td textarea,
+table.criteria-table td input,
+table.criteria-table td select,
+table.criteria-table td textarea {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* منع بطاقة الجدول نفسها من قص الطرف الأيسر */
+.standard-card,
+.standard-section,
+.table-card,
+.data-table-card,
+.criteria-table-card {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+/* =========================================================
+   ألوان نافذة المرفقات — نفس هوية النظام
+========================================================= */
+
+/* عنوان نافذة المرفقات */
+.attachments-modal h2,
+.attachments-modal-title,
+.uploaded-attachments-modal h2 {
+    color: var(--ust-blue-deep, #145d91) !important;
+}
+
+
+/* عناوين المرفقات داخل البطاقات */
+.attachments-modal .attachment-title,
+.attachments-modal .attachment-card h3,
+.attachments-modal .attachment-item h3,
+.uploaded-attachments-modal .attachment-title {
+    color: var(--ust-blue-deep, #145d91) !important;
+}
+
+
+/* زر فتح الملف */
+.attachments-modal .open-file-btn,
+.attachments-modal .attachment-open-btn,
+.attachments-modal .btn-open-file,
+.uploaded-attachments-modal .open-file-btn {
+    min-height: 42px !important;
+    padding: 0 20px !important;
+
+    color: #ffffff !important;
+
+    background: linear-gradient(
+        135deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    ) !important;
+
+    border: 0 !important;
+    border-radius: 14px !important;
+
+    font-family: inherit !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+
+    box-shadow: 0 8px 18px rgba(47, 142, 214, 0.18) !important;
+
+    cursor: pointer !important;
+    transition: 0.2s ease !important;
+}
+
+
+/* حركة زر فتح الملف */
+.attachments-modal .open-file-btn:hover,
+.attachments-modal .attachment-open-btn:hover,
+.attachments-modal .btn-open-file:hover,
+.uploaded-attachments-modal .open-file-btn:hover {
+    transform: translateY(-1px) !important;
+
+    background: linear-gradient(
+        135deg,
+        #55afe9,
+        #247fc5
+    ) !important;
+
+    box-shadow: 0 10px 22px rgba(47, 142, 214, 0.24) !important;
+}
+
+
+/* حدود بطاقات المرفقات */
+.attachments-modal .attachment-card,
+.attachments-modal .attachment-item,
+.uploaded-attachments-modal .attachment-card {
+    border-color: var(--ust-border, #d3e8f8) !important;
+    background: #ffffff !important;
+}
+
+
+/* معلومات الملف الثانوية */
+.attachments-modal .attachment-meta,
+.attachments-modal .attachment-date,
+.attachments-modal .attachment-standard,
+.uploaded-attachments-modal .attachment-meta {
+    color: var(--ust-muted, #6b7f95) !important;
+}
+
+
+/* شريط التمرير داخل النافذة */
+.attachments-modal-body::-webkit-scrollbar-thumb,
+.uploaded-attachments-modal-body::-webkit-scrollbar-thumb {
+    background: #9dcae9 !important;
+    border-radius: 999px !important;
+}
+
+.attachments-modal-body::-webkit-scrollbar-thumb:hover,
+.uploaded-attachments-modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--ust-blue, #2f8ed6) !important;
 }

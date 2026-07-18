@@ -1,0 +1,812 @@
+/* Admin blue patch: load this file after custom_admin_dashboard.css */
+
+:root{
+  --admin-blue:#2f88c9;
+  --admin-blue-dark:#17659f;
+  --admin-blue-deep:#124f7e;
+  --admin-blue-soft:#eaf5fc;
+  --admin-blue-border:#c9e1ef;
+  --admin-blue-text:#173f5f;
+}
+
+/* Header */
+html body #header,
+html body #container > #header{
+  background:linear-gradient(135deg,var(--admin-blue),var(--admin-blue-dark))!important;
+}
+html body #branding h1,
+html body #branding h1 a,
+html body #user-tools,
+html body #user-tools a,
+html body #user-tools button{
+  color:#fff!important;
+}
+
+/* Breadcrumbs */
+html body div.breadcrumbs,
+html body #container div.breadcrumbs{
+  background:linear-gradient(135deg,var(--admin-blue-dark),var(--admin-blue-deep))!important;
+  color:#fff!important;
+}
+html body div.breadcrumbs a{color:#fff!important;}
+html body div.breadcrumbs a:hover{color:#dcefff!important;}
+
+/* Inner admin sidebar */
+html body:not(.dashboard) #nav-sidebar{
+  background:#f1f8fc!important;
+  border-color:var(--admin-blue-border)!important;
+}
+html body:not(.dashboard) #nav-sidebar .module{
+  background:#fff!important;
+  border-color:var(--admin-blue-border)!important;
+}
+html body:not(.dashboard) #nav-sidebar .module caption,
+html body:not(.dashboard) #nav-sidebar .module h2,
+html body:not(.dashboard) #nav-sidebar .module h3{
+  background:linear-gradient(135deg,var(--admin-blue),var(--admin-blue-dark))!important;
+  color:#fff!important;
+}
+html body:not(.dashboard) #nav-sidebar .module caption a{color:#fff!important;}
+html body:not(.dashboard) #nav-sidebar .module th,
+html body:not(.dashboard) #nav-sidebar .module td{
+  background:#fff!important;
+  border-color:#deedf5!important;
+}
+html body:not(.dashboard) #nav-sidebar .module th a{
+  color:var(--admin-blue-text)!important;
+}
+html body:not(.dashboard) #nav-sidebar tr.current-model th,
+html body:not(.dashboard) #nav-sidebar tr.current-model td,
+html body:not(.dashboard) #nav-sidebar tr.current-app th,
+html body:not(.dashboard) #nav-sidebar tr.current-app td{
+  background:var(--admin-blue-soft)!important;
+}
+
+/* Sidebar add/change buttons */
+html body #nav-sidebar a.addlink,
+html body #nav-sidebar a.changelink{
+  color:var(--admin-blue-dark)!important;
+  background:var(--admin-blue-soft)!important;
+  border-color:var(--admin-blue-border)!important;
+}
+
+/* Add/history/search/action/save buttons */
+html body.change-list .object-tools a.addlink,
+html body.change-form .object-tools a.historylink,
+html body.change-list #toolbar input[type="submit"],
+html body.change-list #changelist-search input[type="submit"],
+html body.change-list .actions button,
+html body.change-form .submit-row input[name="_save"],
+html body.change-form .submit-row input.default{
+  color:#fff!important;
+  background:linear-gradient(135deg,var(--admin-blue),var(--admin-blue-dark))!important;
+  border-color:transparent!important;
+}
+
+/* Secondary form buttons */
+html body.change-form .submit-row input[name="_addanother"],
+html body.change-form .submit-row input[name="_continue"]{
+  color:var(--admin-blue-dark)!important;
+  background:var(--admin-blue-soft)!important;
+  border-color:var(--admin-blue-border)!important;
+}
+
+/* Table edit/view buttons */
+html body.change-list .aq-action-edit,
+html body.change-list .aq-action-view,
+html body.change-list .aq-action-open,
+html body.change-list #result_list a.changelink,
+html body.change-list #result_list a[href*="/change/"]:not(.deletelink){
+  color:var(--admin-blue-dark)!important;
+  background:var(--admin-blue-soft)!important;
+  border-color:var(--admin-blue-border)!important;
+}
+
+/* Delete stays red */
+html body.change-list .aq-action-delete,
+html body.change-list #result_list a.deletelink,
+html body.change-form .submit-row a.deletelink{
+  color:#c33c32!important;
+  background:#fff1ef!important;
+  border-color:#f0c8c3!important;
+}
+
+/* Module headings and table headers */
+html body .module > h2,
+html body .module caption,
+html body .inline-group h2{
+  background:linear-gradient(135deg,var(--admin-blue),var(--admin-blue-dark))!important;
+  color:#fff!important;
+}
+html body.change-list #result_list thead th{
+  background:var(--admin-blue-soft)!important;
+  color:var(--admin-blue-text)!important;
+}
+/* =========================================================
+   التعديلات النهائية:
+   1) قائمة إدارة البيانات مثل آخر الإجراءات
+   2) تغيير لون عنوان النظام
+   3) تهدئة لون شريط مسار التنقل
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   1. مربع قائمة إدارة البيانات
+   نفس تنسيق مربع عرض آخر الإجراءات
+   --------------------------------------------------------- */
+
+@media (min-width: 1051px) {
+
+    body.dashboard #content-main::before {
+        /* الشعار يبقى أولًا */
+        order: -3 !important;
+    }
+
+    body.dashboard #content-main::after {
+        content: "قائمة إدارة البيانات" !important;
+
+        /* بعد الشعار وقبل الأقسام */
+        order: -2 !important;
+
+        position: static !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        flex: 0 0 auto !important;
+
+        width: 100% !important;
+        min-height: 44px !important;
+
+        margin: 0 0 11px !important;
+        padding: 9px 14px !important;
+
+        box-sizing: border-box !important;
+
+        color: #17659f !important;
+
+        background-color: #f5faff !important;
+        background-image: linear-gradient(
+            135deg,
+            #f9fdff 0%,
+            #eaf5fc 100%
+        ) !important;
+
+        border: 1px solid #c9e1ef !important;
+        border-radius: 13px !important;
+
+        box-shadow:
+            0 5px 12px
+            rgba(23, 101, 159, 0.07) !important;
+
+        font-family: Tahoma, Arial, sans-serif !important;
+        font-size: 13px !important;
+        font-weight: 900 !important;
+        line-height: 1.4 !important;
+        text-align: center !important;
+
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    body.dashboard #content-main .module {
+        /* الأقسام تأتي بعد عنوان القائمة */
+        order: 0 !important;
+    }
+}
+
+
+/* توحيد مربع آخر الإجراءات مع نفس الألوان */
+body.dashboard .ust-recent-toggle,
+body.dashboard .ust-recent-sidebar-trigger {
+    color: #17659f !important;
+
+    background-color: #f5faff !important;
+    background-image: linear-gradient(
+        135deg,
+        #f9fdff 0%,
+        #eaf5fc 100%
+    ) !important;
+
+    border-color: #c9e1ef !important;
+
+    box-shadow:
+        0 5px 12px
+        rgba(23, 101, 159, 0.07) !important;
+}
+
+
+/* أيقونة آخر الإجراءات */
+body.dashboard .ust-recent-toggle::before,
+body.dashboard .ust-recent-sidebar-trigger::before {
+    color: #17659f !important;
+    background-color: #eaf5fc !important;
+    border-color: #c9e1ef !important;
+}
+
+
+/* ---------------------------------------------------------
+   2. تغيير لون عنوان النظام من الأصفر
+   --------------------------------------------------------- */
+
+html body #header #branding h1,
+html body #header #branding h1 a,
+html body #header #branding h1 a:link,
+html body #header #branding h1 a:visited,
+html body #container #header #branding h1,
+html body #container #header #branding h1 a {
+    color: #f7fbff !important;
+    text-shadow: none !important;
+}
+
+
+/* عند المرور على عنوان النظام */
+html body #header #branding h1 a:hover,
+html body #container #header #branding h1 a:hover {
+    color: #dcefff !important;
+}
+
+
+/* ---------------------------------------------------------
+   3. تهدئة لون شريط الرئيسية ومسار التنقل
+   --------------------------------------------------------- */
+
+html body div.breadcrumbs,
+html body #container div.breadcrumbs {
+    color: #ffffff !important;
+
+    background-color: #4f819f !important;
+    background-image: linear-gradient(
+        135deg,
+        #5d91ad 0%,
+        #477b99 100%
+    ) !important;
+
+    border-top: 1px solid
+        rgba(255, 255, 255, 0.10) !important;
+
+    border-bottom: 1px solid
+        rgba(23, 63, 95, 0.10) !important;
+
+    box-shadow:
+        0 3px 10px
+        rgba(44, 89, 116, 0.10) !important;
+}
+
+
+/* روابط شريط المسار */
+html body div.breadcrumbs a,
+html body div.breadcrumbs a:link,
+html body div.breadcrumbs a:visited,
+html body #container div.breadcrumbs a {
+    color: #ffffff !important;
+}
+
+
+/* عند المرور على روابط المسار */
+html body div.breadcrumbs a:hover,
+html body #container div.breadcrumbs a:hover {
+    color: #e8f5fc !important;
+    background-color:
+        rgba(255, 255, 255, 0.08) !important;
+}
+/* admin_blue_patch_v3.css
+   يوضع بعد admin_blue_patch.css مباشرة */
+
+:root{
+  --b:#2f88c9;
+  --bd:#17659f;
+  --bdeep:#124f7e;
+  --bs:#eaf5fc;
+  --bp:#f7fbff;
+  --bb:#c9e1ef;
+  --txt:#173f5f;
+}
+
+/* الهيدر والعنوان ومسار التنقل في كل صفحات الأدمن */
+html body #header,
+html body #container>#header{
+  background:linear-gradient(135deg,var(--b),var(--bd))!important;
+}
+html body #branding h1,
+html body #branding h1 a,
+html body #user-tools,
+html body #user-tools a,
+html body #user-tools button{
+  color:#fff!important;
+}
+html body div.breadcrumbs,
+html body #container div.breadcrumbs{
+  background:linear-gradient(135deg,#5f8fa9,#4b7894)!important;
+  color:#fff!important;
+}
+html body div.breadcrumbs a{color:#fff!important;}
+
+/* أزرار الإضافة والتاريخ والحفظ والبحث */
+html body .object-tools a,
+html body .object-tools a.addlink,
+html body .object-tools a.historylink,
+html body input[type="submit"],
+html body button,
+html body .button,
+html body .submit-row input[name="_save"],
+html body .submit-row input.default,
+html body #toolbar input[type="submit"],
+html body #changelist-search input[type="submit"]{
+  background:linear-gradient(135deg,var(--b),var(--bd))!important;
+  color:#fff!important;
+  border-color:transparent!important;
+}
+
+/* حفظ واستمر / حفظ وأضف آخر */
+html body .submit-row input[name="_continue"],
+html body .submit-row input[name="_addanother"]{
+  background:var(--bs)!important;
+  color:var(--bd)!important;
+  border-color:var(--bb)!important;
+}
+
+/* الحذف يبقى أحمر */
+html body .deletelink,
+html body .submit-row a.deletelink{
+  background:#fff1ef!important;
+  color:#c33c32!important;
+  border-color:#f0c8c3!important;
+}
+
+/* أزرار أضف وتعديل في القائمة الجانبية */
+html body #nav-sidebar a.addlink,
+html body #nav-sidebar a.changelink{
+  background:var(--bs)!important;
+  color:var(--bd)!important;
+  border-color:var(--bb)!important;
+}
+html body #nav-sidebar a.addlink:hover,
+html body #nav-sidebar a.changelink:hover{
+  background:var(--b)!important;
+  color:#fff!important;
+}
+
+/* رؤوس الصلاحيات والمجموعات */
+html body .selector-available h2,
+html body .selector-chosen h2{
+  background:linear-gradient(135deg,var(--b),var(--bd))!important;
+  color:#fff!important;
+}
+html body .selector-available h2 *,
+html body .selector-chosen h2 *{
+  color:#fff!important;
+}
+html body .selector-filter{
+  background:var(--bp)!important;
+  border-color:var(--bb)!important;
+}
+
+/* أزرار فتح في الواجهة */
+html body a[href*="/data-entry/"],
+html body .open-frontend-link,
+html body .aq-action-open{
+  background:var(--bs)!important;
+  color:var(--bd)!important;
+  border-color:var(--bb)!important;
+}
+html body a[href*="/data-entry/"]:hover,
+html body .open-frontend-link:hover,
+html body .aq-action-open:hover{
+  background:var(--b)!important;
+  color:#fff!important;
+}
+
+/* زر إضافة معيار الجودة */
+html body.model-qualitystandard .object-tools a.addlink{
+  background:linear-gradient(135deg,var(--b),var(--bd))!important;
+  color:#fff!important;
+  border-color:transparent!important;
+}
+
+/* صفحات تغيير اسم المستخدم وكلمة المرور */
+html body.ust-current-user-change-page .ust-save-username-btn,
+html body.ust-password-change-page .submit-row input[type="submit"]{
+  background:linear-gradient(135deg,var(--b),var(--bd))!important;
+  color:#fff!important;
+}
+html body.ust-current-user-change-page .ust-back-btn,
+html body.ust-password-change-page .ust-password-back-link{
+  background:var(--bp)!important;
+  color:var(--bd)!important;
+  border-color:var(--bb)!important;
+}
+
+/* نافذة آخر الإجراءات */
+html body .ust-recent-dialog-header{
+  background:linear-gradient(135deg,var(--b),var(--bd))!important;
+  color:#fff!important;
+}
+html body .ust-recent-dialog-close{
+  background:rgba(255,255,255,.14)!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.35)!important;
+}
+html body .ust-recent-action-icon,
+html body .ust-recent-action-badge{
+  background:var(--bs)!important;
+  color:var(--bd)!important;
+  border-color:var(--bb)!important;
+}
+html body .ust-recent-action-icon.add,
+html body .ust-recent-action-icon.change,
+html body .ust-recent-action-badge.add,
+html body .ust-recent-action-badge.change{
+  background:var(--bs)!important;
+  color:var(--bd)!important;
+  border-color:var(--bb)!important;
+}
+
+/* إزالة الأصفر والأخضر من بطاقات آخر الإجراءات */
+html body .ust-recent-action-card [class*="add"],
+html body .ust-recent-action-card [class*="change"]{
+  background-color:var(--bs)!important;
+  color:var(--bd)!important;
+  border-color:var(--bb)!important;
+}
+/* =========================================================
+   إصلاح الألوان المتبقية نهائيًا
+   ========================================================= */
+
+
+/* 1) صفحة سجل نشاط النظام */
+html body.app-auth.model-useractivitylog.change-form #header,
+html body.app-auth.model-useractivitylog.view-form #header,
+html body.app-auth.model-useractivitylog #header {
+    background-color: #17659f !important;
+    background-image: linear-gradient(
+        135deg,
+        #2f88c9 0%,
+        #17659f 100%
+    ) !important;
+}
+
+html body.app-auth.model-useractivitylog.change-form #branding h1,
+html body.app-auth.model-useractivitylog.change-form #branding h1 a,
+html body.app-auth.model-useractivitylog.change-form #user-tools,
+html body.app-auth.model-useractivitylog.change-form #user-tools a {
+    color: #ffffff !important;
+}
+
+html body.app-auth.model-useractivitylog.change-form div.breadcrumbs,
+html body.app-auth.model-useractivitylog div.breadcrumbs {
+    background-color: #4f7f9b !important;
+    background-image: linear-gradient(
+        135deg,
+        #608fa9 0%,
+        #477690 100%
+    ) !important;
+    color: #ffffff !important;
+}
+
+html body.app-auth.model-useractivitylog.change-form div.breadcrumbs a,
+html body.app-auth.model-useractivitylog div.breadcrumbs a {
+    color: #ffffff !important;
+}
+
+
+/* 2) زر أضف معيار جودة في جميع حالاته */
+html body.app-dashboard.model-qualitystandard.change-list
+.object-tools a.addlink,
+html body.app-dashboard.model-qualitystandard.change-list
+.object-tools a.addlink:link,
+html body.app-dashboard.model-qualitystandard.change-list
+.object-tools a.addlink:visited {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+
+    background-color: #17659f !important;
+    background-image: linear-gradient(
+        135deg,
+        #2f88c9 0%,
+        #17659f 100%
+    ) !important;
+
+    border-color: transparent !important;
+    box-shadow: 0 6px 14px rgba(23, 101, 159, 0.18) !important;
+
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+html body.app-dashboard.model-qualitystandard.change-list
+.object-tools a.addlink:hover,
+html body.app-dashboard.model-qualitystandard.change-list
+.object-tools a.addlink:focus,
+html body.app-dashboard.model-qualitystandard.change-list
+.object-tools a.addlink:active {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+
+    background-color: #124f7e !important;
+    background-image: linear-gradient(
+        135deg,
+        #267dbb 0%,
+        #124f7e 100%
+    ) !important;
+
+    border-color: transparent !important;
+    outline: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+
+/* 3) زر فتح في الواجهة داخل ملفات التقييم */
+html body.app-dashboard.model-evaluationfile.change-list
+#result_list a[href*="/data-entry/"],
+html body.app-dashboard.model-evaluationfile.change-list
+#result_list a[href*="file_id="] {
+    color: #17659f !important;
+    -webkit-text-fill-color: #17659f !important;
+
+    background-color: #eaf5fc !important;
+    background-image: none !important;
+
+    border: 1px solid #9fcbe4 !important;
+
+    text-shadow: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+html body.app-dashboard.model-evaluationfile.change-list
+#result_list a[href*="/data-entry/"]:visited,
+html body.app-dashboard.model-evaluationfile.change-list
+#result_list a[href*="file_id="]:visited {
+    color: #17659f !important;
+    -webkit-text-fill-color: #17659f !important;
+    background-color: #eaf5fc !important;
+}
+
+
+/* عند المرور أو الضغط على فتح في الواجهة */
+html body.app-dashboard.model-evaluationfile.change-list
+#result_list a[href*="/data-entry/"]:hover,
+html body.app-dashboard.model-evaluationfile.change-list
+#result_list a[href*="/data-entry/"]:focus,
+html body.app-dashboard.model-evaluationfile.change-list
+#result_list a[href*="/data-entry/"]:active,
+html body.app-dashboard.model-evaluationfile.change-list
+#result_list a[href*="file_id="]:hover,
+html body.app-dashboard.model-evaluationfile.change-list
+#result_list a[href*="file_id="]:focus,
+html body.app-dashboard.model-evaluationfile.change-list
+#result_list a[href*="file_id="]:active {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+
+    background-color: #17659f !important;
+    background-image: linear-gradient(
+        135deg,
+        #2f88c9 0%,
+        #17659f 100%
+    ) !important;
+
+    border-color: #17659f !important;
+    outline: none !important;
+
+    text-shadow: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+
+/* 4) منع اللون الأخضر من الظهور عند التركيز */
+html body .object-tools a:focus-visible,
+html body #result_list a:focus-visible {
+    outline: 3px solid rgba(47, 136, 201, 0.22) !important;
+    outline-offset: 2px !important;
+}
+/* =========================================================
+   التصحيح النهائي لصفحة سجل نشاط النظام
+   ========================================================= */
+
+/* الشريط العلوي */
+html body[class*="model-useractivitylog"] #header,
+html body[class*="model-useractivitylog"] #container > #header {
+    background-color: #17659f !important;
+    background-image: linear-gradient(
+        135deg,
+        #2f88c9 0%,
+        #17659f 100%
+    ) !important;
+}
+
+
+/* عنوان النظام: إزالة اللون الأصفر */
+html body[class*="model-useractivitylog"] #branding h1,
+html body[class*="model-useractivitylog"] #branding h1 a,
+html body[class*="model-useractivitylog"] #branding h1 a:link,
+html body[class*="model-useractivitylog"] #branding h1 a:visited {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    text-shadow: none !important;
+}
+
+
+/* روابط المستخدم في الشريط العلوي */
+html body[class*="model-useractivitylog"] #user-tools,
+html body[class*="model-useractivitylog"] #user-tools a,
+html body[class*="model-useractivitylog"] #user-tools button {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+
+
+
+
+/* روابط شريط المسار */
+html body[class*="model-useractivitylog"] div.breadcrumbs a,
+html body[class*="model-useractivitylog"] div.breadcrumbs a:link,
+html body[class*="model-useractivitylog"] div.breadcrumbs a:visited {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+
+/* زر إغلاق في سجل النشاط */
+html body[class*="model-useractivitylog"] #content-main a.button,
+html body[class*="model-useractivitylog"] #content-main .button,
+html body[class*="model-useractivitylog"] #content-main .closelink,
+html body[class*="model-useractivitylog"] #content-main .close-button,
+html body[class*="model-useractivitylog"] #content-main .activity-log-close,
+html body[class*="model-useractivitylog"] #content-main .ust-activity-close,
+html body[class*="model-useractivitylog"] #content-main .submit-row a,
+html body[class*="model-useractivitylog"]
+#content-main a[href$="/admin/auth/useractivitylog/"] {
+    min-width: 92px !important;
+
+    background-color: #17659f !important;
+    background-image: linear-gradient(
+        135deg,
+        #2f88c9 0%,
+        #17659f 100%
+    ) !important;
+
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+
+    border: 1px solid transparent !important;
+    border-radius: 12px !important;
+
+    box-shadow: 0 5px 12px rgba(23, 101, 159, 0.16) !important;
+
+    text-shadow: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+
+/* زر إغلاق عند المرور أو الضغط */
+html body[class*="model-useractivitylog"] #content-main a.button:hover,
+html body[class*="model-useractivitylog"] #content-main a.button:focus,
+html body[class*="model-useractivitylog"] #content-main a.button:active,
+html body[class*="model-useractivitylog"] #content-main .closelink:hover,
+html body[class*="model-useractivitylog"] #content-main .close-button:hover,
+html body[class*="model-useractivitylog"] #content-main .submit-row a:hover,
+html body[class*="model-useractivitylog"]
+#content-main a[href$="/admin/auth/useractivitylog/"]:hover {
+    background-color: #124f7e !important;
+    background-image: linear-gradient(
+        135deg,
+        #267dbb 0%,
+        #124f7e 100%
+    ) !important;
+
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+
+    border-color: transparent !important;
+    outline: none !important;
+}
+
+
+
+/* نص وروابط شريط المسار */
+html body[class*="model-useractivitylog"]
+#container > div.breadcrumbs a,
+
+html body[class*="model-useractivitylog"]
+#container > div.breadcrumbs a:link,
+
+html body[class*="model-useractivitylog"]
+#container > div.breadcrumbs a:visited {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+
+/* عند المرور على الروابط */
+html body[class*="model-useractivitylog"]
+#container > div.breadcrumbs a:hover {
+    color: #eaf5fc !important;
+    -webkit-text-fill-color: #eaf5fc !important;
+}
+/* =========================================================
+   توحيد أزرار الإضافة لتصبح بنفس تنسيق زر "فتح"
+   ========================================================= */
+
+:root{
+    --open-btn-bg: #eef7ff;
+    --open-btn-border: #c6dcef;
+    --open-btn-text: #2e6f9d;
+    --open-btn-hover-bg: #e4f1fb;
+    --open-btn-hover-border: #b7d0e5;
+    --open-btn-hover-text: #245e87;
+}
+
+/* أزرار الإضافة العامة */
+a.addlink,
+.object-tools a,
+.object-tools .addlink,
+a[href$="/add/"],
+a[href*="/add/?"],
+a[href*="/add/?" i],
+
+/* أزرار الإضافة في القائمة الجانبية أو البطاقات */
+.sidebar a[href*="/add/"],
+.dashboard-sidebar a[href*="/add/"],
+.module a[href*="/add/"],
+.quick-actions a[href*="/add/"],
+.admin-shortcuts a[href*="/add/"],
+.right-panel a[href*="/add/"],
+.side-panel a[href*="/add/"],
+
+/* كلاس مخصص لو موجود عندك */
+.btn-add,
+.add-btn,
+.action-add,
+.quick-add-btn {
+    background: var(--open-btn-bg) !important;
+    color: var(--open-btn-text) !important;
+    border: 1px solid var(--open-btn-border) !important;
+    border-radius: 999px !important;
+    padding: 8px 18px !important;
+    min-width: 68px !important;
+    height: auto !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+}
+
+/* عند المرور أو الضغط */
+a.addlink:hover,
+.object-tools a:hover,
+.object-tools .addlink:hover,
+a[href$="/add/"]:hover,
+a[href*="/add/?"]:hover,
+.sidebar a[href*="/add/"]:hover,
+.dashboard-sidebar a[href*="/add/"]:hover,
+.module a[href*="/add/"]:hover,
+.quick-actions a[href*="/add/"]:hover,
+.admin-shortcuts a[href*="/add/"]:hover,
+.right-panel a[href*="/add/"]:hover,
+.side-panel a[href*="/add/"]:hover,
+.btn-add:hover,
+.add-btn:hover,
+.action-add:hover,
+.quick-add-btn:hover,
+
+a.addlink:focus,
+.object-tools a:focus,
+.object-tools .addlink:focus,
+a[href$="/add/"]:focus,
+a[href*="/add/?"]:focus {
+    background: var(--open-btn-hover-bg) !important;
+    color: var(--open-btn-hover-text) !important;
+    border-color: var(--open-btn-hover-border) !important;
+    text-decoration: none !important;
+    outline: none !important;
+}
+

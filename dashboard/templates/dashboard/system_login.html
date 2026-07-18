@@ -1,0 +1,785 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول | نظام  أداء البرامج الأكاديمية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Tahoma, Arial, sans-serif;
+            background:
+                radial-gradient(circle at center, rgba(232, 248, 250, 0.55), transparent 42%),
+                #f7fafb;
+            color: #0d2b3e;
+            direction: rtl;
+        }
+
+        .system-login-header {
+            width: 100%;
+            height: 88px;
+            background: linear-gradient(180deg, #62adba 0%, #3f95a5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 52px;
+            box-shadow: 0 6px 18px rgba(55, 120, 135, 0.18);
+        }
+
+        .system-login-header h1 {
+            margin: 0;
+            color: #ffd45a;
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .system-login-page {
+            min-height: calc(100vh - 88px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 56px 20px;
+        }
+
+        .system-login-card {
+            width: 100%;
+            max-width: 560px;
+            background: #ffffff;
+            border: 1px solid #d5edf2;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 55px rgba(40, 104, 120, 0.12);
+        }
+
+        .system-login-card-header {
+            text-align: center;
+            padding: 28px 36px 22px;
+            background: linear-gradient(180deg, #eaf8fb 0%, #f7fcfd 100%);
+            border-bottom: 1px solid #d8edf2;
+        }
+
+        .system-login-logo {
+            width: 72px;
+            height: auto;
+            margin-bottom: 12px;
+        }
+
+        .system-login-card-header h2 {
+            margin: 0;
+            color: #08233a;
+            font-size: 34px;
+            font-weight: 900;
+            line-height: 1.5;
+        }
+
+        .system-login-card-header p {
+            margin: 16px 0 0;
+            color: #6d818c;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .system-login-card-body {
+            padding: 28px 36px 32px;
+        }
+
+        .system-login-error {
+            margin-bottom: 16px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: #fff0f0;
+            border: 1px solid #ffd1d1;
+            color: #9a2525;
+            font-weight: 700;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .system-form-group {
+            margin-bottom: 20px;
+        }
+
+        .system-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #132f43;
+            font-size: 17px;
+            font-weight: 800;
+            text-align: right;
+        }
+
+        .system-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .system-input-wrapper input {
+            width: 100%;
+            height: 58px;
+            border: 1px solid #c7dceb;
+            border-radius: 15px;
+            background: #eaf2ff;
+            color: #111827;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 0 54px 0 54px;
+            outline: none;
+            transition: 0.18s ease;
+        }
+
+        .system-input-wrapper input:focus {
+            background: #f4f8ff;
+            border-color: #5aaeba;
+            box-shadow: 0 0 0 4px rgba(90, 174, 186, 0.13);
+        }
+
+        .system-input-icon {
+            position: absolute;
+            right: 18px;
+            z-index: 2;
+            font-size: 20px;
+            color: #1c3444;
+            pointer-events: none;
+        }
+
+        .system-password-toggle {
+            position: absolute;
+            left: 14px;
+            width: 38px;
+            height: 38px;
+            border: 1px solid #bee2ec;
+            border-radius: 50%;
+            background: #f7fcff;
+            color: #5ba8b8;
+            font-size: 20px;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+        }
+
+        .system-password-toggle:hover {
+            background: #e8f7fb;
+        }
+
+        .system-field-error {
+            margin-top: 7px;
+            color: #a42424;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .system-login-button {
+            width: 190px;
+            height: 58px;
+            display: block;
+            margin: 26px auto 22px;
+            border: none;
+            border-radius: 28px;
+            background: linear-gradient(180deg, #69b5c1 0%, #4b9cab 100%);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 10px 22px rgba(72, 154, 169, 0.22);
+            transition: 0.18s ease;
+        }
+
+        .system-login-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 13px 25px rgba(72, 154, 169, 0.26);
+        }
+
+        .system-login-note {
+            padding-top: 16px;
+            border-top: 1px solid #dcebef;
+            color: #718894;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 700px) {
+            .system-login-header {
+                height: auto;
+                min-height: 76px;
+                padding: 18px 22px;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .system-login-header h1 {
+                font-size: 21px;
+            }
+
+            .system-login-page {
+                padding: 32px 14px;
+            }
+
+            .system-login-card-header h2 {
+                font-size: 26px;
+            }
+
+            .system-login-card-body {
+                padding: 24px 22px 28px;
+            }
+
+            .system-login-button {
+                width: 100%;
+            }
+        }
+        /* =========================================================
+   Compact Login Page
+========================================================= */
+
+.system-login-header {
+    height: 72px !important;
+    padding: 0 44px !important;
+}
+
+.system-login-header h1 {
+    font-size: 24px !important;
+}
+
+.system-login-page {
+    min-height: calc(100vh - 72px) !important;
+    padding: 34px 20px !important;
+    align-items: flex-start !important;
+}
+
+.system-login-card {
+    max-width: 430px !important;
+    border-radius: 20px !important;
+}
+
+.system-login-card-header {
+    padding: 20px 30px 18px !important;
+}
+
+.system-login-logo {
+    width: 58px !important;
+    margin-bottom: 8px !important;
+}
+
+.system-login-card-header h2 {
+    font-size: 24px !important;
+    line-height: 1.45 !important;
+}
+
+.system-login-card-header p {
+    margin-top: 10px !important;
+    font-size: 14px !important;
+}
+
+.system-login-card-body {
+    padding: 22px 30px 26px !important;
+}
+
+.system-form-group {
+    margin-bottom: 16px !important;
+}
+
+.system-form-group label {
+    font-size: 15px !important;
+    margin-bottom: 7px !important;
+}
+
+.system-input-wrapper input {
+    height: 40px !important;
+    border-radius: 13px !important;
+    font-size: 14px !important;
+    padding: 0 48px 0 48px !important;
+}
+
+.system-input-icon {
+    right: 16px !important;
+    font-size: 18px !important;
+}
+
+.system-password-toggle {
+    left: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 17px !important;
+}
+
+.system-login-button {
+    width: 150px !important;
+    height: 46px !important;
+    margin: 20px auto 16px !important;
+    font-size: 14px !important;
+}
+
+.system-login-note {
+    padding-top: 13px !important;
+    font-size: 13px !important;
+}
+/* =========================================================
+   توحيد ألوان تسجيل الدخول مع النظام الرئيسي
+   ========================================================= */
+
+:root {
+    --login-primary: #2f88c9;
+    --login-primary-dark: #17659f;
+    --login-primary-light: #eaf5fc;
+    --login-primary-soft: #f4faff;
+    --login-border: #c9e1ef;
+    --login-text: #173f5f;
+    --login-muted: #6c8190;
+}
+
+/* الشريط العلوي */
+.login-header,
+.login-top-header,
+.login-page-header,
+.system-login-header {
+    background: linear-gradient(
+        135deg,
+        var(--login-primary),
+        var(--login-primary-dark)
+    ) !important;
+
+    border-bottom: 0 !important;
+}
+
+/* عنوان النظام في الشريط */
+.login-header h1,
+.login-top-header h1,
+.login-page-header h1,
+.system-login-header h1,
+.login-system-title {
+    color: #ffffff !important;
+    text-shadow: none !important;
+}
+
+/* بطاقة تسجيل الدخول */
+.login-card,
+.login-box,
+.auth-card {
+    background: #ffffff !important;
+    border: 1px solid var(--login-border) !important;
+    border-radius: 22px !important;
+
+    box-shadow:
+        0 14px 38px
+        rgba(29, 101, 155, 0.10) !important;
+
+    overflow: hidden !important;
+}
+
+/* الجزء العلوي داخل البطاقة */
+.login-card-header,
+.login-box-header,
+.auth-card-header {
+    background: var(--login-primary-soft) !important;
+    border-bottom: 1px solid var(--login-border) !important;
+}
+
+/* عنوان تسجيل الدخول */
+.login-card h2,
+.login-box h2,
+.auth-card h2 {
+    color: var(--login-text) !important;
+}
+
+/* النص التعريفي */
+.login-system-subtitle,
+.login-card-header p,
+.login-box-header p {
+    color: var(--login-muted) !important;
+}
+
+/* حقول اسم المستخدم وكلمة المرور */
+.login-card input,
+.login-box input,
+.auth-card input {
+    color: var(--login-text) !important;
+    background: #ffffff !important;
+
+    border: 1px solid var(--login-border) !important;
+    border-radius: 12px !important;
+
+    box-shadow: none !important;
+}
+
+/* عند الضغط داخل الحقل */
+.login-card input:focus,
+.login-box input:focus,
+.auth-card input:focus {
+    border-color: var(--login-primary) !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(47, 136, 201, 0.13) !important;
+
+    outline: none !important;
+}
+
+/* زر الدخول */
+.login-card button[type="submit"],
+.login-box button[type="submit"],
+.auth-card button[type="submit"],
+.login-submit-btn {
+    color: #ffffff !important;
+
+    background: linear-gradient(
+        135deg,
+        var(--login-primary),
+        var(--login-primary-dark)
+    ) !important;
+
+    border: 0 !important;
+    border-radius: 14px !important;
+
+    box-shadow:
+        0 8px 18px
+        rgba(23, 101, 159, 0.20) !important;
+}
+
+/* حركة زر الدخول */
+.login-card button[type="submit"]:hover,
+.login-box button[type="submit"]:hover,
+.auth-card button[type="submit"]:hover,
+.login-submit-btn:hover {
+    background: var(--login-primary-dark) !important;
+    transform: translateY(-1px);
+}
+
+/* زر إظهار كلمة المرور */
+.password-toggle,
+.toggle-password,
+.show-password-button {
+    color: var(--login-primary-dark) !important;
+    background: var(--login-primary-light) !important;
+
+    border: 1px solid var(--login-border) !important;
+}
+
+/* النص السفلي */
+.login-footer-note,
+.login-note,
+.auth-note {
+    color: var(--login-muted) !important;
+    border-top-color: var(--login-border) !important;
+}
+/* زر تسجيل الدخول */
+.login-submit-btn,
+.login-form button[type="submit"],
+.login-form input[type="submit"],
+button[type="submit"] {
+    min-width: 190px !important;
+    height: 52px !important;
+
+    color: #ffffff !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+
+    background: linear-gradient(
+        135deg,
+        #2f8fd3 0%,
+        #176aa8 100%
+    ) !important;
+
+    background-color: #247fbd !important;
+    background-image: linear-gradient(
+        135deg,
+        #2f8fd3 0%,
+        #176aa8 100%
+    ) !important;
+
+    border: none !important;
+    border-radius: 16px !important;
+
+    box-shadow:
+        0 8px 18px
+        rgba(23, 106, 168, 0.22) !important;
+
+    cursor: pointer !important;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease !important;
+}
+
+/* عند المرور على الزر */
+.login-submit-btn:hover,
+.login-form button[type="submit"]:hover,
+.login-form input[type="submit"]:hover,
+button[type="submit"]:hover {
+    background: linear-gradient(
+        135deg,
+        #237fbd 0%,
+        #145f98 100%
+    ) !important;
+
+    background-color: #176aa8 !important;
+
+    box-shadow:
+        0 10px 22px
+        rgba(23, 106, 168, 0.28) !important;
+
+    transform: translateY(-1px) !important;
+}
+
+/* عند الضغط */
+.login-submit-btn:active,
+.login-form button[type="submit"]:active,
+.login-form input[type="submit"]:active,
+button[type="submit"]:active {
+    transform: translateY(0) !important;
+    box-shadow:
+        0 5px 12px
+        rgba(23, 106, 168, 0.20) !important;
+}
+
+/* =========================================================
+   التعديلات النهائية: أيقونة كلمة المرور وزر الدخول
+   ========================================================= */
+
+.system-password-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    color: var(--login-primary-dark) !important;
+    background: var(--login-primary-light) !important;
+    border: 1px solid var(--login-border) !important;
+    box-shadow: none !important;
+}
+
+.system-eye-icon {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.system-eye-icon[hidden] {
+    display: none !important;
+}
+
+.system-login-button[type="submit"] {
+    min-width: 0 !important;
+    width: 128px !important;
+    height: 40px !important;
+    margin: 18px auto 16px !important;
+    padding: 0 18px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+}
+
+    </style>
+</head>
+<body>
+
+<header class="system-login-header">
+    <h1>نظام  أداء البرامج الأكاديمية</h1>
+</header>
+
+<main class="system-login-page">
+    <section class="system-login-card">
+
+        <div class="system-login-card-header">
+            <img
+                src="{% static 'admin/img/ust_logo.png' %}"
+                alt="شعار الجامعة"
+                class="system-login-logo"
+                onerror="this.style.display='none';"
+            >
+
+            <h2>تسجيل الدخول إلى النظام</h2>
+            <p>نظام  أداء البرامج الأكاديمية</p>
+        </div>
+
+        <div class="system-login-card-body">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="system-login-error">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                <div class="system-login-error">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="post"
+      action="{% url 'system_login' %}"
+      novalidate
+      autocomplete="off">
+
+    {% csrf_token %}
+
+    {% if next %}
+        <input type="hidden"
+               name="next"
+               value="{{ next }}">
+    {% endif %}
+
+                <div class="system-form-group">
+                    <label for="id_username">اسم المستخدم</label>
+
+                    <div class="system-input-wrapper">
+                        <span class="system-input-icon">👤</span>
+
+                        <input
+                            type="text"
+                            name="username"
+                            id="id_username"
+                            value="{{ form.username.value|default:'' }}"
+                            autocomplete="username"
+                            required
+                            autofocus
+                        >
+                    </div>
+
+                    {% if form.username.errors %}
+                        <div class="system-field-error">
+                            {{ form.username.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="system-form-group">
+                    <label for="id_password">كلمة المرور</label>
+
+                    <div class="system-input-wrapper">
+                        <span class="system-input-icon">🔒</span>
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="id_password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="systemPasswordToggle"
+                            class="system-password-toggle"
+                            aria-label="إظهار كلمة المرور"
+                            aria-pressed="false"
+                        >
+                            <svg
+                                id="systemEyeIcon"
+                                class="system-eye-icon"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"
+                                ></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+
+                            <svg
+                                id="systemEyeOffIcon"
+                                class="system-eye-icon"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                                hidden
+                            >
+                                <path d="M3 3l18 18"></path>
+                                <path
+                                    d="M10.6 6.2A10.8 10.8 0 0 1 12 6c6.5 0 10 6 10 6a17.8 17.8 0 0 1-3.1 3.8"
+                                ></path>
+                                <path
+                                    d="M6.2 6.2C3.5 8 2 12 2 12s3.5 6 10 6c1.7 0 3.2-.4 4.5-1"
+                                ></path>
+                                <path
+                                    d="M9.9 9.9A3 3 0 0 0 14.1 14.1"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    {% if form.password.errors %}
+                        <div class="system-field-error">
+                            {{ form.password.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="system-login-button">
+                    دخول
+                </button>
+            </form>
+
+            <div class="system-login-note">
+                للدخول إلى النظام، يرجى استخدام حساب مصرح له فقط
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const passwordInput = document.getElementById("id_password");
+    const toggleButton = document.getElementById("systemPasswordToggle");
+    const eyeIcon = document.getElementById("systemEyeIcon");
+    const eyeOffIcon = document.getElementById("systemEyeOffIcon");
+
+    if (
+        !passwordInput ||
+        !toggleButton ||
+        !eyeIcon ||
+        !eyeOffIcon
+    ) {
+        return;
+    }
+
+    toggleButton.addEventListener("click", function () {
+        const passwordIsHidden =
+            passwordInput.type === "password";
+
+        passwordInput.type = passwordIsHidden
+            ? "text"
+            : "password";
+
+        eyeIcon.hidden = passwordIsHidden;
+        eyeOffIcon.hidden = !passwordIsHidden;
+
+        toggleButton.setAttribute(
+            "aria-label",
+            passwordIsHidden
+                ? "إخفاء كلمة المرور"
+                : "إظهار كلمة المرور"
+        );
+
+        toggleButton.setAttribute(
+            "aria-pressed",
+            passwordIsHidden ? "true" : "false"
+        );
+
+        passwordInput.focus();
+    });
+    window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+});
+</script>
+
+</body>
+</html>

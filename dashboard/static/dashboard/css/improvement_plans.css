@@ -1,0 +1,2466 @@
+.improvement-page {
+    display: grid;
+    gap: 22px;
+}
+
+.imp-messages {
+    display: grid;
+    gap: 10px;
+}
+
+.imp-message {
+    padding: 14px 16px;
+    border-radius: 16px;
+    font-weight: 900;
+    border: 1px solid #d3e8f8;
+    background: #edf8ff;
+    color: #145d91;
+}
+
+.imp-message-success {
+    background: #ecfaf4;
+    color: #1fa973;
+    border-color: #bfead8;
+}
+
+.imp-message-warning {
+    background: #fff7df;
+    color: #9c7410;
+    border-color: #fde68a;
+}
+
+.imp-message-error {
+    background: #fff1f2;
+    color: #df4a52;
+    border-color: #ffd0d3;
+}
+
+.imp-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 18px;
+    padding: 28px;
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at left bottom, rgba(96, 183, 239, 0.18), transparent 32%),
+        linear-gradient(135deg, #ffffff 0%, #f1f9ff 100%);
+    border: 1px solid var(--ust-border, #d3e8f8);
+    box-shadow: var(--ust-shadow, 0 14px 34px rgba(47, 142, 214, 0.12));
+}
+
+.imp-kicker {
+    display: inline-flex;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--ust-blue-soft, #edf8ff);
+    color: var(--ust-blue-deep, #145d91);
+    border: 1px solid #cfe6f7;
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 12px;
+}
+
+.imp-hero h1 {
+    margin: 0;
+    color: var(--ust-ink, #102033);
+    font-size: 34px;
+    font-weight: 950;
+}
+
+.imp-hero p {
+    max-width: 780px;
+    margin: 12px 0 0;
+    color: var(--ust-muted, #6b7f95);
+    font-size: 15px;
+    line-height: 1.9;
+    font-weight: 700;
+}
+
+.imp-selected-file {
+    min-width: 280px;
+    padding: 20px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--ust-blue-light, #60b7ef), var(--ust-blue, #2f8ed6));
+    color: #ffffff;
+    display: grid;
+    align-content: center;
+    gap: 8px;
+    box-shadow: 0 16px 30px rgba(47, 142, 214, 0.18);
+}
+
+.imp-selected-file span,
+.imp-selected-file strong {
+    color: #ffffff;
+}
+
+.imp-selected-file span {
+    font-size: 12px;
+    font-weight: 900;
+    opacity: 0.9;
+}
+
+.imp-selected-file strong {
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.imp-filter-card,
+.imp-panel,
+.imp-card {
+    background: #ffffff;
+    border: 1px solid var(--ust-border, #d3e8f8);
+    box-shadow: var(--ust-shadow-soft, 0 8px 22px rgba(47, 142, 214, 0.08));
+}
+
+.imp-filter-card {
+    padding: 18px;
+    border-radius: 24px;
+}
+
+.imp-filters {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr auto;
+    gap: 14px;
+    align-items: end;
+}
+
+.imp-field {
+    display: grid;
+    gap: 7px;
+}
+
+.imp-field label {
+    font-size: 13px;
+    color: var(--ust-ink, #102033);
+    font-weight: 900;
+}
+
+.imp-field select,
+.status-form select {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #cfe2f2;
+    border-radius: 14px;
+    padding: 0 12px;
+    color: var(--ust-text, #18324a);
+    background: #ffffff;
+    font-weight: 800;
+    outline: none;
+}
+
+.imp-filter-btn,
+.imp-create-btn,
+.status-form button {
+    min-height: 44px;
+    border: 0;
+    border-radius: 14px;
+    padding: 0 18px;
+    background: linear-gradient(135deg, var(--ust-blue-light, #60b7ef), var(--ust-blue, #2f8ed6));
+    color: #ffffff;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(47, 142, 214, 0.16);
+}
+
+.imp-cards {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.imp-card {
+    padding: 18px;
+    border-radius: 22px;
+}
+
+.imp-card span {
+    display: block;
+    color: #465d73;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.imp-card strong {
+    display: block;
+    margin-top: 8px;
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 32px;
+    font-weight: 950;
+}
+
+.imp-card p {
+    margin: 8px 0 0;
+    color: var(--ust-muted, #6b7f95);
+    font-size: 12px;
+    line-height: 1.8;
+    font-weight: 700;
+}
+
+.imp-card.is-blue {
+    background: #edf8ff;
+}
+
+.imp-card.is-navy {
+    background: #edf3fb;
+}
+
+.imp-card.is-green {
+    background: #ecfaf4;
+}
+
+.imp-card.is-green strong {
+    color: #1fa973;
+}
+
+.imp-card.is-red {
+    background: #fff1f2;
+}
+
+.imp-card.is-red strong {
+    color: #df4a52;
+}
+
+.imp-panel {
+    border-radius: 24px;
+    padding: 22px;
+}
+
+.imp-panel-head {
+    margin-bottom: 18px;
+}
+
+.imp-panel-head h2 {
+    margin: 0;
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 22px;
+    font-weight: 950;
+}
+
+.imp-panel-head p {
+    margin: 8px 0 0;
+    color: var(--ust-muted, #6b7f95);
+    font-size: 13px;
+    line-height: 1.8;
+    font-weight: 700;
+}
+
+.imp-opportunities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.imp-opportunity {
+    padding: 16px;
+    border-radius: 20px;
+    background: #f7fcff;
+    border: 1px solid #d3e8f8;
+    display: grid;
+    gap: 12px;
+}
+
+.imp-opportunity.has-plan {
+    background: #f8fafc;
+    opacity: 0.82;
+}
+
+.imp-opportunity-head span {
+    display: block;
+    color: #6b7f95;
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.imp-opportunity-head strong {
+    color: #145d91;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.imp-opportunity-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.imp-opportunity-meta span,
+.priority,
+.status,
+.imp-existing-plan {
+    display: inline-flex;
+    min-height: 28px;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+    background: #ffffff;
+    border: 1px solid #cfe2f2;
+    color: #145d91;
+}
+
+.imp-opportunity p {
+    margin: 0;
+    color: #53687d;
+    font-size: 13px;
+    line-height: 1.8;
+    font-weight: 700;
+}
+
+.priority-high {
+    background: #fff1f2;
+    color: #df4a52;
+    border-color: #ffd0d3;
+}
+
+.priority-medium {
+    background: #fff7df;
+    color: #9c7410;
+    border-color: #fde68a;
+}
+
+.priority-low {
+    background: #ecfaf4;
+    color: #1fa973;
+    border-color: #bfead8;
+}
+
+.status-proposed {
+    background: #edf8ff;
+    color: #145d91;
+}
+
+.status-in_progress {
+    background: #fff7df;
+    color: #9c7410;
+}
+
+.status-completed,
+.status-closed {
+    background: #ecfaf4;
+    color: #1fa973;
+}
+
+.status-overdue {
+    margin-top: 6px;
+    background: #fff1f2;
+    color: #df4a52;
+    border-color: #ffd0d3;
+}
+
+.imp-existing-plan {
+    background: #ecfaf4;
+    color: #1fa973;
+    border-color: #bfead8;
+}
+
+.imp-table-panel {
+    padding: 0;
+    overflow: hidden;
+}
+
+.imp-table-panel .imp-panel-head {
+    padding: 22px 22px 0;
+}
+
+.imp-table-wrap {
+    overflow-x: auto;
+}
+
+.imp-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1150px;
+}
+
+.imp-table th {
+    background: #eef8ff;
+    color: #145d91;
+    font-size: 13px;
+    font-weight: 950;
+    text-align: right;
+    padding: 14px;
+    border-top: 1px solid #d8eaf9;
+    border-bottom: 1px solid #d8eaf9;
+}
+
+.imp-table td {
+    padding: 15px 14px;
+    border-bottom: 1px solid #ebf2f8;
+    color: var(--ust-text, #18324a);
+    background: #ffffff;
+    font-size: 13px;
+    vertical-align: top;
+}
+
+.plan-title-cell strong {
+    display: block;
+    color: #145d91;
+    margin-bottom: 6px;
+    line-height: 1.7;
+}
+
+.plan-title-cell span,
+.imp-table small,
+.indicator-cell {
+    color: #6b7f95;
+    line-height: 1.8;
+}
+
+.status-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    min-width: 220px;
+}
+
+.status-form button {
+    min-height: 42px;
+    padding: 0 14px;
+}
+
+.muted {
+    color: #9aa7a3;
+}
+
+.imp-empty,
+.imp-empty-row {
+    text-align: center;
+    color: #7d91a7;
+    font-weight: 800;
+    padding: 26px;
+}
+
+@media (max-width: 1200px) {
+    .imp-cards,
+    .imp-opportunities-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .imp-filters {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 800px) {
+    .imp-hero {
+        flex-direction: column;
+    }
+
+    .imp-selected-file {
+        min-width: 100%;
+    }
+
+    .imp-cards,
+    .imp-opportunities-grid,
+    .imp-filters {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+.imp-table tbody tr.is-selected-row td {
+    background: #edf8ff;
+}
+
+/* =========================================================
+   Improvement Plan Edit Form
+========================================================= */
+
+.imp-edit-panel {
+    border-color: #cfe6f7;
+    background:
+        radial-gradient(circle at left top, rgba(96, 183, 239, 0.10), transparent 28%),
+        #ffffff;
+}
+
+.imp-edit-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.imp-edit-summary {
+    grid-column: 1 / -1;
+    padding: 16px;
+    border-radius: 18px;
+    background: #f7fcff;
+    border: 1px solid #d3e8f8;
+}
+
+.imp-edit-summary span {
+    display: block;
+    color: #6b7f95;
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 6px;
+}
+
+.imp-edit-summary strong {
+    display: block;
+    color: #145d91;
+    font-size: 18px;
+    font-weight: 950;
+    line-height: 1.8;
+}
+
+.imp-edit-summary p {
+    margin: 6px 0 0;
+    color: #53687d;
+    font-size: 13px;
+    line-height: 1.8;
+    font-weight: 700;
+}
+
+.imp-input {
+    display: grid;
+    gap: 7px;
+}
+
+.imp-input.full {
+    grid-column: 1 / -1;
+}
+
+.imp-input label {
+    color: var(--ust-ink, #102033);
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.imp-input input,
+.imp-input textarea,
+.imp-input select {
+    width: 100%;
+    border: 1px solid #cfe2f2;
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: #ffffff;
+    color: var(--ust-text, #18324a);
+    font-weight: 800;
+    outline: none;
+    resize: vertical;
+}
+
+.imp-input input,
+.imp-input select {
+    min-height: 44px;
+}
+
+.imp-input textarea {
+    line-height: 1.8;
+}
+
+.imp-input input:focus,
+.imp-input textarea:focus,
+.imp-input select:focus {
+    border-color: var(--ust-blue-light, #60b7ef);
+    box-shadow: 0 0 0 3px rgba(96, 183, 239, 0.15);
+}
+
+.imp-edit-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.imp-save-btn,
+.imp-cancel-btn,
+.imp-edit-link {
+    min-height: 40px;
+    border-radius: 999px;
+    padding: 0 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 900;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.imp-save-btn {
+    border: 0;
+    cursor: pointer;
+    background: linear-gradient(
+        135deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    );
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(47, 142, 214, 0.16);
+}
+
+.imp-cancel-btn,
+.imp-edit-link {
+    background: #ffffff;
+    color: var(--ust-blue-deep, #145d91);
+    border: 1px solid #cfe2f2;
+}
+
+.imp-cancel-btn:hover,
+.imp-edit-link:hover {
+    background: #edf8ff;
+}
+
+@media (max-width: 1000px) {
+    .imp-edit-form {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .imp-edit-form {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================================
+   Collapsible Improvement Plans
+========================================================= */
+
+.imp-plans-panel {
+    overflow: visible;
+}
+
+.imp-plans-list {
+    display: grid;
+    gap: 14px;
+}
+
+.imp-plan-item {
+    border: 1px solid #d3e8f8;
+    border-radius: 22px;
+    background: #ffffff;
+    overflow: hidden;
+    box-shadow: 0 8px 22px rgba(47, 142, 214, 0.06);
+}
+
+.imp-plan-item[open] {
+    border-color: #b9dcf5;
+    background: #f9fdff;
+}
+
+.imp-plan-summary {
+    list-style: none;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 1.4fr auto 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding: 18px;
+}
+
+.imp-plan-summary::-webkit-details-marker {
+    display: none;
+}
+
+.imp-plan-main {
+    display: grid;
+    gap: 5px;
+}
+
+.imp-plan-number {
+    color: #6b7f95;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.imp-plan-main strong {
+    color: #145d91;
+    font-size: 16px;
+    font-weight: 950;
+    line-height: 1.7;
+}
+
+.imp-plan-main p {
+    margin: 0;
+    color: #6b7f95;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.7;
+}
+
+.imp-plan-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.imp-plan-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.imp-plan-meta div {
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: #f7fcff;
+    border: 1px solid #d3e8f8;
+}
+
+.imp-plan-meta span {
+    display: block;
+    color: #6b7f95;
+    font-size: 11px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.imp-plan-meta strong {
+    color: #18324a;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 1.6;
+}
+
+.imp-plan-toggle {
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: #edf8ff;
+    color: #145d91;
+    border: 1px solid #cfe2f2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.imp-plan-item[open] .imp-plan-toggle {
+    background: linear-gradient(135deg, #60b7ef, #2f8ed6);
+    color: #ffffff;
+    border-color: transparent;
+}
+
+.imp-plan-item[open] .imp-plan-toggle::before {
+    content: "إخفاء ";
+}
+
+.imp-plan-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding: 0 18px 18px;
+    border-top: 1px solid #ebf2f8;
+}
+
+.imp-detail-box {
+    padding: 14px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #dcecf8;
+}
+
+.imp-detail-box.full {
+    grid-column: 1 / -1;
+}
+
+.imp-detail-box span {
+    display: block;
+    color: #145d91;
+    font-size: 12px;
+    font-weight: 950;
+    margin-bottom: 7px;
+}
+
+.imp-detail-box p {
+    margin: 0;
+    color: #41566b;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.9;
+}
+
+.imp-plan-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-top: 4px;
+}
+
+.imp-plan-actions .status-form {
+    min-width: 320px;
+}
+
+@media (max-width: 1100px) {
+    .imp-plan-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .imp-plan-badges {
+        justify-content: flex-start;
+    }
+
+    .imp-plan-meta {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .imp-plan-toggle {
+        width: fit-content;
+    }
+}
+
+@media (max-width: 700px) {
+    .imp-plan-meta,
+    .imp-plan-details {
+        grid-template-columns: 1fr;
+    }
+
+    .imp-detail-box.full {
+        grid-column: auto;
+    }
+
+    .imp-plan-actions .status-form {
+        min-width: 100%;
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   Folded Improvement Sections
+========================================================= */
+
+.imp-fold-section {
+    border-radius: 26px;
+    background: #ffffff;
+    border: 1px solid var(--ust-border, #d3e8f8);
+    box-shadow: var(--ust-shadow-soft, 0 8px 22px rgba(47, 142, 214, 0.08));
+    overflow: hidden;
+}
+
+.imp-fold-section[open] {
+    background:
+        radial-gradient(circle at left top, rgba(96, 183, 239, 0.08), transparent 30%),
+        #ffffff;
+}
+
+.imp-fold-summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 22px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 14px;
+    align-items: center;
+}
+
+.imp-fold-summary::-webkit-details-marker {
+    display: none;
+}
+
+.imp-fold-summary span {
+    color: #6b7f95;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.imp-fold-summary strong {
+    display: block;
+    margin-top: 4px;
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 23px;
+    font-weight: 950;
+    line-height: 1.6;
+}
+
+.imp-fold-summary p {
+    margin: 6px 0 0;
+    color: var(--ust-muted, #6b7f95);
+    font-size: 13px;
+    line-height: 1.8;
+    font-weight: 700;
+}
+
+.imp-fold-count {
+    width: 52px;
+    height: 52px;
+    border-radius: 18px;
+    background: #edf8ff;
+    color: #145d91;
+    border: 1px solid #cfe2f2;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    font-weight: 950;
+}
+
+.imp-fold-toggle {
+    min-height: 38px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--ust-blue-light, #60b7ef), var(--ust-blue, #2f8ed6));
+    color: #ffffff !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.imp-fold-section[open] > .imp-fold-summary .imp-fold-toggle {
+    background: #ffffff;
+    color: #145d91 !important;
+    border: 1px solid #cfe2f2;
+}
+
+.imp-fold-section[open] > .imp-fold-summary .imp-fold-toggle::before {
+    content: "إخفاء ";
+}
+
+.imp-fold-body {
+    padding: 0 22px 22px;
+}
+
+/* =========================================================
+   Opportunity Cards
+========================================================= */
+
+.imp-opportunity-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.imp-opportunity-card {
+    padding: 18px;
+    border-radius: 22px;
+    background: #f7fcff;
+    border: 1px solid #d3e8f8;
+    display: grid;
+    gap: 12px;
+}
+
+.imp-opportunity-card.has-plan {
+    background: #f8fafc;
+    border-color: #dbe7f1;
+}
+
+.imp-op-card-head {
+    display: grid;
+    gap: 4px;
+}
+
+.imp-op-card-head span {
+    color: #6b7f95;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.imp-op-card-head strong {
+    color: #145d91;
+    font-size: 17px;
+    font-weight: 950;
+    line-height: 1.7;
+}
+
+.imp-op-card-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.imp-op-card-badges > span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 11px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid #cfe2f2;
+    color: #145d91;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.imp-opportunity-card p {
+    margin: 0;
+    color: #53687d;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.9;
+}
+
+/* =========================================================
+   Folded Plan Cards
+========================================================= */
+
+.imp-plan-cards {
+    display: grid;
+    gap: 14px;
+}
+
+.imp-plan-card {
+    border-radius: 22px;
+    background: #ffffff;
+    border: 1px solid #d3e8f8;
+    overflow: hidden;
+    box-shadow: 0 8px 22px rgba(47, 142, 214, 0.06);
+}
+
+.imp-plan-card[open] {
+    border-color: #b9dcf5;
+    background: #f9fdff;
+}
+
+.imp-plan-card-summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: 1.3fr auto 1fr auto;
+    gap: 14px;
+    align-items: center;
+}
+
+.imp-plan-card-summary::-webkit-details-marker {
+    display: none;
+}
+
+.imp-plan-title {
+    display: grid;
+    gap: 5px;
+}
+
+.imp-plan-title > span {
+    color: #6b7f95;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.imp-plan-title strong {
+    color: #145d91;
+    font-size: 17px;
+    font-weight: 950;
+    line-height: 1.7;
+}
+
+.imp-plan-title p {
+    margin: 0;
+    color: #6b7f95;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.7;
+}
+
+.imp-plan-statuses {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.imp-plan-short-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.imp-plan-short-info div {
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: #f7fcff;
+    border: 1px solid #d3e8f8;
+}
+
+.imp-plan-short-info span {
+    display: block;
+    color: #6b7f95;
+    font-size: 11px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.imp-plan-short-info strong {
+    color: #18324a;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 1.6;
+}
+
+.imp-plan-open-btn {
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: #edf8ff;
+    color: #145d91;
+    border: 1px solid #cfe2f2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.imp-plan-card[open] .imp-plan-open-btn {
+    background: linear-gradient(135deg, #60b7ef, #2f8ed6);
+    color: #ffffff;
+    border-color: transparent;
+}
+
+.imp-plan-card[open] .imp-plan-open-btn::before {
+    content: "إخفاء ";
+}
+
+.imp-plan-card-body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding: 0 18px 18px;
+    border-top: 1px solid #ebf2f8;
+}
+
+.imp-detail-box {
+    padding: 14px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #dcecf8;
+}
+
+.imp-detail-box.full {
+    grid-column: 1 / -1;
+}
+
+.imp-detail-box span {
+    display: block;
+    color: #145d91;
+    font-size: 12px;
+    font-weight: 950;
+    margin-bottom: 7px;
+}
+
+.imp-detail-box p {
+    margin: 0;
+    color: #41566b;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.9;
+}
+
+.imp-plan-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-top: 4px;
+}
+
+.imp-plan-actions .status-form {
+    min-width: 320px;
+}
+
+@media (max-width: 1200px) {
+    .imp-opportunity-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .imp-plan-card-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .imp-plan-statuses {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 800px) {
+    .imp-fold-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .imp-opportunity-cards,
+    .imp-plan-short-info,
+    .imp-plan-card-body {
+        grid-template-columns: 1fr;
+    }
+
+    .imp-detail-box.full {
+        grid-column: auto;
+    }
+
+    .imp-plan-actions .status-form {
+        min-width: 100%;
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   FINAL UST ACCORDION STYLE - Improvement Plans
+   توحيد شكل الطي مع صفحة التقييم وإدخال البيانات
+========================================================= */
+
+/* الحاوية العامة للقسم المطوي */
+.imp-fold-section {
+    border-radius: 24px !important;
+    background: #ffffff !important;
+    border: 1px solid var(--ust-border, #d3e8f8) !important;
+    box-shadow: var(--ust-shadow-soft, 0 8px 22px rgba(47, 142, 214, 0.08)) !important;
+    overflow: hidden !important;
+}
+
+/* رأس القسم المطوي: مثل شكل التقييم */
+.imp-fold-summary {
+    position: relative !important;
+    min-height: 92px !important;
+    padding: 22px 26px 22px 82px !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto auto !important;
+    gap: 16px !important;
+    align-items: center !important;
+    background:
+        radial-gradient(circle at left center, rgba(96, 183, 239, 0.10), transparent 30%),
+        linear-gradient(135deg, #ffffff 0%, #f7fcff 100%) !important;
+    border-bottom: 1px solid #e3f1fb !important;
+    cursor: pointer !important;
+}
+
+/* الشريط الأزرق الجانبي مثل صفحة التقييم */
+.imp-fold-summary::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    right: 0;
+    width: 6px;
+    height: calc(100% - 36px);
+    border-radius: 999px 0 0 999px;
+    background: linear-gradient(
+        180deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    );
+}
+
+/* زر الفتح الدائري في يسار الرأس */
+.imp-fold-summary::after {
+    content: "⌄";
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #edf8ff;
+    color: var(--ust-blue-deep, #145d91);
+    border: 1px solid #cfe2f2;
+    font-size: 20px;
+    font-weight: 950;
+    transition: 0.18s ease;
+}
+
+.imp-fold-section[open] > .imp-fold-summary::after {
+    content: "⌃";
+    background: linear-gradient(
+        135deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    );
+    color: #ffffff;
+    border-color: transparent;
+}
+
+/* إخفاء زر عرض القديم لأننا استخدمنا الزر الدائري */
+.imp-fold-toggle {
+    display: none !important;
+}
+
+.imp-fold-summary span {
+    color: #6b7f95 !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+}
+
+.imp-fold-summary strong {
+    margin-top: 4px !important;
+    color: var(--ust-blue-deep, #145d91) !important;
+    font-size: 23px !important;
+    font-weight: 950 !important;
+    line-height: 1.6 !important;
+}
+
+.imp-fold-summary p {
+    max-width: 850px !important;
+    margin: 6px 0 0 !important;
+    color: var(--ust-muted, #6b7f95) !important;
+    font-size: 13px !important;
+    line-height: 1.9 !important;
+    font-weight: 700 !important;
+}
+
+.imp-fold-count {
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 18px !important;
+    background: #edf8ff !important;
+    color: var(--ust-blue-deep, #145d91) !important;
+    border: 1px solid #cfe2f2 !important;
+    display: grid !important;
+    place-items: center !important;
+    font-size: 24px !important;
+    font-weight: 950 !important;
+}
+
+/* جسم القسم */
+.imp-fold-body {
+    padding: 22px !important;
+    background: #ffffff !important;
+}
+
+/* =========================================================
+   Opportunity Cards - شكل موحد
+========================================================= */
+
+.imp-opportunity-cards {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+}
+
+.imp-opportunity-card {
+    position: relative !important;
+    padding: 18px 20px !important;
+    border-radius: 22px !important;
+    background:
+        radial-gradient(circle at left bottom, rgba(96, 183, 239, 0.08), transparent 28%),
+        #ffffff !important;
+    border: 1px solid var(--ust-border, #d3e8f8) !important;
+    box-shadow: 0 8px 18px rgba(47, 142, 214, 0.05) !important;
+    overflow: hidden !important;
+}
+
+/* طرف أزرق صغير لكل فرصة */
+.imp-opportunity-card::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    right: 0;
+    width: 5px;
+    height: calc(100% - 32px);
+    border-radius: 999px 0 0 999px;
+    background: linear-gradient(
+        180deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    );
+}
+
+.imp-opportunity-card.has-plan::before {
+    background: var(--ust-green, #1fa973);
+}
+
+.imp-op-card-head span {
+    color: #6b7f95 !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+}
+
+.imp-op-card-head strong {
+    color: var(--ust-blue-deep, #145d91) !important;
+    font-size: 17px !important;
+    font-weight: 950 !important;
+    line-height: 1.7 !important;
+}
+
+.imp-opportunity-card p {
+    color: #53687d !important;
+    font-size: 13px !important;
+    line-height: 1.9 !important;
+    font-weight: 700 !important;
+}
+
+/* =========================================================
+   Saved Plans Cards - الطي الداخلي للخطة
+========================================================= */
+
+.imp-plan-cards {
+    display: grid !important;
+    gap: 14px !important;
+}
+
+/* بطاقة الخطة نفسها */
+.imp-plan-card {
+    border-radius: 22px !important;
+    background: #ffffff !important;
+    border: 1px solid var(--ust-border, #d3e8f8) !important;
+    box-shadow: 0 8px 18px rgba(47, 142, 214, 0.05) !important;
+    overflow: hidden !important;
+}
+
+.imp-plan-card[open] {
+    border-color: #b9dcf5 !important;
+    background: #f9fdff !important;
+}
+
+/* رأس الخطة المطوي */
+.imp-plan-card-summary {
+    position: relative !important;
+    min-height: 88px !important;
+    padding: 18px 24px 18px 76px !important;
+    display: grid !important;
+    grid-template-columns: 1.35fr auto 1fr !important;
+    gap: 16px !important;
+    align-items: center !important;
+    background:
+        radial-gradient(circle at left center, rgba(96, 183, 239, 0.08), transparent 30%),
+        linear-gradient(135deg, #ffffff 0%, #f7fcff 100%) !important;
+    cursor: pointer !important;
+}
+
+/* الشريط الأزرق الجانبي للخطة */
+.imp-plan-card-summary::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    right: 0;
+    width: 5px;
+    height: calc(100% - 36px);
+    border-radius: 999px 0 0 999px;
+    background: linear-gradient(
+        180deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    );
+}
+
+/* زر فتح تفاصيل الخطة */
+.imp-plan-card-summary::after {
+    content: "⌄";
+    position: absolute;
+    left: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #edf8ff;
+    color: var(--ust-blue-deep, #145d91);
+    border: 1px solid #cfe2f2;
+    font-size: 18px;
+    font-weight: 950;
+    transition: 0.18s ease;
+}
+
+.imp-plan-card[open] > .imp-plan-card-summary::after {
+    content: "⌃";
+    background: linear-gradient(
+        135deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    );
+    color: #ffffff;
+    border-color: transparent;
+}
+
+/* إخفاء زر تفاصيل الخطة القديم */
+.imp-plan-open-btn {
+    display: none !important;
+}
+
+.imp-plan-title > span {
+    color: #6b7f95 !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+}
+
+.imp-plan-title strong {
+    color: var(--ust-blue-deep, #145d91) !important;
+    font-size: 17px !important;
+    font-weight: 950 !important;
+    line-height: 1.7 !important;
+}
+
+.imp-plan-title p {
+    margin: 0 !important;
+    color: #6b7f95 !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    line-height: 1.7 !important;
+}
+
+.imp-plan-statuses {
+    display: flex !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+}
+
+.imp-plan-short-info {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+}
+
+.imp-plan-short-info div {
+    padding: 10px 12px !important;
+    border-radius: 16px !important;
+    background: #ffffff !important;
+    border: 1px solid #d3e8f8 !important;
+}
+
+.imp-plan-short-info span {
+    display: block !important;
+    color: #6b7f95 !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    margin-bottom: 4px !important;
+}
+
+.imp-plan-short-info strong {
+    color: var(--ust-text, #18324a) !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    line-height: 1.6 !important;
+}
+
+/* تفاصيل الخطة بعد فتحها */
+.imp-plan-card-body {
+    padding: 18px !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    border-top: 1px solid #ebf2f8 !important;
+    background: #ffffff !important;
+}
+
+.imp-detail-box {
+    padding: 14px !important;
+    border-radius: 18px !important;
+    background: #f7fcff !important;
+    border: 1px solid #dcecf8 !important;
+}
+
+.imp-detail-box.full {
+    grid-column: 1 / -1 !important;
+}
+
+.imp-detail-box span {
+    display: block !important;
+    color: var(--ust-blue-deep, #145d91) !important;
+    font-size: 12px !important;
+    font-weight: 950 !important;
+    margin-bottom: 7px !important;
+}
+
+.imp-detail-box p {
+    margin: 0 !important;
+    color: #41566b !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.9 !important;
+}
+
+.imp-plan-actions {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+}
+
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 1200px) {
+    .imp-opportunity-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .imp-plan-card-summary {
+        grid-template-columns: 1fr !important;
+        padding-left: 76px !important;
+    }
+
+    .imp-plan-statuses {
+        justify-content: flex-start !important;
+    }
+}
+
+@media (max-width: 800px) {
+    .imp-fold-summary {
+        grid-template-columns: 1fr !important;
+        padding-left: 76px !important;
+    }
+
+    .imp-opportunity-cards,
+    .imp-plan-short-info,
+    .imp-plan-card-body {
+        grid-template-columns: 1fr !important;
+    }
+
+    .imp-detail-box.full {
+        grid-column: auto !important;
+    }
+}
+
+/* =========================================================
+   Manual Improvement Plan Action
+========================================================= */
+
+.imp-action-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 22px;
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at left center, rgba(96, 183, 239, 0.10), transparent 28%),
+        #ffffff;
+    border: 1px solid var(--ust-border, #d3e8f8);
+    box-shadow: var(--ust-shadow-soft, 0 8px 22px rgba(47, 142, 214, 0.08));
+}
+
+.imp-action-strip strong {
+    display: block;
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 18px;
+    font-weight: 950;
+    line-height: 1.7;
+}
+
+.imp-action-strip p {
+    margin: 4px 0 0;
+    color: var(--ust-muted, #6b7f95);
+    font-size: 13px;
+    line-height: 1.8;
+    font-weight: 700;
+}
+
+.imp-manual-btn,
+.imp-manual-disabled {
+    min-height: 42px;
+    border-radius: 999px;
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.imp-manual-btn {
+    background: linear-gradient(
+        135deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    );
+    color: #ffffff;
+    border: 0;
+    box-shadow: 0 10px 20px rgba(47, 142, 214, 0.16);
+}
+
+.imp-manual-disabled {
+    background: #f8fafc;
+    color: #8a9bad;
+    border: 1px solid #dce8f2;
+}
+
+@media (max-width: 800px) {
+    .imp-action-strip {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .imp-manual-btn,
+    .imp-manual-disabled {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   View Existing Plan Button
+========================================================= */
+
+.imp-existing-plan {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: #ecfaf4;
+    color: #1f8f64;
+    border: 1px solid #bfead8;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.imp-view-plan-btn {
+    min-height: 34px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #145d91;
+    border: 1px solid #cfe2f2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 950;
+    transition: 0.18s ease;
+}
+
+.imp-view-plan-btn:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #60b7ef, #2f8ed6);
+    color: #ffffff;
+    border-color: transparent;
+}
+
+
+/* =========================================================
+   FINAL COMPACT LAYOUT — Improvement Plans
+   تقليل أحجام الكروت والخطوط مع إضافة مسافة أعلى الصفحة
+========================================================= */
+
+.improvement-page {
+    margin-top: 24px !important;
+    gap: 16px !important;
+}
+
+.imp-messages {
+    gap: 8px !important;
+}
+
+.imp-message {
+    padding: 10px 14px !important;
+    border-radius: 13px !important;
+    font-size: 12px !important;
+}
+
+.imp-hero {
+    gap: 14px !important;
+    padding: 22px 24px !important;
+    border-radius: 24px !important;
+}
+
+.imp-kicker {
+    padding: 5px 12px !important;
+    margin-bottom: 8px !important;
+    font-size: 11px !important;
+}
+
+.imp-hero h1 {
+    font-size: 29px !important;
+    line-height: 1.35 !important;
+}
+
+.imp-hero p {
+    max-width: 720px !important;
+    margin-top: 8px !important;
+    font-size: 13px !important;
+    line-height: 1.75 !important;
+}
+
+.imp-selected-file {
+    min-width: 245px !important;
+    padding: 16px 18px !important;
+    border-radius: 20px !important;
+    gap: 5px !important;
+}
+
+.imp-selected-file span {
+    font-size: 11px !important;
+}
+
+.imp-selected-file strong {
+    font-size: 13px !important;
+    line-height: 1.65 !important;
+}
+
+.imp-filter-card {
+    padding: 14px 16px !important;
+    border-radius: 20px !important;
+}
+
+.imp-filters {
+    gap: 10px !important;
+}
+
+.imp-field {
+    gap: 5px !important;
+}
+
+.imp-field label {
+    font-size: 12px !important;
+}
+
+.imp-field select,
+.status-form select {
+    min-height: 40px !important;
+    border-radius: 12px !important;
+    padding: 0 10px !important;
+    font-size: 12px !important;
+}
+
+.imp-filter-btn,
+.imp-create-btn,
+.status-form button {
+    min-height: 40px !important;
+    border-radius: 12px !important;
+    padding: 0 15px !important;
+    font-size: 12px !important;
+}
+
+.imp-cards {
+    gap: 10px !important;
+}
+
+.imp-card {
+    min-height: 138px !important;
+    padding: 14px 15px !important;
+    border-radius: 18px !important;
+}
+
+.imp-card span {
+    font-size: 12px !important;
+}
+
+.imp-card strong {
+    margin-top: 5px !important;
+    font-size: 27px !important;
+    line-height: 1.2 !important;
+}
+
+.imp-card p {
+    margin-top: 6px !important;
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+}
+
+.imp-panel {
+    padding: 18px !important;
+    border-radius: 20px !important;
+}
+
+.imp-panel-head {
+    margin-bottom: 13px !important;
+}
+
+.imp-panel-head h2 {
+    font-size: 19px !important;
+}
+
+.imp-panel-head p {
+    margin-top: 5px !important;
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+}
+
+.imp-opportunities-grid,
+.imp-opportunity-cards {
+    gap: 11px !important;
+}
+
+.imp-opportunity,
+.imp-opportunity-card {
+    padding: 14px 15px !important;
+    border-radius: 18px !important;
+    gap: 9px !important;
+}
+
+.imp-opportunity-head span,
+.imp-op-card-head span {
+    font-size: 11px !important;
+}
+
+.imp-opportunity-head strong,
+.imp-op-card-head strong {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+}
+
+.imp-opportunity-meta span,
+.priority,
+.status,
+.imp-existing-plan,
+.imp-op-card-badges > span {
+    min-height: 25px !important;
+    padding: 0 8px !important;
+    font-size: 10.5px !important;
+}
+
+.imp-opportunity p,
+.imp-opportunity-card p {
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+}
+
+.imp-table-panel .imp-panel-head {
+    padding: 18px 18px 0 !important;
+}
+
+.imp-table th {
+    padding: 11px 12px !important;
+    font-size: 12px !important;
+}
+
+.imp-table td {
+    padding: 12px !important;
+    font-size: 12px !important;
+}
+
+.status-form {
+    min-width: 200px !important;
+}
+
+.imp-edit-form {
+    gap: 11px !important;
+}
+
+.imp-edit-summary {
+    padding: 13px !important;
+    border-radius: 15px !important;
+}
+
+.imp-edit-summary strong {
+    font-size: 16px !important;
+}
+
+.imp-edit-summary p,
+.imp-input label {
+    font-size: 12px !important;
+}
+
+.imp-input input,
+.imp-input textarea,
+.imp-input select {
+    padding: 10px 12px !important;
+    border-radius: 12px !important;
+    font-size: 12px !important;
+}
+
+.imp-input input,
+.imp-input select {
+    min-height: 40px !important;
+}
+
+.imp-save-btn,
+.imp-cancel-btn,
+.imp-edit-link {
+    min-height: 36px !important;
+    padding: 0 14px !important;
+    font-size: 11px !important;
+}
+
+.imp-fold-section {
+    border-radius: 20px !important;
+}
+
+.imp-fold-summary {
+    min-height: 76px !important;
+    padding: 16px 20px 16px 66px !important;
+    gap: 12px !important;
+}
+
+.imp-fold-summary::before {
+    top: 14px !important;
+    height: calc(100% - 28px) !important;
+    width: 5px !important;
+}
+
+.imp-fold-summary::after {
+    left: 18px !important;
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 17px !important;
+}
+
+.imp-fold-summary span {
+    font-size: 11px !important;
+}
+
+.imp-fold-summary strong {
+    font-size: 19px !important;
+    line-height: 1.45 !important;
+}
+
+.imp-fold-summary p {
+    margin-top: 4px !important;
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+}
+
+.imp-fold-count {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 14px !important;
+    font-size: 20px !important;
+}
+
+.imp-fold-body {
+    padding: 16px !important;
+}
+
+.imp-plan-cards,
+.imp-plans-list {
+    gap: 10px !important;
+}
+
+.imp-plan-card,
+.imp-plan-item {
+    border-radius: 18px !important;
+}
+
+.imp-plan-card-summary,
+.imp-plan-summary {
+    min-height: 74px !important;
+    padding: 14px 18px 14px 64px !important;
+    gap: 11px !important;
+}
+
+.imp-plan-card-summary::before {
+    top: 14px !important;
+    height: calc(100% - 28px) !important;
+}
+
+.imp-plan-card-summary::after {
+    left: 17px !important;
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 16px !important;
+}
+
+.imp-plan-title > span,
+.imp-plan-number {
+    font-size: 11px !important;
+}
+
+.imp-plan-title strong,
+.imp-plan-main strong {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+}
+
+.imp-plan-title p,
+.imp-plan-main p {
+    font-size: 11px !important;
+    line-height: 1.55 !important;
+}
+
+.imp-plan-short-info,
+.imp-plan-meta {
+    gap: 7px !important;
+}
+
+.imp-plan-short-info div,
+.imp-plan-meta div {
+    padding: 8px 10px !important;
+    border-radius: 13px !important;
+}
+
+.imp-plan-short-info span,
+.imp-plan-meta span {
+    font-size: 10px !important;
+}
+
+.imp-plan-short-info strong,
+.imp-plan-meta strong {
+    font-size: 11px !important;
+}
+
+.imp-plan-card-body,
+.imp-plan-details {
+    gap: 9px !important;
+    padding: 14px !important;
+}
+
+.imp-detail-box {
+    padding: 11px !important;
+    border-radius: 14px !important;
+}
+
+.imp-detail-box span {
+    font-size: 11px !important;
+    margin-bottom: 5px !important;
+}
+
+.imp-detail-box p {
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+}
+
+.imp-action-strip {
+    gap: 12px !important;
+    padding: 14px 18px !important;
+    border-radius: 20px !important;
+}
+
+.imp-action-strip strong {
+    font-size: 16px !important;
+}
+
+.imp-action-strip p {
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+}
+
+.imp-manual-btn,
+.imp-manual-disabled {
+    min-height: 38px !important;
+    padding: 0 15px !important;
+    font-size: 12px !important;
+}
+
+.imp-existing-plan {
+    padding: 9px 11px !important;
+    border-radius: 13px !important;
+    font-size: 11px !important;
+}
+
+.imp-view-plan-btn {
+    min-height: 30px !important;
+    padding: 0 11px !important;
+    font-size: 10.5px !important;
+}
+
+@media (max-width: 1200px) {
+    .imp-card {
+        min-height: 125px !important;
+    }
+}
+
+@media (max-width: 800px) {
+    .improvement-page {
+        margin-top: 16px !important;
+    }
+
+    .imp-hero {
+        padding: 18px !important;
+    }
+
+    .imp-hero h1 {
+        font-size: 25px !important;
+    }
+
+    .imp-selected-file {
+        min-width: 100% !important;
+    }
+}
+/* =========================================================
+   COMPACT IMPROVEMENT OPPORTUNITY CARDS
+   تصغير بطاقات فرص التحسين وتنظيم محتواها
+========================================================= */
+
+html body main.ust-content
+.improvement-page
+.imp-opportunities-grid,
+
+html body main.ust-content
+.improvement-page
+.imp-opportunity-cards {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+}
+
+
+/* البطاقة */
+html body main.ust-content
+.improvement-page
+.imp-opportunity,
+
+html body main.ust-content
+.improvement-page
+.imp-opportunity-card {
+    min-height: 245px !important;
+    height: auto !important;
+
+    padding: 13px 14px 12px !important;
+    border-radius: 16px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 7px !important;
+
+    box-shadow:
+        0 6px 16px rgba(20, 93, 145, 0.06) !important;
+}
+
+
+/* الخط الجانبي الأزرق */
+html body main.ust-content
+.improvement-page
+.imp-opportunity::before,
+
+html body main.ust-content
+.improvement-page
+.imp-opportunity-card::before {
+    width: 4px !important;
+}
+
+
+/* رقم المعيار */
+html body main.ust-content
+.improvement-page
+.imp-opportunity-head > span,
+
+html body main.ust-content
+.improvement-page
+.imp-op-card-head > span {
+    font-size: 10.5px !important;
+    line-height: 1.3 !important;
+}
+
+
+/* عنوان المعيار */
+html body main.ust-content
+.improvement-page
+.imp-opportunity-head strong,
+
+html body main.ust-content
+.improvement-page
+.imp-op-card-head strong {
+    margin: 0 !important;
+
+    font-size: 15.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.5 !important;
+}
+
+
+/* مجموعة الشارات */
+html body main.ust-content
+.improvement-page
+.imp-opportunity-meta,
+
+html body main.ust-content
+.improvement-page
+.imp-op-card-badges {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+
+    margin: 2px 0 !important;
+}
+
+
+/* شارات النسبة والأولوية والمؤشرات */
+html body main.ust-content
+.improvement-page
+.imp-opportunity-meta span,
+
+html body main.ust-content
+.improvement-page
+.imp-op-card-badges > span,
+
+html body main.ust-content
+.improvement-page
+.imp-percentage-badge {
+    min-height: 25px !important;
+
+    padding: 3px 8px !important;
+    border-radius: 999px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+
+    font-size: 10.5px !important;
+    line-height: 1.25 !important;
+}
+
+
+/* ضمان ظهور النسبة بالشكل 33.33% */
+html body main.ust-content
+.improvement-page
+.imp-percentage-badge bdi {
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
+    font-weight: 800 !important;
+}
+
+
+/* وصف سبب إنشاء خطة التحسين */
+html body main.ust-content
+.improvement-page
+.imp-opportunity > p,
+
+html body main.ust-content
+.improvement-page
+.imp-opportunity-card > p {
+    margin: 2px 0 0 !important;
+
+    font-size: 11.5px !important;
+    line-height: 1.6 !important;
+
+    flex: 1 1 auto !important;
+}
+
+
+/* زر إنشاء خطة تحسين */
+html body main.ust-content
+.improvement-page
+.imp-opportunity
+.imp-create-btn,
+
+html body main.ust-content
+.improvement-page
+.imp-opportunity-card
+.imp-create-btn {
+    width: auto !important;
+    min-width: 145px !important;
+    max-width: 180px !important;
+
+    min-height: 33px !important;
+    height: 33px !important;
+
+    padding: 0 13px !important;
+    margin: 5px auto 0 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 9px !important;
+
+    font-size: 10.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+}
+
+
+/* إذا كان زر الإنشاء داخل form */
+html body main.ust-content
+.improvement-page
+.imp-opportunity form,
+
+html body main.ust-content
+.improvement-page
+.imp-opportunity-card form {
+    width: auto !important;
+    margin: 0 auto !important;
+}
+
+
+/* الشاشات المتوسطة */
+@media (max-width: 980px) {
+    html body main.ust-content
+    .improvement-page
+    .imp-opportunities-grid,
+
+    html body main.ust-content
+    .improvement-page
+    .imp-opportunity-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+
+/* الجوال */
+@media (max-width: 650px) {
+    html body main.ust-content
+    .improvement-page
+    .imp-opportunities-grid,
+
+    html body main.ust-content
+    .improvement-page
+    .imp-opportunity-cards {
+        grid-template-columns: 1fr !important;
+    }
+}
+/* =========================================================
+   حذف مربع العدد وتصغير دائرة الطي
+========================================================= */
+
+/* حذف المربع الموجود بجانب دائرة الطي */
+html body main.ust-content
+.improvement-page
+.imp-fold-summary
+.imp-fold-count {
+    display: none !important;
+}
+
+/* حذف زر العرض النصي القديم إن وُجد */
+html body main.ust-content
+.improvement-page
+.imp-fold-summary
+.imp-fold-toggle {
+    display: none !important;
+}
+
+/* إعادة ترتيب رأس القسم بعد حذف المربع */
+html body main.ust-content
+.improvement-page
+.imp-fold-summary {
+    grid-template-columns: 1fr !important;
+
+    min-height: 68px !important;
+
+    /* مساحة صغيرة للدائرة في الجهة اليسرى */
+    padding: 14px 18px 14px 56px !important;
+
+    gap: 0 !important;
+}
+
+/* تصغير دائرة الفتح والإغلاق */
+html body main.ust-content
+.improvement-page
+.imp-fold-summary::after {
+    left: 16px !important;
+
+    width: 30px !important;
+    height: 30px !important;
+
+    border-radius: 50% !important;
+
+    font-size: 14px !important;
+    font-weight: 900 !important;
+
+    box-shadow: none !important;
+}
+
+/* حالة القسم المفتوح */
+html body main.ust-content
+.improvement-page
+.imp-fold-section[open]
+> .imp-fold-summary::after {
+    width: 30px !important;
+    height: 30px !important;
+
+    font-size: 14px !important;
+}
+
+/* إزالة علامة details الافتراضية من جميع المتصفحات */
+html body main.ust-content
+.improvement-page
+.imp-fold-summary {
+    list-style: none !important;
+}
+
+html body main.ust-content
+.improvement-page
+.imp-fold-summary::marker {
+    content: "" !important;
+}
+
+html body main.ust-content
+.improvement-page
+.imp-fold-summary::-webkit-details-marker {
+    display: none !important;
+}

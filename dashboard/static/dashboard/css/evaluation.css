@@ -1,0 +1,2328 @@
+/* ============================================================
+   صفحة التقييم
+============================================================ */
+
+.evaluation-page {
+    direction: rtl;
+    padding: 24px;
+    background: #f4f7fb;
+    min-height: 100vh;
+    color: #0f172a;
+}
+
+.ev-header,
+.ev-select-card,
+.ev-program-card,
+.ev-standard-panel,
+.ev-empty-state {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 22px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+}
+
+/* ============================================================
+   الرسائل
+============================================================ */
+
+.ev-messages {
+    margin-bottom: 16px;
+}
+
+.ev-message {
+    padding: 13px 16px;
+    border-radius: 14px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    line-height: 1.8;
+}
+
+.ev-message-success {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #bbf7d0;
+}
+
+.ev-message-error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+.ev-message-warning {
+    background: #fffbeb;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.ev-message-info {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+/* ============================================================
+   الهيدر
+============================================================ */
+
+.ev-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px;
+    margin-bottom: 18px;
+}
+
+.ev-header h1 {
+    margin: 0 0 8px;
+    color: #145d91;
+    font-size: 26px;
+    font-weight: 900;
+}
+
+.ev-header p {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.8;
+}
+
+.ev-header-badge {
+    min-width: 160px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #145d91, #2f8ed6);
+    color: #ffffff;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.ev-header-badge span {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.ev-header-badge strong {
+    font-size: 17px;
+    margin-top: 4px;
+}
+
+/* ============================================================
+   اختيار ملف البيانات
+============================================================ */
+
+.ev-select-card {
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.ev-select-card h2 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    color: #17324d;
+}
+
+.ev-select-card p {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.7;
+}
+
+.ev-file-form select {
+    min-width: 360px;
+    height: 46px;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 0 14px;
+    font-family: inherit;
+    font-weight: 800;
+    color: #17324d;
+    background: #ffffff;
+}
+
+/* ============================================================
+   بطاقة البرنامج
+============================================================ */
+
+.ev-program-card {
+    padding: 20px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+}
+
+.ev-small-label {
+    display: inline-flex;
+    color: #145d91;
+    background: #edf8ff;
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-weight: 900;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.ev-program-card h2 {
+    margin: 0 0 6px;
+    color: #0f172a;
+    font-size: 22px;
+}
+
+.ev-program-card p {
+    margin: 0;
+    color: #64748b;
+}
+
+.ev-program-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* ============================================================
+   الأزرار العامة
+============================================================ */
+
+.ev-link-btn,
+.ev-generate-btn,
+.ev-save-btn,
+.ev-approve-btn {
+    min-height: 42px;
+    padding: 0 18px;
+    border-radius: 14px;
+    font-family: inherit;
+    font-weight: 900;
+    cursor: pointer;
+    border: 0;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.ev-link-btn,
+.ev-save-btn {
+    background: #eef2f7;
+    color: #17324d;
+}
+
+.ev-generate-btn,
+.ev-approve-btn {
+    background: #145d91;
+    color: #ffffff;
+}
+
+.ev-generate-btn:hover,
+.ev-approve-btn:hover {
+    background: #0f4f7c;
+}
+
+.ev-save-btn:hover,
+.ev-link-btn:hover {
+    background: #e2e8f0;
+}
+
+/* ============================================================
+   بطاقات الملخص
+============================================================ */
+
+.ev-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.ev-summary-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.ev-summary-card span {
+    display: block;
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.ev-summary-card strong {
+    color: #145d91;
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.status-card strong {
+    color: #17324d;
+}
+
+/* ============================================================
+   أقسام المعتمدات والمسودات داخل نفس الصفحة
+============================================================ */
+
+.ev-approved-section {
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    overflow: hidden;
+}
+
+.ev-approved-summary {
+    min-height: 64px;
+    padding: 16px 20px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ffffff, #eef8ff);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    color: #145d91;
+    font-weight: 900;
+    list-style: none;
+}
+
+.ev-approved-summary::-webkit-details-marker,
+.ev-approved-item-summary::-webkit-details-marker,
+.ev-approved-standard summary::-webkit-details-marker {
+    display: none;
+}
+
+.ev-approved-summary::before,
+.ev-approved-item-summary::before,
+.ev-approved-standard > summary::before {
+    content: "‹";
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    border: 1px solid #b9ddf5;
+    background: #ffffff;
+    color: #145d91;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    transition: 0.2s ease;
+    flex-shrink: 0;
+}
+
+.ev-approved-section[open] > .ev-approved-summary::before,
+.ev-approved-item[open] > .ev-approved-item-summary::before,
+.ev-approved-standard[open] > summary::before {
+    transform: rotate(-90deg);
+    background: #2f8ed6;
+    border-color: #2f8ed6;
+    color: #ffffff;
+}
+
+.ev-approved-summary span {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ev-approved-summary small {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.ev-approved-summary strong {
+    min-width: 42px;
+    height: 34px;
+    border-radius: 999px;
+    background: #2f8ed6;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+}
+
+.ev-approved-body {
+    padding: 16px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.ev-approved-item {
+    border: 1px solid #dbeafe;
+    border-radius: 18px;
+    margin-bottom: 12px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.ev-approved-item:last-child {
+    margin-bottom: 0;
+}
+
+.ev-approved-item-summary {
+    padding: 14px 16px;
+    cursor: pointer;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 34px minmax(260px, 1fr) 120px 120px 150px;
+    align-items: center;
+    gap: 12px;
+    background: #fbfdff;
+}
+
+.ev-approved-program strong {
+    display: block;
+    color: #0f172a;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.ev-approved-program small {
+    color: #64748b;
+    font-weight: 700;
+    line-height: 1.7;
+}
+
+.ev-approved-percent,
+.ev-approved-status,
+.ev-approved-date {
+    min-height: 32px;
+    border-radius: 999px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 13px;
+}
+
+.ev-approved-percent {
+    background: #eef7ff;
+    color: #145d91;
+    border: 1px solid #cfe8f7;
+}
+
+.ev-approved-status {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #bbf7d0;
+}
+
+.ev-approved-date {
+    background: #f8fafc;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.ev-approved-detail {
+    padding: 16px;
+    border-top: 1px solid #edf2f7;
+}
+
+.ev-approved-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.ev-approved-mini-grid > div {
+    background: #f8fbff;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    padding: 14px;
+}
+
+.ev-approved-mini-grid span {
+    display: block;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.ev-approved-mini-grid strong {
+    color: #145d91;
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.ev-approved-standard {
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.ev-approved-standard > summary {
+    padding: 14px 16px;
+    cursor: pointer;
+    list-style: none;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #145d91;
+    font-weight: 900;
+}
+
+.ev-approved-standard > summary span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ev-approved-standard > summary strong {
+    color: #145d91;
+    font-size: 13px;
+}
+
+.ev-approved-standard-body {
+    padding: 16px;
+    border-top: 1px solid #edf2f7;
+    background: #fcfdff;
+}
+
+.ev-approved-note {
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+.ev-approved-note h4 {
+    margin: 0 0 8px;
+    color: #145d91;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.ev-approved-note p {
+    margin: 0;
+    color: #17324d;
+    line-height: 1.9;
+    white-space: pre-line;
+    font-weight: 700;
+}
+
+.ev-approved-table {
+    min-width: 950px;
+}
+
+.ev-approved-improvement-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.ev-approved-empty {
+    padding: 28px;
+    text-align: center;
+    color: #64748b;
+    font-weight: 900;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 16px;
+}
+
+/* ============================================================
+   المسودات
+============================================================ */
+
+.ev-draft-section {
+    border-color: #fde68a;
+}
+
+.ev-draft-summary {
+    background: linear-gradient(135deg, #ffffff, #fffbeb);
+    color: #92400e;
+}
+
+.ev-draft-summary strong {
+    background: #f59e0b;
+    color: #ffffff;
+}
+
+.ev-draft-status {
+    background: #fffbeb !important;
+    color: #92400e !important;
+    border: 1px solid #fde68a !important;
+}
+
+.ev-draft-actions {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 14px;
+}
+
+.ev-draft-edit-btn {
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 14px;
+    background: #f59e0b;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-family: inherit;
+    font-weight: 900;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 20;
+    border: 0;
+}
+
+.ev-draft-edit-btn:hover {
+    background: #d97706;
+}
+
+/* ============================================================
+   تنبيهات فتح المسودة / المعتمد
+============================================================ */
+
+.ev-draft-load-alert,
+.ev-approved-load-alert,
+.ev-approved-readonly-message {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    font-weight: 900;
+    line-height: 1.8;
+}
+
+.ev-draft-load-alert {
+    background: #fffbeb;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.ev-approved-load-alert,
+.ev-approved-readonly-message {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #bbf7d0;
+}
+
+/* ============================================================
+   اختيار طريقة التقييم
+============================================================ */
+
+.ev-mode-card {
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 20px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.ev-mode-text h3 {
+    margin: 0 0 6px;
+    color: #0f172a;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.ev-mode-text p {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.8;
+}
+
+.ev-mode-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.ev-mode-btn {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #17324d;
+    min-width: 190px;
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.ev-mode-btn.active {
+    background: #145d91;
+    border-color: #145d91;
+    color: #ffffff;
+}
+
+/* ============================================================
+   تبويبات المعايير
+============================================================ */
+
+.ev-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+    padding-bottom: 4px;
+}
+
+.ev-tab {
+    min-height: 42px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid #dbeafe;
+    background: #ffffff;
+    color: #334155;
+    font-family: inherit;
+    font-weight: 900;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.ev-tab.active {
+    background: #145d91;
+    color: #ffffff;
+    border-color: #145d91;
+}
+
+/* ============================================================
+   لوحة المعيار
+============================================================ */
+
+.ev-standard-panel {
+    display: none;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+.ev-standard-panel.active {
+    display: block;
+}
+
+.ev-standard-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+}
+
+.ev-standard-number {
+    color: #145d91;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.ev-standard-head h2 {
+    margin: 6px 0;
+    font-size: 22px;
+    color: #0f172a;
+}
+
+.ev-standard-head p {
+    margin: 0;
+    color: #64748b;
+    font-weight: 700;
+    line-height: 1.8;
+}
+
+.ev-standard-score-box {
+    min-width: 190px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 14px;
+    text-align: center;
+}
+
+.ev-standard-score-box span {
+    display: block;
+    color: #64748b;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.ev-standard-score-box strong {
+    display: block;
+    color: #145d91;
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.ev-standard-score-box em {
+    display: block;
+    margin-top: 5px;
+    font-style: normal;
+    color: #17324d;
+    font-weight: 900;
+}
+
+/* ============================================================
+   أقسام المعيار الداخلية
+============================================================ */
+
+.ev-standard-sections {
+    display: grid;
+    gap: 14px;
+}
+
+.ev-standard-section {
+    background: #ffffff;
+    border: 1px solid #cfe8f7;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 18px rgba(15, 71, 117, 0.055);
+}
+
+.ev-standard-section summary {
+    list-style: none;
+    min-height: 64px;
+    padding: 15px 18px;
+    cursor: pointer;
+    background: linear-gradient(180deg, #ffffff, #f9fcff);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+        "title arrow"
+        "desc arrow";
+    column-gap: 14px;
+    align-items: center;
+    border-right: 6px solid #2f8ed6;
+}
+
+.ev-standard-section summary::-webkit-details-marker {
+    display: none;
+}
+
+.ev-standard-section-title {
+    grid-area: title;
+    color: #145d91;
+    font-size: 17px;
+    font-weight: 900;
+    line-height: 1.5;
+}
+
+.ev-standard-section-desc {
+    grid-area: desc;
+    margin-top: 2px;
+    color: #64748b;
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.ev-standard-section-arrow {
+    grid-area: arrow;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 1px solid #cfe8f7;
+    background: #f8fbff;
+    color: #145d91;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 900;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.ev-standard-section[open] summary {
+    background: linear-gradient(180deg, #ffffff, #eef8ff);
+    border-bottom: 1px solid #dbeafe;
+}
+
+.ev-standard-section[open] .ev-standard-section-arrow {
+    transform: rotate(180deg);
+    background: #2f8ed6;
+    color: #ffffff;
+    border-color: #2f8ed6;
+}
+
+.ev-standard-section-body {
+    padding: 18px;
+    background: #ffffff;
+}
+
+/* ============================================================
+   مؤشرات وحقول التقييم
+============================================================ */
+
+.ev-standard-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.ev-standard-metrics div {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 12px;
+}
+
+.ev-standard-metrics span {
+    display: block;
+    color: #64748b;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.ev-standard-metrics strong {
+    color: #17324d;
+    font-size: 16px;
+}
+
+.ev-auto-note {
+    background: #edf8ff;
+    border: 1px solid #d3e8f8;
+    color: #145d91;
+    border-radius: 14px;
+    padding: 13px 15px;
+    margin-bottom: 16px;
+    line-height: 1.8;
+}
+
+.ev-review-box {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 14px;
+}
+
+.ev-field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #17324d;
+    font-weight: 900;
+    font-size: 13px;
+}
+
+.ev-field select,
+.ev-field textarea,
+.ev-field input,
+.ev-table select,
+.ev-table textarea,
+.ev-general-notes textarea {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    font-family: inherit;
+    padding: 10px 12px;
+    color: #0f172a;
+    background: #ffffff;
+    box-sizing: border-box;
+    direction: rtl !important;
+    text-align: right !important;
+    unicode-bidi: plaintext;
+    line-height: 1.8;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.ev-field select,
+.ev-field input,
+.ev-table select {
+    height: 44px;
+}
+
+.ev-field textarea,
+.ev-table textarea,
+.ev-general-notes textarea {
+    resize: vertical;
+    min-height: 84px;
+    overflow: hidden;
+}
+
+.ev-table textarea {
+    min-height: 92px;
+}
+
+.ev-field textarea::placeholder,
+.ev-table textarea::placeholder,
+.ev-general-notes textarea::placeholder {
+    color: #94a3b8;
+}
+
+.ev-field select:focus,
+.ev-field textarea:focus,
+.ev-field input:focus,
+.ev-table select:focus,
+.ev-table textarea:focus,
+.ev-general-notes textarea:focus {
+    outline: none;
+    border-color: #60b7ef;
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.14);
+}
+
+.ev-gap-warning {
+    border-color: #f59e0b !important;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.14) !important;
+}
+
+/* ============================================================
+   الجداول
+============================================================ */
+
+.ev-table-wrap {
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #ffffff;
+}
+
+.ev-table {
+    width: 100%;
+    min-width: 1050px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.ev-table th {
+    background: #edf8ff;
+    color: #17324d;
+    padding: 12px;
+    font-size: 13px;
+    text-align: center;
+    border-bottom: 1px solid #dbeafe;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-weight: 900;
+}
+
+.ev-table td {
+    padding: 10px;
+    border-bottom: 1px solid #edf2f7;
+    vertical-align: top;
+    text-align: center;
+    font-size: 13px;
+}
+
+.ev-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.ev-table th:nth-child(1),
+.ev-table td:nth-child(1) {
+    width: 54px;
+}
+
+.ev-table th:nth-child(2),
+.ev-table td:nth-child(2) {
+    width: 29%;
+}
+
+.ev-table th:nth-child(3),
+.ev-table td:nth-child(3) {
+    width: 110px;
+}
+
+.ev-table th:nth-child(4),
+.ev-table td:nth-child(4) {
+    width: 28%;
+}
+
+.ev-table th:nth-child(5),
+.ev-table td:nth-child(5) {
+    width: 150px;
+}
+
+.ev-table th:nth-child(6),
+.ev-table td:nth-child(6) {
+    width: 26%;
+}
+
+.indicator-text {
+    text-align: right !important;
+    font-weight: 800;
+    color: #17324d;
+    line-height: 1.8;
+}
+
+.auto-note {
+    text-align: right !important;
+    color: #64748b;
+    line-height: 1.8;
+}
+
+.ev-score-pill {
+    display: inline-flex;
+    min-width: 58px;
+    min-height: 30px;
+    border-radius: 999px;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    margin-bottom: 5px;
+    padding: 0 10px;
+    font-size: 13px;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+}
+
+.ev-score-pill + small {
+    display: block;
+    color: #64748b;
+    margin-top: 4px;
+    font-weight: 800;
+}
+
+.score-5,
+.score-4 {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.score-3 {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.score-2 {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.score-1 {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.ev-empty-row {
+    padding: 28px !important;
+    color: #64748b;
+    font-weight: 800;
+}
+
+/* ============================================================
+   خطة التحسين والملاحظات العامة
+============================================================ */
+
+.ev-improvement-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.ev-general-notes {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.ev-general-notes label {
+    display: block;
+    margin-bottom: 8px;
+    color: #17324d;
+    font-weight: 900;
+}
+
+.ev-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+/* ============================================================
+   حالات اليدوي والآلي
+============================================================ */
+
+.evaluation-manual-mode .ev-auto-only,
+.evaluation-manual-mode .ev-auto-only-col {
+    display: none !important;
+}
+
+.evaluation-manual-mode .ev-table {
+    min-width: 850px;
+}
+
+.evaluation-auto-mode .ev-auto-only-col {
+    display: table-cell;
+}
+
+.evaluation-auto-mode .ev-standard-metrics.ev-auto-only {
+    display: grid;
+}
+
+.evaluation-auto-mode .ev-auto-note.ev-auto-only {
+    display: block;
+}
+
+.evaluation-auto-mode .js-standard-score,
+.evaluation-auto-mode .js-standard-notes,
+.evaluation-auto-mode .js-indicator-score,
+.evaluation-auto-mode .js-indicator-notes,
+.evaluation-auto-mode .js-strengths,
+.evaluation-auto-mode .js-weaknesses,
+.evaluation-auto-mode .js-improvement-plan,
+.evaluation-auto-mode .js-execution-time {
+    background: linear-gradient(180deg, #ffffff, #edf8ff) !important;
+    border-color: #acd9f6 !important;
+    color: #0f172a !important;
+}
+
+.evaluation-manual-mode .js-standard-score,
+.evaluation-manual-mode .js-standard-notes,
+.evaluation-manual-mode .js-indicator-score,
+.evaluation-manual-mode .js-indicator-notes,
+.evaluation-manual-mode .js-strengths,
+.evaluation-manual-mode .js-weaknesses,
+.evaluation-manual-mode .js-improvement-plan,
+.evaluation-manual-mode .js-execution-time {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* ============================================================
+   حالة عدم وجود ملف
+============================================================ */
+
+.ev-empty-state {
+    padding: 40px;
+    text-align: center;
+}
+
+.ev-empty-state h2 {
+    margin: 0 0 8px;
+    color: #17324d;
+}
+
+.ev-empty-state p {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.8;
+}
+
+/* ============================================================
+   مربع التأكيد
+============================================================ */
+
+.ev-confirm-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.ev-confirm-modal.active {
+    display: flex;
+}
+
+.ev-confirm-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.48);
+    backdrop-filter: blur(3px);
+}
+
+.ev-confirm-dialog {
+    position: relative;
+    width: min(520px, 100%);
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 24px;
+    padding: 26px;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22);
+    text-align: center;
+    animation: evModalIn 0.18s ease-out;
+}
+
+@keyframes evModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.ev-confirm-icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 14px;
+    border-radius: 999px;
+    background: #e0f2fe;
+    color: #145d91;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.ev-confirm-icon.warning {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.ev-confirm-icon.success {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.ev-confirm-content h3 {
+    margin: 0 0 8px;
+    color: #17324d;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.ev-confirm-content p {
+    margin: 0;
+    color: #52657d;
+    line-height: 1.9;
+    font-weight: 700;
+}
+
+.ev-confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.ev-confirm-cancel,
+.ev-confirm-ok {
+    min-height: 42px;
+    min-width: 120px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.ev-confirm-cancel {
+    background: #ffffff;
+    color: #17324d;
+    border: 1px solid #cbd5e1;
+}
+
+.ev-confirm-ok {
+    background: #145d91;
+    color: #ffffff;
+    border: 1px solid #145d91;
+}
+
+/* ============================================================
+   التجاوب
+============================================================ */
+
+@media (max-width: 1000px) {
+    .ev-header,
+    .ev-select-card,
+    .ev-program-card,
+    .ev-standard-head,
+    .ev-mode-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ev-summary-grid,
+    .ev-standard-metrics,
+    .ev-improvement-grid,
+    .ev-review-box,
+    .ev-approved-mini-grid,
+    .ev-approved-improvement-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ev-file-form select {
+        min-width: 100%;
+        width: 100%;
+    }
+
+    .ev-mode-actions {
+        flex-direction: column;
+    }
+
+    .ev-mode-btn {
+        width: 100%;
+    }
+
+    .ev-standard-section summary {
+        min-height: auto;
+        padding: 14px;
+    }
+
+    .ev-approved-item-summary {
+        grid-template-columns: 34px 1fr;
+    }
+
+    .ev-approved-percent,
+    .ev-approved-status,
+    .ev-approved-date {
+        justify-content: flex-start;
+    }
+
+    .ev-approved-standard > summary {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ev-actions {
+        flex-direction: column;
+    }
+
+    .ev-save-btn,
+    .ev-approve-btn {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   EVALUATION CONFIRM MODALS - BLUE SYSTEM THEME
+   تنسيق رسائل التأكيد في صفحة التقييم
+========================================================= */
+
+/* خلفية النافذة */
+.ev-confirm-overlay,
+.evaluation-confirm-overlay,
+.confirm-overlay,
+.custom-confirm-overlay {
+    background: rgba(15, 36, 56, 0.58) !important;
+    backdrop-filter: blur(7px) !important;
+}
+
+/* صندوق الرسالة */
+.ev-confirm-box,
+.evaluation-confirm-box,
+.confirm-box,
+.custom-confirm-box {
+    width: min(520px, 92vw) !important;
+    background: #ffffff !important;
+    border: 1px solid #bfe2f8 !important;
+    border-radius: 28px !important;
+    box-shadow: 0 28px 80px rgba(20, 93, 145, 0.30) !important;
+    padding: 34px 34px 28px !important;
+    text-align: center !important;
+}
+
+/* أيقونة الرسالة */
+.ev-confirm-icon,
+.evaluation-confirm-icon,
+.confirm-icon,
+.custom-confirm-icon {
+    width: 58px !important;
+    height: 58px !important;
+    margin: 0 auto 18px !important;
+    border-radius: 999px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 28px !important;
+    font-weight: 950 !important;
+}
+
+/* حالة التنبيه */
+.ev-confirm-icon.is-warning,
+.evaluation-confirm-icon.is-warning,
+.confirm-icon.is-warning,
+.custom-confirm-icon.is-warning {
+    background: #fff7df !important;
+    color: #c46a00 !important;
+    border: 1px solid #fde68a !important;
+}
+
+/* حالة النجاح */
+.ev-confirm-icon.is-success,
+.evaluation-confirm-icon.is-success,
+.confirm-icon.is-success,
+.custom-confirm-icon.is-success {
+    background: #edf8ff !important;
+    color: #145d91 !important;
+    border: 1px solid #cfe6f7 !important;
+}
+
+/* عنوان الرسالة */
+.ev-confirm-box h2,
+.evaluation-confirm-box h2,
+.confirm-box h2,
+.custom-confirm-box h2 {
+    margin: 0 0 10px !important;
+    color: #17324d !important;
+    font-size: 24px !important;
+    font-weight: 950 !important;
+    line-height: 1.7 !important;
+}
+
+/* نص الرسالة */
+.ev-confirm-box p,
+.evaluation-confirm-box p,
+.confirm-box p,
+.custom-confirm-box p {
+    margin: 0 auto 24px !important;
+    color: #5f7388 !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    line-height: 2 !important;
+    max-width: 430px !important;
+}
+
+/* منطقة الأزرار */
+.ev-confirm-actions,
+.evaluation-confirm-actions,
+.confirm-actions,
+.custom-confirm-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    margin-top: 10px !important;
+}
+
+/* الزر الأساسي بدل الأخضر */
+.ev-confirm-primary,
+.evaluation-confirm-primary,
+.confirm-primary,
+.custom-confirm-primary,
+.ev-confirm-actions button[type="submit"],
+.evaluation-confirm-actions button[type="submit"],
+.confirm-actions button[type="submit"],
+.custom-confirm-actions button[type="submit"] {
+    min-width: 150px !important;
+    height: 48px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg, #145d91, #2f8ed6) !important;
+    color: #ffffff !important;
+    font-size: 14px !important;
+    font-weight: 950 !important;
+    font-family: inherit !important;
+    cursor: pointer !important;
+    box-shadow: 0 12px 22px rgba(47, 142, 214, 0.18) !important;
+}
+
+.ev-confirm-primary:hover,
+.evaluation-confirm-primary:hover,
+.confirm-primary:hover,
+.custom-confirm-primary:hover,
+.ev-confirm-actions button[type="submit"]:hover,
+.evaluation-confirm-actions button[type="submit"]:hover,
+.confirm-actions button[type="submit"]:hover,
+.custom-confirm-actions button[type="submit"]:hover {
+    background: linear-gradient(135deg, #0f4f7c, #247fc5) !important;
+}
+
+/* زر الإلغاء */
+.ev-confirm-secondary,
+.evaluation-confirm-secondary,
+.confirm-secondary,
+.custom-confirm-secondary,
+.ev-confirm-actions button[type="button"],
+.evaluation-confirm-actions button[type="button"],
+.confirm-actions button[type="button"],
+.custom-confirm-actions button[type="button"] {
+    min-width: 120px !important;
+    height: 48px !important;
+    border-radius: 999px !important;
+    background: #ffffff !important;
+    color: #17324d !important;
+    border: 1px solid #cfe0ee !important;
+    font-size: 14px !important;
+    font-weight: 950 !important;
+    font-family: inherit !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+}
+
+.ev-confirm-secondary:hover,
+.evaluation-confirm-secondary:hover,
+.confirm-secondary:hover,
+.custom-confirm-secondary:hover,
+.ev-confirm-actions button[type="button"]:hover,
+.evaluation-confirm-actions button[type="button"]:hover,
+.confirm-actions button[type="button"]:hover,
+.custom-confirm-actions button[type="button"]:hover {
+    background: #edf8ff !important;
+    border-color: #60b7ef !important;
+    color: #145d91 !important;
+}
+
+/* إجبار أي زر أخضر قديم داخل نافذة التأكيد يتحول أزرق */
+.ev-confirm-box button:not(.ev-confirm-secondary),
+.evaluation-confirm-box button:not(.evaluation-confirm-secondary),
+.confirm-box button:not(.confirm-secondary),
+.custom-confirm-box button:not(.custom-confirm-secondary) {
+    background: linear-gradient(135deg, #145d91, #2f8ed6) !important;
+    color: #ffffff !important;
+}
+
+/* ============================================================
+   FINAL FIX - Evaluation table without inner scroll
+   + reviewer notes stay visually empty until reviewer writes
+============================================================ */
+
+/* لا نريد سكرول داخلي داخل جدول المؤشرات */
+.ev-standard-section .ev-table-wrap,
+.ev-inner-section .ev-table-wrap,
+.ev-table-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    border-radius: 16px !important;
+}
+
+/* منع تمدد الجدول خارج الكرت */
+.ev-standard-section .ev-table,
+.ev-inner-section .ev-table,
+.ev-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+}
+
+.evaluation-manual-mode .ev-table,
+.evaluation-auto-mode .ev-table,
+.ev-approved-table {
+    min-width: 0 !important;
+}
+
+/* النصوص تلتف داخل الخلايا بدل إنشاء سكرول */
+.ev-table th,
+.ev-table td {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    vertical-align: top !important;
+}
+
+/* توزيع أعمدة جدول المؤشرات حسب عرض الصفحة */
+.ev-table th:nth-child(1),
+.ev-table td:nth-child(1) {
+    width: 4% !important;
+}
+
+.ev-table th:nth-child(2),
+.ev-table td:nth-child(2) {
+    width: 22% !important;
+}
+
+.ev-table th:nth-child(3),
+.ev-table td:nth-child(3) {
+    width: 10% !important;
+}
+
+.ev-table th:nth-child(4),
+.ev-table td:nth-child(4) {
+    width: 24% !important;
+}
+
+.ev-table th:nth-child(5),
+.ev-table td:nth-child(5) {
+    width: 14% !important;
+}
+
+.ev-table th:nth-child(6),
+.ev-table td:nth-child(6) {
+    width: 26% !important;
+}
+
+/* الحقول داخل الجدول لا تسبب تمدد */
+.ev-table select,
+.ev-table textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.ev-table textarea {
+    min-height: 78px !important;
+    max-height: none !important;
+    overflow: hidden !important;
+    resize: vertical !important;
+    line-height: 1.8 !important;
+}
+
+/* في الوضع الآلي تبقى حقول المراجع قابلة للتعبئة ولكن لا تكون خضراء مزعجة */
+.evaluation-auto-mode .js-standard-notes,
+.evaluation-auto-mode .js-indicator-notes {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* تحسين الطباعة/الشاشات الضيقة */
+@media (max-width: 1100px) {
+    .ev-table th,
+    .ev-table td {
+        padding: 8px !important;
+        font-size: 12px !important;
+    }
+
+    .ev-score-pill {
+        min-width: 48px !important;
+        padding: 0 8px !important;
+    }
+}
+
+/* ============================================================
+   FINAL EVALUATION THEME — SIDEBAR COLORS + COMPACT LAYOUT
+   يجب أن يبقى هذا القسم في نهاية الملف
+============================================================ */
+
+.evaluation-page {
+    --ev-light: #60b7ef;
+    --ev-main: #2f8ed6;
+    --ev-dark: #247fc5;
+    --ev-deep: #145d91;
+    --ev-soft: #edf8ff;
+    --ev-soft-2: #f7fbfc;
+    --ev-border: #d3e8f8;
+    --ev-border-strong: #acd9f6;
+    --ev-text: #17324d;
+    --ev-muted: #647984;
+    padding: 16px !important;
+    background: #f5fafc !important;
+    color: var(--ev-text) !important;
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+}
+
+/* الكروت العامة */
+.evaluation-page .ev-header,
+.evaluation-page .ev-select-card,
+.evaluation-page .ev-program-card,
+.evaluation-page .ev-standard-panel,
+.evaluation-page .ev-empty-state,
+.evaluation-page .ev-mode-card,
+.evaluation-page .ev-approved-section,
+.evaluation-page .ev-general-notes {
+    background: #fff !important;
+    border: 1px solid var(--ev-border) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 5px 15px rgba(20,93,145,.055) !important;
+}
+
+/* الهيدر */
+.evaluation-page .ev-header {
+    gap: 14px !important;
+    padding: 18px 20px !important;
+    margin-bottom: 12px !important;
+    align-items: center !important;
+}
+.evaluation-page .ev-header h1 {
+    margin: 0 0 5px !important;
+    color: var(--ev-deep) !important;
+    font-size: 24px !important;
+    line-height: 1.4 !important;
+}
+.evaluation-page .ev-header p {
+    margin: 0 !important;
+    color: var(--ev-muted) !important;
+    font-size: 13px !important;
+    line-height: 1.7 !important;
+}
+.evaluation-page .ev-header-badge {
+    min-width: 138px !important;
+    padding: 10px 14px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg,var(--ev-light),var(--ev-main) 48%,var(--ev-dark)) !important;
+    box-shadow: 0 7px 16px rgba(47,142,214,.17) !important;
+}
+.evaluation-page .ev-header-badge span { font-size: 11px !important; }
+.evaluation-page .ev-header-badge strong { margin-top: 2px !important; font-size: 15px !important; }
+
+/* اختيار الملف */
+.evaluation-page .ev-select-card {
+    padding: 14px 16px !important;
+    margin-bottom: 12px !important;
+    gap: 14px !important;
+}
+.evaluation-page .ev-select-card h2 {
+    margin: 0 0 3px !important;
+    color: var(--ev-deep) !important;
+    font-size: 16px !important;
+}
+.evaluation-page .ev-select-card p {
+    margin: 0 !important;
+    color: var(--ev-muted) !important;
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+}
+.evaluation-page .ev-file-form select {
+    min-width: 320px !important;
+    height: 42px !important;
+    padding: 0 12px !important;
+    border: 1px solid var(--ev-border-strong) !important;
+    border-radius: 11px !important;
+    color: var(--ev-text) !important;
+    background: #fff !important;
+    font-size: 12px !important;
+}
+.evaluation-page .ev-file-form select:focus {
+    outline: none !important;
+    border-color: var(--ev-main) !important;
+    box-shadow: 0 0 0 3px rgba(47,142,214,.13) !important;
+}
+
+/* حالة عدم اختيار ملف */
+.evaluation-page .ev-empty-state {
+    padding: 26px 22px !important;
+    min-height: 135px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.evaluation-page .ev-empty-state h2 {
+    margin: 0 0 5px !important;
+    color: var(--ev-deep) !important;
+    font-size: 19px !important;
+}
+.evaluation-page .ev-empty-state p {
+    margin: 0 !important;
+    color: var(--ev-muted) !important;
+    font-size: 12.5px !important;
+    line-height: 1.65 !important;
+}
+
+/* بطاقة البرنامج */
+.evaluation-page .ev-program-card {
+    padding: 14px 16px !important;
+    margin-bottom: 12px !important;
+    gap: 14px !important;
+}
+.evaluation-page .ev-small-label {
+    padding: 4px 10px !important;
+    margin-bottom: 5px !important;
+    color: var(--ev-deep) !important;
+    background: var(--ev-soft) !important;
+    border: 1px solid var(--ev-border) !important;
+    font-size: 10.5px !important;
+}
+.evaluation-page .ev-program-card h2 { margin: 0 0 4px !important; color: var(--ev-text) !important; font-size: 18px !important; }
+.evaluation-page .ev-program-card p { color: var(--ev-muted) !important; font-size: 12px !important; }
+
+/* الأزرار */
+.evaluation-page .ev-link-btn,
+.evaluation-page .ev-generate-btn,
+.evaluation-page .ev-save-btn,
+.evaluation-page .ev-approve-btn {
+    min-height: 38px !important;
+    padding: 0 15px !important;
+    border-radius: 10px !important;
+    font-size: 11.5px !important;
+}
+.evaluation-page .ev-link-btn,
+.evaluation-page .ev-save-btn {
+    background: var(--ev-soft) !important;
+    color: var(--ev-deep) !important;
+    border: 1px solid var(--ev-border-strong) !important;
+}
+.evaluation-page .ev-generate-btn,
+.evaluation-page .ev-approve-btn {
+    background: linear-gradient(135deg,var(--ev-light),var(--ev-main),var(--ev-dark)) !important;
+    color: #fff !important;
+    box-shadow: 0 6px 14px rgba(47,142,214,.16) !important;
+}
+.evaluation-page .ev-generate-btn:hover,
+.evaluation-page .ev-approve-btn:hover { background: linear-gradient(135deg,var(--ev-main),var(--ev-dark)) !important; }
+.evaluation-page .ev-save-btn:hover,
+.evaluation-page .ev-link-btn:hover { background: #e4f3fd !important; border-color: var(--ev-main) !important; }
+
+/* الملخصات */
+.evaluation-page .ev-summary-grid { gap: 10px !important; margin-bottom: 12px !important; }
+.evaluation-page .ev-summary-card {
+    padding: 13px !important;
+    border: 1px solid var(--ev-border) !important;
+    border-radius: 13px !important;
+    box-shadow: 0 4px 11px rgba(20,93,145,.045) !important;
+}
+.evaluation-page .ev-summary-card span { margin-bottom: 4px !important; color: var(--ev-muted) !important; font-size: 11px !important; }
+.evaluation-page .ev-summary-card strong { color: var(--ev-deep) !important; font-size: 19px !important; }
+
+/* المعتمدات */
+.evaluation-page .ev-approved-section { margin-bottom: 12px !important; }
+.evaluation-page .ev-approved-summary {
+    min-height: 52px !important;
+    padding: 11px 14px !important;
+    background: linear-gradient(135deg,#fff,var(--ev-soft)) !important;
+    color: var(--ev-deep) !important;
+    font-size: 12px !important;
+}
+.evaluation-page .ev-approved-summary::before,
+.evaluation-page .ev-approved-item-summary::before,
+.evaluation-page .ev-approved-standard > summary::before {
+    width: 27px !important;
+    height: 27px !important;
+    border-color: var(--ev-border-strong) !important;
+    color: var(--ev-deep) !important;
+}
+.evaluation-page .ev-approved-section[open] > .ev-approved-summary::before,
+.evaluation-page .ev-approved-item[open] > .ev-approved-item-summary::before,
+.evaluation-page .ev-approved-standard[open] > summary::before {
+    background: var(--ev-main) !important;
+    border-color: var(--ev-main) !important;
+    color: #fff !important;
+}
+.evaluation-page .ev-approved-summary small { font-size: 11px !important; color: var(--ev-muted) !important; }
+.evaluation-page .ev-approved-summary strong { min-width: 36px !important; height: 29px !important; background: var(--ev-main) !important; font-size: 11.5px !important; }
+.evaluation-page .ev-approved-body,
+.evaluation-page .ev-approved-detail,
+.evaluation-page .ev-approved-standard-body { padding: 12px !important; }
+.evaluation-page .ev-approved-item { margin-bottom: 9px !important; border-color: var(--ev-border) !important; border-radius: 13px !important; }
+.evaluation-page .ev-approved-item-summary { padding: 10px 12px !important; gap: 9px !important; background: #fbfefe !important; font-size: 11.5px !important; }
+.evaluation-page .ev-approved-percent { background: var(--ev-soft) !important; color: var(--ev-deep) !important; border-color: var(--ev-border) !important; }
+.evaluation-page .ev-approved-mini-grid { gap: 9px !important; margin-bottom: 10px !important; }
+.evaluation-page .ev-approved-mini-grid > div { padding: 10px !important; border-color: var(--ev-border) !important; border-radius: 12px !important; background: var(--ev-soft-2) !important; }
+.evaluation-page .ev-approved-mini-grid strong { color: var(--ev-deep) !important; font-size: 14px !important; }
+.evaluation-page .ev-approved-standard { margin-bottom: 9px !important; border-color: var(--ev-border) !important; border-radius: 12px !important; }
+.evaluation-page .ev-approved-standard > summary { padding: 10px 12px !important; color: var(--ev-deep) !important; font-size: 11.5px !important; }
+.evaluation-page .ev-approved-standard > summary strong { color: var(--ev-main) !important; font-size: 11px !important; }
+
+/* اختيار طريقة التقييم */
+.evaluation-page .ev-mode-card { padding: 13px 15px !important; margin-bottom: 12px !important; gap: 13px !important; }
+.evaluation-page .ev-mode-text h3 { margin-bottom: 3px !important; color: var(--ev-text) !important; font-size: 15px !important; }
+.evaluation-page .ev-mode-text p { color: var(--ev-muted) !important; font-size: 11.5px !important; line-height: 1.65 !important; }
+.evaluation-page .ev-mode-actions { gap: 7px !important; }
+.evaluation-page .ev-mode-btn {
+    min-width: 155px !important;
+    min-height: 38px !important;
+    padding: 0 12px !important;
+    border: 1px solid var(--ev-border-strong) !important;
+    color: var(--ev-deep) !important;
+    font-size: 11px !important;
+}
+.evaluation-page .ev-mode-btn.active {
+    background: linear-gradient(135deg,var(--ev-light),var(--ev-main),var(--ev-dark)) !important;
+    border-color: var(--ev-main) !important;
+    color: #fff !important;
+}
+
+/* تبويبات المعايير */
+.evaluation-page .ev-tabs { gap: 6px !important; margin-bottom: 11px !important; padding-bottom: 2px !important; }
+.evaluation-page .ev-tab {
+    min-height: 36px !important;
+    padding: 0 11px !important;
+    border: 1px solid var(--ev-border) !important;
+    color: var(--ev-deep) !important;
+    font-size: 10.5px !important;
+}
+.evaluation-page .ev-tab.active {
+    background: linear-gradient(135deg,var(--ev-light),var(--ev-main),var(--ev-dark)) !important;
+    color: #fff !important;
+    border-color: var(--ev-main) !important;
+}
+
+/* لوحة المعيار */
+.evaluation-page .ev-standard-panel { padding: 15px !important; margin-bottom: 13px !important; }
+.evaluation-page .ev-standard-head { gap: 13px !important; padding-bottom: 11px !important; margin-bottom: 12px !important; border-color: var(--ev-border) !important; }
+.evaluation-page .ev-standard-number { color: var(--ev-main) !important; font-size: 11px !important; }
+.evaluation-page .ev-standard-head h2 { margin: 3px 0 !important; color: var(--ev-text) !important; font-size: 18px !important; }
+.evaluation-page .ev-standard-head p { color: var(--ev-muted) !important; font-size: 11.5px !important; line-height: 1.65 !important; }
+.evaluation-page .ev-standard-score-box {
+    min-width: 155px !important;
+    padding: 10px !important;
+    border: 1px solid var(--ev-border) !important;
+    border-radius: 12px !important;
+    background: var(--ev-soft-2) !important;
+}
+.evaluation-page .ev-standard-score-box strong { color: var(--ev-deep) !important; font-size: 19px !important; }
+
+/* الأقسام الداخلية */
+.evaluation-page .ev-standard-sections { gap: 10px !important; }
+.evaluation-page .ev-standard-section {
+    border: 1px solid var(--ev-border) !important;
+    border-radius: 13px !important;
+    box-shadow: 0 4px 11px rgba(20,93,145,.045) !important;
+}
+.evaluation-page .ev-standard-section summary {
+    min-height: 51px !important;
+    padding: 10px 13px !important;
+    column-gap: 10px !important;
+    border-right: 4px solid var(--ev-main) !important;
+    background: linear-gradient(180deg,#fff,var(--ev-soft-2)) !important;
+}
+.evaluation-page .ev-standard-section-title { color: var(--ev-deep) !important; font-size: 14px !important; line-height: 1.45 !important; }
+.evaluation-page .ev-standard-section-desc { color: var(--ev-muted) !important; font-size: 10.5px !important; line-height: 1.5 !important; }
+.evaluation-page .ev-standard-section-arrow {
+    width: 28px !important;
+    height: 28px !important;
+    border-color: var(--ev-border) !important;
+    background: var(--ev-soft) !important;
+    color: var(--ev-deep) !important;
+    font-size: 14px !important;
+}
+.evaluation-page .ev-standard-section[open] summary { background: linear-gradient(180deg,#fff,var(--ev-soft)) !important; border-bottom-color: var(--ev-border) !important; }
+.evaluation-page .ev-standard-section[open] .ev-standard-section-arrow { background: var(--ev-main) !important; color: #fff !important; border-color: var(--ev-main) !important; }
+.evaluation-page .ev-standard-section-body { padding: 13px !important; }
+
+/* المؤشرات والحقول */
+.evaluation-page .ev-standard-metrics { gap: 7px !important; margin-bottom: 11px !important; }
+.evaluation-page .ev-standard-metrics div { padding: 9px !important; border: 1px solid var(--ev-border) !important; border-radius: 10px !important; background: var(--ev-soft-2) !important; }
+.evaluation-page .ev-standard-metrics span { margin-bottom: 3px !important; color: var(--ev-muted) !important; font-size: 10px !important; }
+.evaluation-page .ev-standard-metrics strong { color: var(--ev-text) !important; font-size: 13px !important; }
+.evaluation-page .ev-auto-note { padding: 10px 12px !important; margin-bottom: 11px !important; border: 1px solid var(--ev-border) !important; border-radius: 10px !important; background: var(--ev-soft) !important; color: var(--ev-deep) !important; font-size: 11px !important; }
+.evaluation-page .ev-review-box { grid-template-columns: 230px minmax(0,1fr) !important; gap: 10px !important; }
+.evaluation-page .ev-field label,
+.evaluation-page .ev-general-notes label { margin-bottom: 5px !important; color: var(--ev-text) !important; font-size: 11px !important; }
+.evaluation-page .ev-field select,
+.evaluation-page .ev-field input,
+.evaluation-page .ev-table select { height: 38px !important; }
+.evaluation-page .ev-field select,
+.evaluation-page .ev-field textarea,
+.evaluation-page .ev-field input,
+.evaluation-page .ev-table select,
+.evaluation-page .ev-table textarea,
+.evaluation-page .ev-general-notes textarea {
+    padding: 7px 9px !important;
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 9px !important;
+    color: var(--ev-text) !important;
+    font-size: 11px !important;
+    line-height: 1.65 !important;
+}
+.evaluation-page .ev-field textarea,
+.evaluation-page .ev-general-notes textarea { min-height: 68px !important; }
+.evaluation-page .ev-table textarea { min-height: 70px !important; }
+.evaluation-page .ev-field select:focus,
+.evaluation-page .ev-field textarea:focus,
+.evaluation-page .ev-field input:focus,
+.evaluation-page .ev-table select:focus,
+.evaluation-page .ev-table textarea:focus,
+.evaluation-page .ev-general-notes textarea:focus {
+    border-color: var(--ev-main) !important;
+    box-shadow: 0 0 0 3px rgba(47,142,214,.12) !important;
+}
+.evaluation-page.evaluation-auto-mode .js-standard-score,
+.evaluation-page.evaluation-auto-mode .js-standard-notes,
+.evaluation-page.evaluation-auto-mode .js-indicator-score,
+.evaluation-page.evaluation-auto-mode .js-indicator-notes,
+.evaluation-page.evaluation-auto-mode .js-strengths,
+.evaluation-page.evaluation-auto-mode .js-weaknesses,
+.evaluation-page.evaluation-auto-mode .js-improvement-plan,
+.evaluation-page.evaluation-auto-mode .js-execution-time {
+    background: linear-gradient(180deg,#fff,var(--ev-soft)) !important;
+    border-color: var(--ev-border-strong) !important;
+}
+
+/* الجداول */
+.evaluation-page .ev-table-wrap { border: 1px solid var(--ev-border) !important; border-radius: 11px !important; }
+.evaluation-page .ev-table th { padding: 8px !important; background: var(--ev-soft) !important; color: var(--ev-deep) !important; border-bottom-color: var(--ev-border) !important; font-size: 10.5px !important; }
+.evaluation-page .ev-table td { padding: 7px !important; border-bottom-color: #e8f3fb !important; font-size: 10.8px !important; }
+.evaluation-page .indicator-text { color: var(--ev-text) !important; line-height: 1.65 !important; font-size: 10.8px !important; }
+.evaluation-page .auto-note { color: var(--ev-muted) !important; line-height: 1.65 !important; font-size: 10.5px !important; }
+.evaluation-page .ev-score-pill { min-width: 49px !important; min-height: 27px !important; padding: 0 8px !important; font-size: 10.5px !important; box-shadow: none !important; }
+.evaluation-page .score-3 { background: var(--ev-soft) !important; color: var(--ev-deep) !important; }
+
+/* الملاحظات والأفعال */
+.evaluation-page .ev-improvement-grid { gap: 10px !important; }
+.evaluation-page .ev-general-notes { padding: 13px !important; margin-bottom: 12px !important; }
+.evaluation-page .ev-actions { gap: 8px !important; margin-bottom: 18px !important; }
+
+/* الرسائل */
+.evaluation-page .ev-messages { margin-bottom: 10px !important; }
+.evaluation-page .ev-message { padding: 9px 12px !important; margin-bottom: 6px !important; border-radius: 10px !important; font-size: 11px !important; }
+.evaluation-page .ev-message-info { background: var(--ev-soft) !important; color: var(--ev-deep) !important; border-color: var(--ev-border) !important; }
+
+/* نوافذ التأكيد */
+.evaluation-page .ev-confirm-dialog,
+.ev-confirm-box,
+.evaluation-confirm-box,
+.confirm-box,
+.custom-confirm-box {
+    width: min(450px,92vw) !important;
+    padding: 23px 24px 20px !important;
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 17px !important;
+    box-shadow: 0 22px 60px rgba(20,93,145,.24) !important;
+}
+.evaluation-page .ev-confirm-icon,
+.ev-confirm-icon,
+.evaluation-confirm-icon,
+.confirm-icon,
+.custom-confirm-icon { width: 48px !important; height: 48px !important; margin: 0 auto 12px !important; font-size: 21px !important; }
+.evaluation-page .ev-confirm-content h3,
+.ev-confirm-box h2,
+.evaluation-confirm-box h2,
+.confirm-box h2,
+.custom-confirm-box h2 { margin-bottom: 6px !important; color: #145d91 !important; font-size: 18px !important; }
+.evaluation-page .ev-confirm-content p,
+.ev-confirm-box p,
+.evaluation-confirm-box p,
+.confirm-box p,
+.custom-confirm-box p { margin-bottom: 16px !important; color: #647984 !important; font-size: 12px !important; line-height: 1.7 !important; }
+.evaluation-page .ev-confirm-ok,
+.ev-confirm-primary,
+.evaluation-confirm-primary,
+.confirm-primary,
+.custom-confirm-primary,
+.ev-confirm-actions button[type='submit'],
+.evaluation-confirm-actions button[type='submit'],
+.confirm-actions button[type='submit'],
+.custom-confirm-actions button[type='submit'] {
+    min-width: 108px !important;
+    height: 40px !important;
+    border-radius: 10px !important;
+    background: linear-gradient(135deg,#60b7ef,#2f8ed6,#247fc5) !important;
+    color: #fff !important;
+    border-color: #247fc5 !important;
+    box-shadow: 0 7px 15px rgba(47,142,214,.17) !important;
+    font-size: 11.5px !important;
+}
+.evaluation-page .ev-confirm-cancel,
+.ev-confirm-secondary,
+.evaluation-confirm-secondary,
+.confirm-secondary,
+.custom-confirm-secondary,
+.ev-confirm-actions button[type='button'],
+.evaluation-confirm-actions button[type='button'],
+.confirm-actions button[type='button'],
+.custom-confirm-actions button[type='button'] {
+    min-width: 108px !important;
+    height: 40px !important;
+    border-radius: 10px !important;
+    background: #edf8ff !important;
+    color: #145d91 !important;
+    border-color: #acd9f6 !important;
+    font-size: 11.5px !important;
+}
+
+@media (max-width: 1000px) {
+    .evaluation-page { padding: 12px !important; }
+    .evaluation-page .ev-file-form select { width: 100% !important; min-width: 0 !important; }
+    .evaluation-page .ev-review-box { grid-template-columns: 1fr !important; }
+}
+
+/* ============================================================
+   FINAL EVALUATION TABS FIX
+   نفس شريط المعايير في صفحة إدخال البيانات
+============================================================ */
+
+/* منع أي Grid أو Flex عام على النموذج من تضييق شريط المعايير */
+html body main.ust-content .evaluation-page #reviewForm {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+}
+
+/* شريط المعايير كامل العرض */
+html body main.ust-content
+.evaluation-page
+#reviewForm > .ev-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    grid-column: 1 / -1 !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+
+    position: static !important;
+    inset: auto !important;
+    float: none !important;
+    clear: both !important;
+    transform: none !important;
+
+    gap: 6px !important;
+    margin: 10px 0 12px !important;
+    padding: 6px !important;
+
+    direction: rtl !important;
+    writing-mode: horizontal-tb !important;
+
+    background: #ffffff !important;
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 13px !important;
+
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+/* كل معيار داخل خانة متساوية */
+html body main.ust-content
+.evaluation-page
+#reviewForm > .ev-tabs > .ev-tab {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    height: auto !important;
+    min-height: 54px !important;
+    max-height: none !important;
+
+    margin: 0 !important;
+    padding: 6px 5px !important;
+
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    float: none !important;
+
+    direction: rtl !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+
+    text-align: center !important;
+    line-height: 1.35 !important;
+    font-size: 10.2px !important;
+    font-weight: 850 !important;
+
+    color: #145d91 !important;
+    background: #ffffff !important;
+
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 10px !important;
+
+    box-shadow: none !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+/* الرقم والاسم يبقيان أفقيين */
+html body main.ust-content
+.evaluation-page
+#reviewForm > .ev-tabs > .ev-tab .ev-tab-number,
+html body main.ust-content
+.evaluation-page
+#reviewForm > .ev-tabs > .ev-tab .ev-tab-title {
+    display: inline !important;
+    width: auto !important;
+    min-width: 0 !important;
+
+    direction: rtl !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+
+    color: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+}
+
+/* Hover */
+html body main.ust-content
+.evaluation-page
+#reviewForm > .ev-tabs > .ev-tab:hover {
+    background: #edf8ff !important;
+    color: #145d91 !important;
+    border-color: #60b7ef !important;
+}
+
+/* المعيار المحدد */
+html body main.ust-content
+.evaluation-page
+#reviewForm > .ev-tabs > .ev-tab.active {
+    background: linear-gradient(
+        135deg,
+        #60b7ef 0%,
+        #2f8ed6 48%,
+        #247fc5 100%
+    ) !important;
+
+    color: #ffffff !important;
+    border-color: #2f8ed6 !important;
+
+    box-shadow: 0 5px 12px rgba(47, 142, 214, 0.17) !important;
+}
+
+/* أزرار الحفظ في الجهة المقابلة */
+html body main.ust-content
+.evaluation-page
+#reviewForm > .ev-actions {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    direction: rtl !important;
+    gap: 10px !important;
+
+    margin: 16px 0 22px !important;
+    padding: 0 !important;
+
+    float: none !important;
+    clear: both !important;
+}
+
+/* الترتيب: حفظ المسودة ثم الاعتماد */
+html body main.ust-content
+.evaluation-page
+#reviewForm > .ev-actions .ev-save-btn {
+    order: 1 !important;
+}
+
+html body main.ust-content
+.evaluation-page
+#reviewForm > .ev-actions .ev-approve-btn {
+    order: 2 !important;
+}
+
+/* مسافة أعلى الصفحة */
+html body main.ust-content .evaluation-page {
+    margin-top: 24px !important;
+}
+
+@media (max-width: 900px) {
+    html body main.ust-content
+    .evaluation-page
+    #reviewForm > .ev-tabs {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    html body main.ust-content
+    .evaluation-page
+    #reviewForm > .ev-tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}

@@ -1,0 +1,6063 @@
+/* =========================================================
+   ANALYSIS PAGE - UST BLUE THEME
+========================================================= */
+
+.analysis-page {
+    direction: rtl;
+    display: grid;
+    gap: 22px;
+    background: transparent !important;
+    color: var(--ust-text, #18324a);
+}
+
+/* =========================================================
+   Hero
+========================================================= */
+
+.analysis-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 18px;
+    padding: 26px;
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at left bottom, rgba(96, 183, 239, 0.18), transparent 32%),
+        linear-gradient(135deg, #ffffff 0%, #f5fbff 100%) !important;
+    border: 1px solid var(--ust-border, #d3e8f8) !important;
+    box-shadow: var(--ust-shadow, 0 14px 34px rgba(36, 127, 197, 0.12)) !important;
+}
+
+.analysis-hero-content {
+    display: grid;
+    align-content: center;
+}
+
+.analysis-kicker {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--ust-blue-soft, #edf8ff) !important;
+    color: var(--ust-blue-deep, #145d91) !important;
+    border: 1px solid #d3e8f8 !important;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.analysis-hero h1 {
+    margin: 0;
+    color: var(--ust-ink, #102033) !important;
+    font-size: 34px;
+    font-weight: 950;
+    line-height: 1.4;
+}
+
+.analysis-hero p {
+    max-width: 820px;
+    margin: 12px 0 0;
+    color: var(--ust-muted, #6b7f95) !important;
+    font-size: 15px;
+    line-height: 1.9;
+    font-weight: 700;
+}
+
+.analysis-hero-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.analysis-selected-file {
+    min-width: 280px;
+    padding: 20px;
+    border-radius: 24px;
+    background: linear-gradient(
+        135deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    ) !important;
+    color: #ffffff !important;
+    display: grid;
+    align-content: center;
+    gap: 8px;
+    box-shadow: 0 16px 30px rgba(36, 127, 197, 0.18) !important;
+}
+
+.analysis-selected-file span {
+    color: #ffffff !important;
+    opacity: 0.9;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.analysis-selected-file strong {
+    color: #ffffff !important;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   Shared Cards
+========================================================= */
+
+.analysis-filter-card,
+.analysis-panel,
+.analysis-empty-state,
+.analysis-alert,
+.analysis-accordion-card,
+.analysis-reading-card,
+.analysis-approval-card {
+    background: #ffffff !important;
+    border: 1px solid var(--ust-border, #d3e8f8) !important;
+    border-radius: 24px;
+    box-shadow: var(--ust-shadow-soft, 0 8px 22px rgba(36, 127, 197, 0.08)) !important;
+}
+
+/* =========================================================
+   Buttons
+========================================================= */
+
+.analysis-filter-btn,
+.analysis-primary-link,
+.analysis-secondary-btn,
+.analysis-row-action {
+    min-height: 42px;
+    border-radius: 14px;
+    padding: 0 18px;
+    font-family: inherit;
+    font-weight: 900;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.analysis-filter-btn,
+.analysis-primary-link {
+    border: 0 !important;
+    background: linear-gradient(
+        135deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    ) !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 20px rgba(36, 127, 197, 0.16) !important;
+}
+
+.analysis-secondary-btn {
+    border: 1px solid #d3e8f8;
+    background: #ffffff;
+    color: var(--ust-blue-deep, #145d91);
+}
+
+.analysis-secondary-btn:hover,
+.analysis-row-action:hover,
+.analysis-primary-link:hover,
+.analysis-filter-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(36, 127, 197, 0.14);
+}
+
+/* =========================================================
+   Filters
+========================================================= */
+
+.analysis-filter-card {
+    padding: 18px;
+}
+
+.analysis-filters {
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr 0.9fr auto;
+    gap: 14px;
+    align-items: end;
+}
+
+.analysis-field {
+    display: grid;
+    gap: 7px;
+}
+
+.analysis-field label {
+    font-size: 13px;
+    color: var(--ust-ink, #102033) !important;
+    font-weight: 900;
+}
+
+.analysis-field select,
+.analysis-inline-filter select {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 14px;
+    padding: 0 14px;
+    color: var(--ust-text, #18324a) !important;
+    background: #ffffff !important;
+    font-family: inherit;
+    font-weight: 800;
+    outline: none;
+}
+
+.analysis-field select:focus,
+.analysis-inline-filter select:focus {
+    border-color: var(--ust-blue-light, #60b7ef) !important;
+    box-shadow: 0 0 0 3px rgba(96, 183, 239, 0.17) !important;
+}
+
+/* =========================================================
+   Empty State
+========================================================= */
+
+.analysis-empty-state {
+    padding: 38px;
+    text-align: center;
+}
+
+.analysis-empty-state h2 {
+    margin: 0 0 8px;
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 24px;
+    font-weight: 950;
+}
+
+.analysis-empty-state p {
+    margin: 0 auto 20px;
+    max-width: 680px;
+    color: var(--ust-muted, #6b7f95);
+    line-height: 1.9;
+    font-weight: 700;
+}
+
+/* =========================================================
+   Smart Alert
+========================================================= */
+
+.analysis-alert {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 20px 22px;
+}
+
+.analysis-alert-icon {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    font-weight: 950;
+}
+
+.analysis-alert-content {
+    display: grid;
+    gap: 8px;
+}
+
+.analysis-alert-content h2 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 950;
+    line-height: 1.6;
+}
+
+.analysis-alert-content p {
+    margin: 0;
+    color: var(--ust-muted, #6b7f95);
+    font-size: 14px;
+    line-height: 1.9;
+    font-weight: 700;
+}
+
+.analysis-alert-stats {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.analysis-alert-stats span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid currentColor;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.analysis-alert-stats strong {
+    font-size: 15px;
+}
+
+.analysis-alert.is-warning {
+    background: #fffaf0 !important;
+    border-color: #fde68a !important;
+}
+
+.analysis-alert.is-warning .analysis-alert-icon {
+    background: #fff7df;
+    color: #9c7410;
+    border: 1px solid #fde68a;
+}
+
+.analysis-alert.is-warning h2,
+.analysis-alert.is-warning .analysis-alert-stats span {
+    color: #9c7410;
+}
+
+.analysis-alert.is-complete {
+    background: var(--ust-green-soft, #ecfaf4) !important;
+    border-color: #bfead8 !important;
+}
+
+.analysis-alert.is-complete .analysis-alert-icon {
+    background: #ffffff;
+    color: var(--ust-green, #1fa973);
+    border: 1px solid #bfead8;
+}
+
+.analysis-alert.is-complete h2,
+.analysis-alert.is-complete .analysis-alert-stats span {
+    color: var(--ust-green, #1fa973);
+}
+
+.analysis-alert.is-blocked {
+    background: var(--ust-red-soft, #fff1f2) !important;
+    border-color: #ffd0d3 !important;
+}
+
+.analysis-alert.is-blocked .analysis-alert-icon {
+    background: #ffffff;
+    color: var(--ust-red, #df4a52);
+    border: 1px solid #ffd0d3;
+}
+
+.analysis-alert.is-blocked h2,
+.analysis-alert.is-blocked .analysis-alert-stats span {
+    color: var(--ust-red, #df4a52);
+}
+
+/* =========================================================
+   Summary Cards
+========================================================= */
+
+.analysis-cards {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.analysis-card {
+    padding: 18px;
+    border-radius: 22px;
+    background: #ffffff !important;
+    border: 1px solid var(--ust-border, #d3e8f8) !important;
+    box-shadow: var(--ust-shadow-soft, 0 8px 22px rgba(36, 127, 197, 0.08)) !important;
+}
+
+.analysis-card span {
+    display: block;
+    color: #465d73 !important;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.analysis-card strong {
+    display: block;
+    margin-top: 8px;
+    color: var(--ust-blue-deep, #145d91) !important;
+    font-size: 32px;
+    font-weight: 950;
+    line-height: 1.2;
+}
+
+.analysis-card p {
+    margin: 8px 0 0;
+    color: var(--ust-muted, #6b7f95) !important;
+    font-size: 12px;
+    line-height: 1.8;
+    font-weight: 700;
+}
+
+.analysis-card.is-green {
+    background: var(--ust-green-soft, #ecfaf4) !important;
+    border-color: #bfead8 !important;
+}
+
+.analysis-card.is-green strong {
+    color: var(--ust-green, #1fa973) !important;
+}
+
+.analysis-card.is-navy {
+    background: var(--ust-blue-soft, #edf8ff) !important;
+    border-color: #d3e8f8 !important;
+}
+
+.analysis-card.is-navy strong {
+    color: var(--ust-blue-deep, #145d91) !important;
+}
+
+.analysis-card.is-orange {
+    background: #fff7df !important;
+    border-color: #fde68a !important;
+}
+
+.analysis-card.is-orange strong {
+    color: #9c7410 !important;
+}
+
+.analysis-card.is-main {
+    background: linear-gradient(
+        135deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    ) !important;
+    border-color: transparent !important;
+    box-shadow: 0 16px 30px rgba(36, 127, 197, 0.18) !important;
+}
+
+.analysis-card.is-main span,
+.analysis-card.is-main strong,
+.analysis-card.is-main p {
+    color: #ffffff !important;
+}
+
+/* =========================================================
+   Approval Indicator
+========================================================= */
+
+.analysis-approval-card {
+    padding: 22px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+}
+
+.analysis-approval-text h2 {
+    margin: 0 0 6px;
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 22px;
+    font-weight: 950;
+}
+
+.analysis-approval-text p {
+    margin: 0;
+    color: var(--ust-muted, #6b7f95);
+    font-weight: 700;
+    line-height: 1.8;
+}
+
+.analysis-approval-note {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: #f7fcff;
+    color: var(--ust-text, #18324a);
+    border: 1px solid #d9e9f5;
+    font-weight: 800;
+    line-height: 1.8;
+}
+
+.analysis-approval-badge {
+    min-width: 210px;
+    min-height: 120px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #ffffff, #edf8ff);
+    border: 1px solid #d9e9f5;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 18px;
+}
+
+.analysis-approval-badge span {
+    color: var(--ust-muted, #6b7f95);
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.analysis-approval-badge strong {
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 34px;
+    font-weight: 950;
+}
+
+.analysis-approval-card.is-complete {
+    background: var(--ust-green-soft, #ecfaf4) !important;
+    border-color: #bfead8 !important;
+}
+
+.analysis-approval-card.is-complete .analysis-approval-badge strong {
+    color: var(--ust-green, #1fa973);
+}
+
+.analysis-approval-card.is-warning {
+    background: #fffaf0 !important;
+    border-color: #fde68a !important;
+}
+
+.analysis-approval-card.is-warning .analysis-approval-badge strong {
+    color: #9c7410;
+}
+
+.analysis-approval-card.is-blocked {
+    background: var(--ust-red-soft, #fff1f2) !important;
+    border-color: #ffd0d3 !important;
+}
+
+.analysis-approval-card.is-blocked .analysis-approval-badge strong {
+    color: var(--ust-red, #df4a52);
+}
+
+/* =========================================================
+   Accordion Cards
+========================================================= */
+
+.analysis-main-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 18px;
+}
+
+.analysis-accordion-card {
+    overflow: hidden;
+}
+
+.analysis-accordion-card > summary {
+    min-height: 66px;
+    padding: 16px 20px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    background: linear-gradient(180deg, #ffffff, #f7fcff);
+    color: var(--ust-blue-deep, #145d91);
+    font-weight: 950;
+}
+
+.analysis-accordion-card > summary::-webkit-details-marker {
+    display: none;
+}
+
+.analysis-accordion-card > summary::before {
+    content: "‹";
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    border: 1px solid #acd9f6;
+    background: #ffffff;
+    color: var(--ust-blue-deep, #145d91);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 950;
+    transition: 0.2s ease;
+    flex-shrink: 0;
+}
+
+.analysis-accordion-card[open] > summary::before {
+    transform: rotate(-90deg);
+    background: var(--ust-blue, #2f8ed6);
+    border-color: var(--ust-blue, #2f8ed6);
+    color: #ffffff;
+}
+
+.analysis-accordion-card > summary span {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.analysis-accordion-card > summary small {
+    color: var(--ust-muted, #6b7f95);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.analysis-accordion-body {
+    padding: 18px;
+    border-top: 1px solid #e3eff8;
+}
+
+/* =========================================================
+   Performance Bars
+========================================================= */
+
+.analysis-performance-list {
+    display: grid;
+    gap: 13px;
+}
+
+.analysis-performance-row {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 1.5fr 80px;
+    gap: 14px;
+    align-items: center;
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid #e1edf7;
+    background: #fbfdff;
+    text-decoration: none;
+}
+
+.analysis-performance-row:hover {
+    background: #f5fbff;
+    border-color: #d3e8f8;
+}
+
+.analysis-performance-title strong {
+    display: block;
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 13px;
+    font-weight: 950;
+    line-height: 1.7;
+}
+
+.analysis-performance-title span {
+    color: var(--ust-muted, #6b7f95);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.analysis-performance-track,
+.mini-progress-track,
+.status-bar-track,
+.overall-meter-track {
+    height: 10px;
+    background: #edf5fb !important;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.analysis-performance-track span,
+.mini-progress-track span,
+.status-bar-fill,
+.overall-meter-track span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
+        90deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    );
+}
+
+.analysis-performance-track span.risk-low,
+.mini-progress-track span.risk-low {
+    background: var(--ust-green, #1fa973);
+}
+
+.analysis-performance-track span.risk-medium,
+.mini-progress-track span.risk-medium {
+    background: #f59e0b;
+}
+
+.analysis-performance-track span.risk-high,
+.mini-progress-track span.risk-high {
+    background: var(--ust-red, #df4a52);
+}
+
+.analysis-performance-value {
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 16px;
+    font-weight: 950;
+    text-align: left;
+}
+
+/* =========================================================
+   Overall Donut
+========================================================= */
+
+.analysis-overall-box {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 20px;
+    align-items: center;
+}
+
+.analysis-donut {
+    --value: 0;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    background:
+        conic-gradient(
+            var(--ust-blue, #2f8ed6) calc(var(--value) * 1%),
+            #edf5fb 0
+        );
+    display: grid;
+    place-items: center;
+    margin: auto;
+    box-shadow: inset 0 0 0 1px #d9e9f5;
+}
+
+.analysis-donut > div {
+    width: 126px;
+    height: 126px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 8px 18px rgba(36, 127, 197, 0.10);
+}
+
+.analysis-donut strong {
+    display: block;
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 28px;
+    font-weight: 950;
+}
+
+.analysis-donut span {
+    color: var(--ust-muted, #6b7f95);
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.analysis-overall-list {
+    display: grid;
+    gap: 10px;
+}
+
+.analysis-overall-list > div {
+    padding: 13px 14px;
+    border-radius: 16px;
+    background: #f7fcff;
+    border: 1px solid #d9e9f5;
+}
+
+.analysis-overall-list span {
+    display: block;
+    color: var(--ust-muted, #6b7f95);
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.analysis-overall-list strong {
+    color: var(--ust-blue-deep, #145d91);
+    font-weight: 950;
+    line-height: 1.7;
+}
+
+/* =========================================================
+   Temporal Comparison
+========================================================= */
+
+.analysis-temporal-summary {
+    padding: 16px;
+    border-radius: 18px;
+    display: grid;
+    gap: 6px;
+    margin-bottom: 14px;
+    border: 1px solid #d9e9f5;
+    background: #f7fcff;
+}
+
+.analysis-temporal-summary strong {
+    font-size: 18px;
+    font-weight: 950;
+    color: var(--ust-blue-deep, #145d91);
+}
+
+.analysis-temporal-summary span {
+    color: var(--ust-muted, #6b7f95);
+    font-weight: 800;
+}
+
+.analysis-temporal-summary.is-up {
+    background: var(--ust-green-soft, #ecfaf4);
+    border-color: #bfead8;
+}
+
+.analysis-temporal-summary.is-up strong {
+    color: var(--ust-green, #1fa973);
+}
+
+.analysis-temporal-summary.is-down {
+    background: var(--ust-red-soft, #fff1f2);
+    border-color: #ffd0d3;
+}
+
+.analysis-temporal-summary.is-down strong {
+    color: var(--ust-red, #df4a52);
+}
+
+.analysis-temporal-summary.is-neutral {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+.analysis-temporal-cards,
+.analysis-comparison-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.analysis-temporal-cards > div,
+.analysis-comparison-summary > div {
+    padding: 14px;
+    border-radius: 16px;
+    background: #fbfdff;
+    border: 1px solid #d9e9f5;
+}
+
+.analysis-temporal-cards span,
+.analysis-comparison-summary span {
+    display: block;
+    color: var(--ust-muted, #6b7f95);
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 6px;
+}
+
+.analysis-temporal-cards strong,
+.analysis-comparison-summary strong {
+    color: var(--ust-blue-deep, #145d91);
+    font-weight: 950;
+    line-height: 1.7;
+}
+
+.trend-pill {
+    display: inline-flex;
+    min-height: 30px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 950;
+}
+
+.trend-pill.is-up {
+    background: var(--ust-green-soft, #ecfaf4);
+    color: var(--ust-green, #1fa973);
+    border: 1px solid #bfead8;
+}
+
+.trend-pill.is-down {
+    background: var(--ust-red-soft, #fff1f2);
+    color: var(--ust-red, #df4a52);
+    border: 1px solid #ffd0d3;
+}
+
+.trend-pill.is-neutral {
+    background: #f8fafc;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+/* =========================================================
+   Smart Priorities
+========================================================= */
+
+.analysis-formula-note,
+.analysis-detail-note,
+.analysis-empty-inline {
+    padding: 13px 15px;
+    border-radius: 16px;
+    background: #f7fcff;
+    border: 1px solid #d9e9f5;
+    color: var(--ust-text, #18324a);
+    line-height: 1.9;
+    font-weight: 800;
+    margin-bottom: 14px;
+}
+
+.analysis-empty-inline {
+    text-align: center;
+    color: var(--ust-muted, #6b7f95);
+}
+
+.analysis-priority-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.analysis-priority-card {
+    padding: 18px;
+    border-radius: 20px;
+    background: #ffffff;
+    border: 1px solid #d9e9f5;
+    display: grid;
+    gap: 12px;
+    box-shadow: 0 8px 18px rgba(36, 127, 197, 0.06);
+}
+
+.analysis-priority-card.risk-low {
+    background: var(--ust-green-soft, #ecfaf4);
+    border-color: #bfead8;
+}
+
+.analysis-priority-card.risk-medium {
+    background: #fffaf0;
+    border-color: #fde68a;
+}
+
+.analysis-priority-card.risk-high {
+    background: var(--ust-red-soft, #fff1f2);
+    border-color: #ffd0d3;
+}
+
+.analysis-priority-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.analysis-priority-head span {
+    color: var(--ust-muted, #6b7f95);
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.analysis-priority-head strong {
+    min-width: 44px;
+    height: 36px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--ust-blue-deep, #145d91);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 950;
+    border: 1px solid #d9e9f5;
+}
+
+.analysis-priority-card h3 {
+    margin: 0;
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 16px;
+    font-weight: 950;
+    line-height: 1.8;
+}
+
+.analysis-priority-card p {
+    margin: 0;
+    color: var(--ust-muted, #6b7f95);
+    line-height: 1.8;
+    font-weight: 800;
+}
+
+.analysis-priority-mini {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.analysis-priority-mini span {
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--ust-text, #18324a);
+    border: 1px solid #d9e9f5;
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+/* =========================================================
+   Reading and Recommendations
+========================================================= */
+
+.analysis-reading-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.analysis-reading-card {
+    padding: 22px;
+}
+
+.analysis-reading-card h2 {
+    margin: 0 0 12px;
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 21px;
+    font-weight: 950;
+}
+
+.analysis-reading-card p {
+    margin: 0 0 10px;
+    color: var(--ust-text, #18324a);
+    line-height: 2;
+    font-weight: 800;
+}
+
+.analysis-recommendations-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 10px;
+}
+
+.analysis-recommendations-list li {
+    position: relative;
+    padding: 12px 42px 12px 14px;
+    border-radius: 16px;
+    background: #f7fcff;
+    border: 1px solid #d9e9f5;
+    color: var(--ust-text, #18324a);
+    line-height: 1.9;
+    font-weight: 800;
+}
+
+.analysis-recommendations-list li::before {
+    content: "✓";
+    position: absolute;
+    right: 14px;
+    top: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: var(--ust-blue-soft, #edf8ff);
+    color: var(--ust-blue-deep, #145d91);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 950;
+}
+
+/* =========================================================
+   Panels
+========================================================= */
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.analysis-panel {
+    padding: 22px;
+}
+
+.analysis-panel-head {
+    margin-bottom: 18px;
+}
+
+.analysis-panel-head h2 {
+    margin: 0;
+    color: var(--ust-blue-deep, #145d91) !important;
+    font-size: 21px;
+    font-weight: 950;
+}
+
+.analysis-panel-head p {
+    margin: 8px 0 0;
+    color: var(--ust-muted, #6b7f95) !important;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   Table
+========================================================= */
+
+.analysis-table-panel {
+    padding: 0;
+    overflow: hidden;
+}
+
+.analysis-table-panel .analysis-panel-head {
+    padding: 22px 22px 0;
+}
+
+.analysis-table-wrap {
+    overflow-x: auto;
+}
+
+.analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1050px;
+}
+
+.analysis-compact-table {
+    min-width: 850px;
+}
+
+.analysis-detail-table {
+    min-width: 900px;
+}
+
+.analysis-table th {
+    background: #edf8ff !important;
+    color: var(--ust-blue-deep, #145d91) !important;
+    font-size: 13px;
+    font-weight: 950;
+    text-align: right;
+    padding: 14px;
+    border-top: 1px solid #d9e9f5 !important;
+    border-bottom: 1px solid #d9e9f5 !important;
+    white-space: nowrap;
+}
+
+.analysis-table td {
+    padding: 15px 14px;
+    border-bottom: 1px solid #e8f1f8 !important;
+    color: var(--ust-text, #18324a) !important;
+    background: #ffffff !important;
+    font-size: 13px;
+    vertical-align: top;
+}
+
+.analysis-table tbody tr:hover td {
+    background: #f7fcff !important;
+}
+
+.analysis-table tbody tr.is-selected-row td {
+    background: #edf8ff !important;
+}
+
+.standard-cell span {
+    display: block;
+    color: var(--ust-muted, #6b7f95) !important;
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.standard-cell strong {
+    display: block;
+    color: var(--ust-blue-deep, #145d91) !important;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.analysis-small-note {
+    margin: 8px 0 0;
+    color: var(--ust-muted, #6b7f95);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.analysis-empty-cell,
+.analysis-no-results {
+    padding: 28px !important;
+    text-align: center;
+    color: var(--ust-muted, #6b7f95) !important;
+    font-weight: 900;
+}
+
+.muted {
+    color: var(--ust-muted, #6b7f95);
+    font-weight: 800;
+}
+
+/* =========================================================
+   Pills
+========================================================= */
+
+.status-pill,
+.risk-pill,
+.weight-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    padding: 0 11px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 950;
+    white-space: nowrap;
+    border: 1px solid transparent;
+}
+
+.status-pill.is-reviewed,
+.risk-pill.risk-low {
+    background: var(--ust-green-soft, #ecfaf4) !important;
+    color: var(--ust-green, #1fa973) !important;
+    border-color: #bfead8 !important;
+}
+
+.status-pill.is-draft {
+    background: var(--ust-blue-soft, #edf8ff) !important;
+    color: var(--ust-blue-deep, #145d91) !important;
+    border-color: #d3e8f8 !important;
+}
+
+.status-pill.is-empty,
+.risk-pill.risk-medium,
+.weight-pill {
+    background: #fff7df !important;
+    color: #9c7410 !important;
+    border-color: #fde68a !important;
+}
+
+.risk-pill.risk-high {
+    background: var(--ust-red-soft, #fff1f2) !important;
+    color: var(--ust-red, #df4a52) !important;
+    border-color: #ffd0d3 !important;
+}
+
+/* =========================================================
+   Mini Progress and Indicator Details
+========================================================= */
+
+.mini-progress {
+    display: grid;
+    gap: 8px;
+    min-width: 140px;
+}
+
+.mini-progress > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.mini-progress strong {
+    color: var(--ust-blue-deep, #145d91) !important;
+}
+
+.mini-progress span {
+    color: var(--ust-muted, #6b7f95) !important;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.indicator-mini {
+    display: grid;
+    gap: 4px;
+    min-width: 90px;
+}
+
+.indicator-mini span {
+    color: var(--ust-muted, #6b7f95);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.plan-cell {
+    min-width: 170px;
+    color: var(--ust-text, #18324a);
+    line-height: 1.8;
+    font-weight: 800;
+}
+
+/* =========================================================
+   Actions
+========================================================= */
+
+.analysis-actions-stack {
+    display: grid;
+    gap: 8px;
+    min-width: 150px;
+}
+
+.analysis-row-action {
+    width: 100%;
+    min-height: 34px;
+    padding: 0 12px;
+    background: #ffffff;
+    color: var(--ust-blue-deep, #145d91);
+    border: 1px solid #d3e8f8;
+    font-size: 12px;
+}
+
+.analysis-improvement-form {
+    margin: 0;
+}
+
+.analysis-improvement-form button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.analysis-improvement-action {
+    width: 100%;
+    background: linear-gradient(
+        135deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    ) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+.analysis-improvement-action.is-view {
+    width: 100%;
+    background: var(--ust-green-soft, #ecfaf4) !important;
+    color: var(--ust-green, #1fa973) !important;
+    border-color: #bfead8 !important;
+}
+
+.analysis-no-plan-needed {
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    color: #8a9bad;
+    border: 1px solid #dce8f2;
+    font-size: 12px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   Inline Filter
+========================================================= */
+
+.analysis-inline-filter {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.analysis-inline-filter label {
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 13px;
+    font-weight: 950;
+}
+
+.analysis-inline-filter select {
+    max-width: 220px;
+}
+
+/* =========================================================
+   Old compatibility sections
+========================================================= */
+
+.status-bars {
+    display: grid;
+    gap: 18px;
+}
+
+.status-bar-row {
+    display: grid;
+    gap: 8px;
+}
+
+.status-bar-label {
+    display: flex;
+    justify-content: space-between;
+    color: var(--ust-text, #18324a) !important;
+    font-weight: 900;
+}
+
+.status-bar-fill.is-reviewed {
+    background: var(--ust-green, #1fa973) !important;
+}
+
+.status-bar-fill.is-draft {
+    background: var(--ust-blue-deep, #145d91) !important;
+}
+
+.status-bar-fill.is-empty {
+    background: #f59e0b !important;
+}
+
+.risk-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.risk-box {
+    padding: 16px;
+    border-radius: 18px;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.risk-box span {
+    display: block;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.risk-box strong {
+    display: block;
+    margin-top: 8px;
+    font-size: 30px;
+    font-weight: 950;
+}
+
+.risk-box.risk-low {
+    background: var(--ust-green-soft, #ecfaf4) !important;
+    color: var(--ust-green, #1fa973) !important;
+    border-color: #bfead8 !important;
+}
+
+.risk-box.risk-medium {
+    background: #fff7df !important;
+    color: #9c7410 !important;
+    border-color: #fde68a !important;
+}
+
+.risk-box.risk-high {
+    background: var(--ust-red-soft, #fff1f2) !important;
+    color: var(--ust-red, #df4a52) !important;
+    border-color: #ffd0d3 !important;
+}
+
+.overall-meter {
+    margin-top: 22px;
+    padding: 16px;
+    border-radius: 18px;
+    background: #f7fcff !important;
+    border: 1px solid var(--ust-border, #d3e8f8) !important;
+}
+
+.overall-meter-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: var(--ust-text, #18324a) !important;
+    font-weight: 900;
+}
+
+/* =========================================================
+   Print
+========================================================= */
+
+@media print {
+    .analysis-filter-card,
+    .analysis-hero-actions,
+    .analysis-actions-stack,
+    .analysis-inline-filter {
+        display: none !important;
+    }
+
+    .analysis-page {
+        gap: 14px;
+    }
+
+    .analysis-hero,
+    .analysis-card,
+    .analysis-accordion-card,
+    .analysis-reading-card,
+    .analysis-approval-card,
+    .analysis-panel {
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+
+    .analysis-accordion-card {
+        page-break-inside: avoid;
+    }
+
+    .analysis-accordion-card > summary::before {
+        display: none;
+    }
+
+    .analysis-accordion-body {
+        display: block !important;
+    }
+}
+
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 1200px) {
+    .analysis-cards {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .analysis-priority-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .analysis-main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1000px) {
+    .analysis-hero,
+    .analysis-approval-card {
+        flex-direction: column;
+    }
+
+    .analysis-selected-file {
+        min-width: 100%;
+    }
+
+    .analysis-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .analysis-filter-btn {
+        width: 100%;
+    }
+
+    .analysis-grid,
+    .analysis-reading-grid,
+    .analysis-temporal-cards,
+    .analysis-comparison-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .analysis-overall-box {
+        grid-template-columns: 1fr;
+    }
+
+    .analysis-performance-row {
+        grid-template-columns: 1fr;
+    }
+
+    .analysis-performance-value {
+        text-align: right;
+    }
+}
+
+@media (max-width: 700px) {
+    .analysis-hero {
+        padding: 20px;
+        border-radius: 22px;
+    }
+
+    .analysis-hero h1 {
+        font-size: 28px;
+    }
+
+    .analysis-cards,
+    .analysis-priority-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .analysis-alert {
+        flex-direction: column;
+    }
+
+    .analysis-table {
+        min-width: 900px;
+    }
+
+    .analysis-donut {
+        width: 160px;
+        height: 160px;
+    }
+
+    .analysis-donut > div {
+        width: 108px;
+        height: 108px;
+    }
+}
+
+/* =========================================================
+   FINAL ANALYSIS UPDATES
+   Programs + Academic Year + Six Cards + Dynamic Bars
+========================================================= */
+
+.analysis-filters.is-four-columns {
+    grid-template-columns: 1.2fr 0.85fr 0.85fr 0.85fr auto;
+}
+
+.analysis-filter-note {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: #f7fcff;
+    border: 1px solid #d9e9f5;
+    color: var(--ust-blue-deep, #145d91);
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1.9;
+}
+
+.analysis-cards.analysis-cards-six {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.analysis-card.is-danger {
+    background: var(--ust-red-soft, #fff1f2) !important;
+    border-color: #ffd0d3 !important;
+}
+
+.analysis-card.is-danger strong {
+    color: var(--ust-red, #df4a52) !important;
+}
+
+.analysis-performance-row.is-aggregate {
+    cursor: default;
+}
+
+.analysis-performance-track span.is-good,
+.mini-progress-track span.is-good {
+    background: var(--ust-green, #1fa973) !important;
+}
+
+.analysis-performance-track span.is-medium,
+.mini-progress-track span.is-medium {
+    background: #d99a13 !important;
+}
+
+.analysis-performance-track span.is-weak,
+.mini-progress-track span.is-weak {
+    background: var(--ust-red, #df4a52) !important;
+}
+
+/* إصلاح مهم: حتى لو كان المعيار غير معتمد، الرسم البياني يعتمد على النسبة */
+.analysis-performance-track span.risk-low {
+    background: var(--ust-green, #1fa973) !important;
+}
+
+.analysis-performance-track span.risk-medium {
+    background: #d99a13 !important;
+}
+
+.analysis-performance-track span.risk-high {
+    background: var(--ust-red, #df4a52) !important;
+}
+
+/* توافق أفضل مع القائمة الجانبية والمساحة */
+.analysis-page {
+    max-width: 100%;
+}
+
+.analysis-field select {
+    cursor: pointer;
+}
+
+.analysis-selected-file strong br {
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* كرت التحليل الجماعي */
+.analysis-alert-content h2 {
+    color: var(--ust-blue-deep, #145d91);
+}
+
+.analysis-no-plan-needed {
+    width: 100%;
+}
+
+/* تحسين شكل كروت المقارنة */
+.analysis-comparison-summary strong {
+    font-size: 14px;
+}
+
+/* تحسين عرض النص داخل البطائق الصغيرة */
+.analysis-card span,
+.analysis-card p {
+    word-break: normal;
+}
+
+.analysis-card strong {
+    word-break: break-word;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    .analysis-cards.analysis-cards-six {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .analysis-filters.is-four-columns {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .analysis-filter-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 800px) {
+    .analysis-cards.analysis-cards-six {
+        grid-template-columns: 1fr;
+    }
+
+    .analysis-filters.is-four-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   FIX ACCORDION ARROWS
+========================================================= */
+
+.analysis-accordion-card > summary {
+    position: relative !important;
+    padding-inline-start: 64px !important;
+}
+
+.analysis-accordion-card > summary::marker {
+    content: "" !important;
+    font-size: 0 !important;
+}
+
+.analysis-accordion-card > summary::-webkit-details-marker {
+    display: none !important;
+}
+
+.analysis-accordion-card > summary::before {
+    content: "⌄" !important;
+    position: absolute !important;
+    left: 20px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 999px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #ffffff !important;
+    border: 1px solid #acd9f6 !important;
+    color: var(--ust-blue-deep, #145d91) !important;
+
+    font-size: 18px !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+}
+
+.analysis-accordion-card[open] > summary::before {
+    content: "⌃" !important;
+    background: var(--ust-blue, #2f8ed6) !important;
+    border-color: var(--ust-blue, #2f8ed6) !important;
+    color: #ffffff !important;
+    transform: translateY(-50%) !important;
+}
+
+/* =========================================================
+   FIX CURRENT TABLE PROGRESS WIDTH
+========================================================= */
+
+.analysis-table-progress {
+    width: 150px !important;
+    max-width: 150px !important;
+    min-width: 150px !important;
+    height: 10px !important;
+    background: #edf5fb !important;
+    border-radius: 999px !important;
+    overflow: hidden !important;
+}
+
+.analysis-table-progress span {
+    display: block !important;
+    width: var(--progress-width) !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    border-radius: 999px !important;
+}
+
+.analysis-table-progress span.is-good {
+    background: var(--ust-green, #1fa973) !important;
+}
+
+.analysis-table-progress span.is-medium {
+    background: #d99a13 !important;
+}
+
+.analysis-table-progress span.is-weak {
+    background: var(--ust-red, #df4a52) !important;
+}
+
+/* =========================================================
+   FINAL TABLE PROGRESS FIX BY JS
+========================================================= */
+
+.analysis-table-progress {
+    width: 150px !important;
+    height: 10px !important;
+    background: #edf5fb !important;
+    border-radius: 999px !important;
+    overflow: hidden !important;
+}
+
+.analysis-table-progress span {
+    display: block !important;
+    width: 0;
+    height: 100% !important;
+    border-radius: 999px !important;
+    transition: width 0.25s ease;
+}
+
+.analysis-table-progress span.is-good {
+    background: var(--ust-green, #1fa973) !important;
+}
+
+.analysis-table-progress span.is-medium {
+    background: #d99a13 !important;
+}
+
+.analysis-table-progress span.is-weak {
+    background: var(--ust-red, #df4a52) !important;
+}
+
+
+
+/* =========================================================
+   CURRENT STANDARDS TABLE PROGRESS - FINAL ISOLATED FIX
+========================================================= */
+
+.analysis-current-progress {
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+    height: 10px !important;
+    background: #edf5fb !important;
+    border-radius: 999px !important;
+    overflow: hidden !important;
+}
+
+.analysis-current-progress > span {
+    display: block !important;
+    width: var(--progress-width, 0%) !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    border-radius: 999px !important;
+    transition: width 0.25s ease !important;
+}
+
+.analysis-current-progress > span.is-good {
+    background: var(--ust-green, #1fa973) !important;
+}
+
+.analysis-current-progress > span.is-medium {
+    background: #d99a13 !important;
+}
+
+.analysis-current-progress > span.is-weak {
+    background: var(--ust-red, #df4a52) !important;
+}
+
+
+
+
+
+/* =========================================================
+   CURRENT STANDARDS TABLE PROGRESS - FINAL CLEAN VERSION
+========================================================= */
+
+.analysis-current-percent-box {
+    display: grid !important;
+    gap: 8px !important;
+    width: 170px !important;
+    min-width: 170px !important;
+}
+
+.analysis-current-percent-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+}
+
+.analysis-current-percent-head strong {
+    color: var(--ust-blue-deep, #145d91) !important;
+    font-weight: 950 !important;
+}
+
+.analysis-current-percent-head span {
+    color: var(--ust-muted, #6b7f95) !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+}
+
+.analysis-current-progress {
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+    height: 10px !important;
+    background: #edf5fb !important;
+    border-radius: 999px !important;
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+.analysis-current-progress-fill {
+    display: block !important;
+    width: 0 !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    border-radius: 999px !important;
+    transition: width 0.25s ease !important;
+}
+
+.analysis-current-progress-fill.is-good {
+    background: var(--ust-green, #1fa973) !important;
+}
+
+.analysis-current-progress-fill.is-medium {
+    background: #d99a13 !important;
+}
+
+.analysis-current-progress-fill.is-weak {
+    background: var(--ust-red, #df4a52) !important;
+}
+
+
+/* =========================================================
+   ANALYSIS PAGE ORDER + CLEAR ACCORDIONS - FINAL
+   ترتيب صفحة التحليل وتقليل التشويش البصري
+========================================================= */
+
+.analysis-page {
+    gap: 18px !important;
+}
+
+/* مساحة أخف بعد بطاقات الملخص */
+.analysis-cards.analysis-cards-six {
+    margin-bottom: 2px !important;
+}
+
+/* الخلاصة التنفيذية تظهر بعد الملخص مباشرة */
+.analysis-executive-accordion {
+    border-color: #d3e8f8 !important;
+}
+
+.analysis-executive-accordion > summary {
+    background:
+        radial-gradient(circle at left center, rgba(96, 183, 239, 0.12), transparent 34%),
+        linear-gradient(180deg, #ffffff, #f5fbff) !important;
+}
+
+/* شكل موحد وواضح للطي */
+.analysis-accordion-card {
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    border: 1px solid #d3e8f8 !important;
+    background: #ffffff !important;
+    box-shadow: 0 10px 24px rgba(36, 127, 197, 0.08) !important;
+}
+
+.analysis-accordion-card + .analysis-accordion-card,
+.analysis-main-grid + .analysis-accordion-card {
+    margin-top: 0 !important;
+}
+
+.analysis-accordion-card > summary {
+    min-height: 72px !important;
+    padding: 17px 22px !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f7fcff 100%) !important;
+    border-bottom: 1px solid transparent !important;
+    cursor: pointer !important;
+}
+
+.analysis-accordion-card[open] > summary {
+    border-bottom-color: #e3eff8 !important;
+}
+
+.analysis-accordion-card > summary span {
+    gap: 5px !important;
+}
+
+.analysis-accordion-card > summary span,
+.analysis-accordion-card > summary span * {
+    text-align: right !important;
+}
+
+.analysis-accordion-card > summary span {
+    color: #145d91 !important;
+    font-size: 20px !important;
+    font-weight: 950 !important;
+}
+
+.analysis-accordion-card > summary small {
+    color: #6b7f95 !important;
+    font-size: 12.5px !important;
+    font-weight: 850 !important;
+    line-height: 1.7 !important;
+}
+
+/* أيقونة الطي أوضح */
+.analysis-accordion-card > summary::before {
+    content: "⌄" !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    border-radius: 999px !important;
+    border: 1px solid #acd9f6 !important;
+    background: #edf8ff !important;
+    color: #145d91 !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    transform: rotate(0deg) !important;
+}
+
+.analysis-accordion-card[open] > summary::before {
+    transform: rotate(180deg) !important;
+    background: #2f8ed6 !important;
+    border-color: #2f8ed6 !important;
+    color: #ffffff !important;
+}
+
+/* جسم القسم */
+.analysis-accordion-body {
+    padding: 20px !important;
+    background: #ffffff !important;
+}
+
+/* أول قسمين يكونان متوازنين */
+.analysis-main-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.75fr) !important;
+    gap: 18px !important;
+    align-items: start !important;
+}
+
+/* قراءة التحليل والتوصيات داخل كرت مطوي مرتب */
+.analysis-reading-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 16px !important;
+}
+
+.analysis-reading-card {
+    border: 1px solid #d9e9f5 !important;
+    border-radius: 20px !important;
+    background: #fbfdff !important;
+    box-shadow: none !important;
+}
+
+/* تفاصيل وجداول: تكون في آخر الصفحة وبشكل هادئ */
+.analysis-table-accordion .analysis-accordion-body,
+.analysis-table-accordion-body {
+    padding: 0 !important;
+}
+
+.analysis-table-accordion .analysis-table-wrap {
+    margin: 0 !important;
+}
+
+/* تحسين الجداول الثقيلة حتى لا تربك الصفحة */
+.analysis-table-wrap {
+    border-radius: 18px !important;
+    border: 1px solid #d9e9f5 !important;
+    background: #ffffff !important;
+}
+
+.analysis-table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+
+.analysis-table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* إصلاح خط التقدم في التحليل التفصيلي وجدول الحالة */
+.analysis-current-progress {
+    width: 150px !important;
+    max-width: 100% !important;
+    height: 10px !important;
+    background: #edf5fb !important;
+    border-radius: 999px !important;
+    overflow: hidden !important;
+    display: block !important;
+}
+
+.analysis-current-progress-fill {
+    display: block !important;
+    height: 100% !important;
+    width: var(--progress-width, 0%) !important;
+    border-radius: 999px !important;
+}
+
+.analysis-current-progress-fill.is-good,
+.analysis-current-progress .is-good {
+    background: #1fa973 !important;
+}
+
+.analysis-current-progress-fill.is-medium,
+.analysis-current-progress .is-medium {
+    background: #d99a13 !important;
+}
+
+.analysis-current-progress-fill.is-weak,
+.analysis-current-progress .is-weak {
+    background: #df4a52 !important;
+}
+
+/* تقليل ازدحام بطاقات الأولوية */
+.analysis-priority-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.analysis-priority-card {
+    min-height: auto !important;
+}
+
+/* الموبايل والشاشات الصغيرة */
+@media (max-width: 1200px) {
+    .analysis-main-grid,
+    .analysis-reading-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .analysis-cards.analysis-cards-six {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 760px) {
+    .analysis-cards.analysis-cards-six,
+    .analysis-priority-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .analysis-accordion-card > summary {
+        padding: 15px 16px !important;
+    }
+
+    .analysis-accordion-card > summary span {
+        font-size: 17px !important;
+    }
+}
+
+
+/* =========================================================
+   ANALYSIS PAGE FINAL ORGANIZATION OVERRIDES
+   تنظيف رأس الصفحة، توضيح الحساب، وترتيب الأقسام النهائية
+========================================================= */
+
+.analysis-hero.analysis-hero-clean {
+    display: block !important;
+    padding: 28px 32px !important;
+    min-height: auto !important;
+}
+
+.analysis-hero-clean .analysis-hero-content {
+    max-width: 100% !important;
+}
+
+.analysis-hero-clean h1 {
+    margin-bottom: 8px !important;
+}
+
+.analysis-hero-clean p {
+    max-width: 980px !important;
+    margin-bottom: 16px !important;
+}
+
+.analysis-scope-inline {
+    width: fit-content !important;
+    max-width: 100% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    min-height: 38px !important;
+    padding: 0 14px !important;
+    border-radius: 999px !important;
+    background: #edf8ff !important;
+    border: 1px solid #d3e8f8 !important;
+    color: #145d91 !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+}
+
+.analysis-scope-inline span {
+    color: #6b7f95 !important;
+    font-weight: 900 !important;
+}
+
+.analysis-scope-inline strong {
+    color: #145d91 !important;
+    font-weight: 950 !important;
+}
+
+.analysis-calculation-accordion {
+    border-color: #d3e8f8 !important;
+}
+
+.analysis-calculation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.analysis-calculation-item {
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #ffffff, #f7fcff);
+    border: 1px solid #d9e9f5;
+}
+
+.analysis-calculation-item strong {
+    display: block;
+    color: #145d91;
+    font-size: 15px;
+    font-weight: 950;
+    margin-bottom: 8px;
+}
+
+.analysis-calculation-item p {
+    margin: 0;
+    color: #465d73;
+    font-size: 13.5px;
+    font-weight: 800;
+    line-height: 1.9;
+}
+
+.analysis-final-summary-accordion {
+    border-color: #bfead8 !important;
+}
+
+.analysis-final-summary-accordion > summary {
+    background: linear-gradient(180deg, #ffffff, #ecfaf4) !important;
+}
+
+.analysis-final-summary-accordion > summary span,
+.analysis-final-summary-accordion > summary small {
+    color: #145d91 !important;
+}
+
+.analysis-performance-row {
+    cursor: default !important;
+}
+
+.analysis-performance-row:hover {
+    transform: none !important;
+}
+
+.analysis-actions-stack:empty::after {
+    content: "لا يوجد إجراء";
+    display: inline-flex;
+    min-height: 34px;
+    padding: 0 14px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: #f3f8f9;
+    color: #6b7f95;
+    border: 1px solid #d9e9f5;
+    font-weight: 900;
+    font-size: 12px;
+}
+
+@media (max-width: 900px) {
+    .analysis-calculation-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   USER FRIENDLY EXPLANATIONS - ANALYSIS PAGE
+   إضافات لتوضيح المصطلحات وطريقة الحساب داخل كل قسم
+========================================================= */
+
+.analysis-field-help {
+    margin: 2px 0 0 !important;
+    color: #6b7f95 !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.7 !important;
+}
+
+.analysis-filter-note {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    line-height: 1.9 !important;
+}
+
+.analysis-filter-note strong {
+    color: #145d91 !important;
+    font-weight: 950 !important;
+}
+
+.analysis-filter-note span {
+    color: #6b7f95 !important;
+    font-weight: 800 !important;
+}
+
+.analysis-user-guide-card,
+.analysis-section-intro {
+    background: #ffffff !important;
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 24px !important;
+    box-shadow: 0 8px 22px rgba(36, 127, 197, 0.08) !important;
+    padding: 20px 22px !important;
+}
+
+.analysis-user-guide-card h2,
+.analysis-section-intro h2 {
+    margin: 0 0 8px !important;
+    color: #145d91 !important;
+    font-size: 22px !important;
+    font-weight: 950 !important;
+}
+
+.analysis-user-guide-card p,
+.analysis-section-intro p {
+    margin: 0 !important;
+    color: #6b7f95 !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    line-height: 1.9 !important;
+}
+
+.analysis-term-grid {
+    margin-top: 16px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+}
+
+.analysis-term-grid div {
+    padding: 14px !important;
+    border-radius: 16px !important;
+    background: #f7fcff !important;
+    border: 1px solid #d9e9f5 !important;
+}
+
+.analysis-term-grid strong {
+    display: block !important;
+    color: #145d91 !important;
+    font-size: 14px !important;
+    font-weight: 950 !important;
+    margin-bottom: 6px !important;
+}
+
+.analysis-term-grid span {
+    display: block !important;
+    color: #465d73 !important;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.8 !important;
+}
+
+.analysis-section-help {
+    margin: 0 0 16px !important;
+    padding: 14px 16px !important;
+    border-radius: 18px !important;
+    background: #f7fcff !important;
+    border: 1px solid #d9e9f5 !important;
+    color: #17324d !important;
+}
+
+.analysis-section-help strong {
+    display: block !important;
+    color: #145d91 !important;
+    font-size: 14px !important;
+    font-weight: 950 !important;
+    margin-bottom: 6px !important;
+}
+
+.analysis-section-help p {
+    margin: 0 !important;
+    color: #465d73 !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1.9 !important;
+}
+
+.analysis-column-guide {
+    margin-bottom: 16px !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+}
+
+.analysis-column-guide span {
+    display: block !important;
+    padding: 12px !important;
+    border-radius: 14px !important;
+    background: #ffffff !important;
+    border: 1px dashed #acd9f6 !important;
+    color: #465d73 !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    line-height: 1.8 !important;
+}
+
+.analysis-column-guide strong {
+    color: #145d91 !important;
+    font-weight: 950 !important;
+}
+
+.analysis-calculation-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.analysis-calculation-item {
+    border-radius: 18px !important;
+    background: #f7fcff !important;
+    border: 1px solid #d9e9f5 !important;
+    padding: 16px !important;
+}
+
+.analysis-calculation-item strong {
+    color: #145d91 !important;
+    font-size: 15px !important;
+    font-weight: 950 !important;
+}
+
+.analysis-calculation-item p {
+    color: #465d73 !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1.9 !important;
+}
+
+/* مصطلحات أوضح داخل الجدول */
+.analysis-no-plan-needed {
+    background: #edf8ff !important;
+    color: #145d91 !important;
+    border: 1px solid #d3e8f8 !important;
+}
+
+@media (max-width: 1100px) {
+    .analysis-term-grid,
+    .analysis-column-guide,
+    .analysis-calculation-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* =========================================================
+   FINAL USER-FRIENDLY ANALYSIS FILTER + GUIDE
+   تبسيط الفلاتر ودمج دليل القراءة وطريقة الحساب في قسم واحد
+========================================================= */
+
+.analysis-filter-card-clean {
+    padding: 20px 22px !important;
+}
+
+.analysis-filter-card-clean .analysis-filters {
+    align-items: end !important;
+}
+
+.analysis-filter-card-clean .analysis-field {
+    gap: 8px !important;
+}
+
+.analysis-filter-card-clean .analysis-field label {
+    font-size: 14px !important;
+    font-weight: 950 !important;
+    color: #102033 !important;
+}
+
+.analysis-filter-card-clean .analysis-field-help {
+    display: none !important;
+}
+
+.analysis-filter-note-clean {
+    margin-top: 16px !important;
+    padding: 12px 16px !important;
+    border-radius: 16px !important;
+    background: #f7fcff !important;
+    border: 1px solid #d9e9f5 !important;
+    color: #465d73 !important;
+    font-size: 13.5px !important;
+    font-weight: 850 !important;
+    line-height: 1.9 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+}
+
+.analysis-filter-note-clean strong {
+    color: #145d91 !important;
+    font-weight: 950 !important;
+}
+
+.analysis-filter-note-clean span {
+    color: #6b7f95 !important;
+    font-weight: 850 !important;
+}
+
+.analysis-filter-note:not(.analysis-filter-note-clean) {
+    display: none !important;
+}
+
+.analysis-user-system-guide {
+    border-color: #d3e8f8 !important;
+}
+
+.analysis-user-system-guide > summary {
+    background: linear-gradient(180deg, #ffffff, #f5fbff) !important;
+}
+
+.analysis-user-guide-lead {
+    padding: 14px 16px !important;
+    border-radius: 16px !important;
+    background: #f7fcff !important;
+    border: 1px solid #d9e9f5 !important;
+    margin-bottom: 16px !important;
+}
+
+.analysis-user-guide-lead strong {
+    display: block !important;
+    color: #145d91 !important;
+    font-size: 15px !important;
+    font-weight: 950 !important;
+    margin-bottom: 5px !important;
+}
+
+.analysis-user-guide-lead p {
+    margin: 0 !important;
+    color: #60758a !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.9 !important;
+}
+
+.analysis-guide-blocks {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+}
+
+.analysis-guide-blocks article {
+    padding: 14px !important;
+    border-radius: 16px !important;
+    background: #ffffff !important;
+    border: 1px solid #d9e9f5 !important;
+    box-shadow: 0 8px 18px rgba(36, 127, 197, 0.06) !important;
+}
+
+.analysis-guide-blocks strong {
+    display: block !important;
+    color: #145d91 !important;
+    font-size: 14px !important;
+    font-weight: 950 !important;
+    margin-bottom: 6px !important;
+}
+
+.analysis-guide-blocks p {
+    margin: 0 !important;
+    color: #60758a !important;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.85 !important;
+}
+
+.analysis-guide-calculation {
+    margin-top: 18px !important;
+    padding-top: 16px !important;
+    border-top: 1px solid #e3eff8 !important;
+}
+
+.analysis-guide-calculation h3 {
+    margin: 0 0 12px !important;
+    color: #102033 !important;
+    font-size: 17px !important;
+    font-weight: 950 !important;
+}
+
+.analysis-guide-calculation .analysis-calculation-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+@media (max-width: 1100px) {
+    .analysis-guide-blocks,
+    .analysis-guide-calculation .analysis-calculation-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 1000px) {
+    .analysis-filter-note-clean {
+        display: block !important;
+    }
+
+    .analysis-filter-note-clean strong,
+    .analysis-filter-note-clean span {
+        display: block !important;
+    }
+}
+
+/* =========================================================
+   FINAL ANALYSIS SIDEBAR COMPACT THEME
+   ألوان القائمة الجانبية + أحجام أصغر + بطاقات متناسقة
+   يجب أن يبقى هذا القسم في نهاية analysis.css
+========================================================= */
+
+html body main.ust-content .analysis-page {
+    --analysis-light: #60b7ef;
+    --analysis-main: #2f8ed6;
+    --analysis-dark: #247fc5;
+    --analysis-deep: #145d91;
+    --analysis-soft: #edf8ff;
+    --analysis-soft-2: #f7fcff;
+    --analysis-border: #d3e8f8;
+    --analysis-border-strong: #acd9f6;
+
+
+    --ust-blue-light: var(--analysis-light);
+    --ust-blue: var(--analysis-main);
+    --ust-blue-deep: var(--analysis-deep);
+    --ust-blue-soft: var(--analysis-soft);
+    --ust-border: var(--analysis-border);
+    --ust-text: var(--analysis-text);
+    --ust-muted: var(--analysis-muted);
+    --ust-ink: var(--analysis-text);
+
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: 22px !important;
+    gap: 12px !important;
+    color: var(--analysis-text) !important;
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+}
+
+/* البطاقات العامة */
+html body main.ust-content .analysis-page :is(
+    .analysis-hero,
+    .analysis-filter-card,
+    .analysis-panel,
+    .analysis-empty-state,
+    .analysis-alert,
+    .analysis-accordion-card,
+    .analysis-reading-card,
+    .analysis-approval-card,
+    .analysis-user-guide-card,
+    .analysis-section-intro
+) {
+    border-color: var(--analysis-border) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 5px 15px rgba(20, 93, 145, 0.055) !important;
+}
+
+/* =========================================================
+   الهيدر
+========================================================= */
+
+html body main.ust-content .analysis-page .analysis-hero.analysis-hero-clean {
+    display: block !important;
+    min-height: 0 !important;
+    padding: 18px 22px !important;
+    background:
+        radial-gradient(
+            circle at left bottom,
+            rgba(96, 183, 239, 0.12),
+            transparent 32%
+        ),
+        linear-gradient(135deg, #ffffff 0%, #f5fbff 100%) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-kicker {
+    min-height: 30px !important;
+    margin-bottom: 6px !important;
+    padding: 4px 11px !important;
+    border-color: var(--analysis-border) !important;
+    background: var(--analysis-soft) !important;
+    color: var(--analysis-deep) !important;
+    font-size: 10.5px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-hero h1 {
+    margin: 0 0 4px !important;
+    color: var(--analysis-deep) !important;
+    font-size: 27px !important;
+    line-height: 1.35 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-hero p {
+    max-width: 900px !important;
+    margin: 5px 0 10px !important;
+    color: var(--analysis-muted) !important;
+    font-size: 12.5px !important;
+    line-height: 1.75 !important;
+    font-weight: 750 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-scope-inline {
+    min-height: 32px !important;
+    padding: 4px 11px !important;
+    border-color: var(--analysis-border) !important;
+    background: var(--analysis-soft) !important;
+    color: var(--analysis-deep) !important;
+    font-size: 11px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-scope-inline span {
+    color: var(--analysis-muted) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-scope-inline strong {
+    color: var(--analysis-deep) !important;
+}
+
+/* =========================================================
+   الفلاتر
+========================================================= */
+
+html body main.ust-content .analysis-page .analysis-filter-card-clean {
+    padding: 14px 16px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-filters.is-four-columns {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px 12px !important;
+    align-items: end !important;
+}
+
+html body main.ust-content .analysis-page .analysis-field {
+    gap: 4px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-field label {
+    color: var(--analysis-text) !important;
+    font-size: 11.5px !important;
+    font-weight: 900 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-field select,
+html body main.ust-content .analysis-page .analysis-inline-filter select {
+    min-height: 40px !important;
+    height: 40px !important;
+    padding: 0 11px !important;
+    border-color: var(--analysis-border) !important;
+    border-radius: 10px !important;
+    color: var(--analysis-text) !important;
+    font-size: 11.5px !important;
+    box-shadow: none !important;
+}
+
+html body main.ust-content .analysis-page .analysis-field select:focus,
+html body main.ust-content .analysis-page .analysis-inline-filter select:focus {
+    border-color: var(--analysis-main) !important;
+    box-shadow: 0 0 0 3px rgba(47, 142, 214, 0.12) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-filter-btn {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    min-height: 40px !important;
+    height: 40px !important;
+    padding: 0 16px !important;
+    border-radius: 10px !important;
+    background: linear-gradient(
+        135deg,
+        var(--analysis-light),
+        var(--analysis-main),
+        var(--analysis-dark)
+    ) !important;
+    color: #ffffff !important;
+    font-size: 12px !important;
+    box-shadow: 0 6px 14px rgba(36, 127, 197, 0.16) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-filter-note-clean {
+    margin-top: 10px !important;
+    padding: 9px 12px !important;
+    border-color: var(--analysis-border) !important;
+    border-radius: 11px !important;
+    background: var(--analysis-soft-2) !important;
+    color: var(--analysis-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.65 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-filter-note-clean strong {
+    color: var(--analysis-deep) !important;
+}
+
+/* =========================================================
+   التنبيهات والعناوين التوضيحية
+========================================================= */
+
+html body main.ust-content .analysis-page .analysis-alert {
+    gap: 11px !important;
+    padding: 13px 15px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-alert-icon {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    border-radius: 11px !important;
+    font-size: 17px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-alert-content h2 {
+    color: var(--analysis-deep) !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-alert-content p {
+    color: var(--analysis-muted) !important;
+    font-size: 11.5px !important;
+    line-height: 1.7 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-alert-stats {
+    gap: 6px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-alert-stats span {
+    min-height: 27px !important;
+    padding: 0 9px !important;
+    font-size: 10.5px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-alert-stats strong {
+    font-size: 12px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-section-intro,
+html body main.ust-content .analysis-page .analysis-user-guide-card {
+    padding: 13px 15px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-section-intro h2,
+html body main.ust-content .analysis-page .analysis-user-guide-card h2 {
+    margin-bottom: 4px !important;
+    color: var(--analysis-deep) !important;
+    font-size: 16px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-section-intro p,
+html body main.ust-content .analysis-page .analysis-user-guide-card p {
+    color: var(--analysis-muted) !important;
+    font-size: 11.5px !important;
+    line-height: 1.7 !important;
+}
+
+/* =========================================================
+   بطاقات الملخص
+========================================================= */
+
+html body main.ust-content .analysis-page .analysis-cards.analysis-cards-six {
+    display: grid !important;
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-card {
+    min-height: 116px !important;
+    padding: 12px !important;
+    border-color: var(--analysis-border) !important;
+    border-radius: 13px !important;
+    box-shadow: 0 4px 11px rgba(20, 93, 145, 0.045) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-card span {
+    color: #465d73 !important;
+    font-size: 10.5px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-card strong {
+    margin-top: 5px !important;
+    color: var(--analysis-deep) !important;
+    font-size: 21px !important;
+    line-height: 1.2 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-card p {
+    margin-top: 5px !important;
+    color: var(--analysis-muted) !important;
+    font-size: 10px !important;
+    line-height: 1.55 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-card.is-main {
+    background: linear-gradient(
+        135deg,
+        var(--analysis-light),
+        var(--analysis-main),
+        var(--analysis-dark)
+    ) !important;
+    box-shadow: 0 8px 18px rgba(36, 127, 197, 0.17) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-card.is-main :is(span, strong, p) {
+    color: #ffffff !important;
+}
+
+/* =========================================================
+   مؤشر الاعتماد
+========================================================= */
+
+html body main.ust-content .analysis-page .analysis-approval-card {
+    padding: 14px 16px !important;
+    gap: 14px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-approval-text h2 {
+    margin-bottom: 4px !important;
+    color: var(--analysis-deep) !important;
+    font-size: 16px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-approval-text p,
+html body main.ust-content .analysis-page .analysis-approval-note {
+    color: var(--analysis-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.65 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-approval-note {
+    margin-top: 8px !important;
+    padding: 9px 11px !important;
+    border-color: var(--analysis-border) !important;
+    border-radius: 10px !important;
+    background: var(--analysis-soft-2) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-approval-badge {
+    min-width: 165px !important;
+    min-height: 88px !important;
+    padding: 12px !important;
+    border-color: var(--analysis-border) !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #ffffff, var(--analysis-soft)) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-approval-badge span {
+    color: var(--analysis-muted) !important;
+    font-size: 10.5px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-approval-badge strong {
+    color: var(--analysis-deep) !important;
+    font-size: 24px !important;
+}
+
+/* =========================================================
+   الأقسام القابلة للطي
+========================================================= */
+
+html body main.ust-content .analysis-page .analysis-accordion-card > summary {
+    min-height: 50px !important;
+    padding: 10px 14px !important;
+    gap: 9px !important;
+    background: linear-gradient(180deg, #ffffff, var(--analysis-soft-2)) !important;
+    color: var(--analysis-deep) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-accordion-card > summary::before {
+    width: 27px !important;
+    height: 27px !important;
+    border-color: var(--analysis-border-strong) !important;
+    color: var(--analysis-deep) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-accordion-card[open] > summary::before {
+    background: var(--analysis-main) !important;
+    border-color: var(--analysis-main) !important;
+    color: #ffffff !important;
+}
+
+html body main.ust-content .analysis-page .analysis-accordion-card > summary span {
+    color: var(--analysis-deep) !important;
+    font-size: 13px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-accordion-card > summary small {
+    color: var(--analysis-muted) !important;
+    font-size: 10.5px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-accordion-body {
+    padding: 13px !important;
+    border-top-color: var(--analysis-border) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-section-help,
+html body main.ust-content .analysis-page .analysis-user-guide-lead,
+html body main.ust-content .analysis-page .analysis-formula-note,
+html body main.ust-content .analysis-page .analysis-detail-note,
+html body main.ust-content .analysis-page .analysis-empty-inline {
+    margin-bottom: 10px !important;
+    padding: 9px 11px !important;
+    border-color: var(--analysis-border) !important;
+    border-radius: 10px !important;
+    background: var(--analysis-soft-2) !important;
+    color: var(--analysis-text) !important;
+    font-size: 10.8px !important;
+    line-height: 1.65 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-section-help strong,
+html body main.ust-content .analysis-page .analysis-user-guide-lead strong {
+    margin-bottom: 3px !important;
+    color: var(--analysis-deep) !important;
+    font-size: 11.5px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-section-help p,
+html body main.ust-content .analysis-page .analysis-user-guide-lead p {
+    color: var(--analysis-muted) !important;
+    font-size: 10.8px !important;
+    line-height: 1.65 !important;
+}
+
+/* دليل المستخدم */
+html body main.ust-content .analysis-page .analysis-guide-blocks {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-guide-blocks article,
+html body main.ust-content .analysis-page .analysis-calculation-item {
+    padding: 10px !important;
+    border-color: var(--analysis-border) !important;
+    border-radius: 11px !important;
+    box-shadow: none !important;
+}
+
+html body main.ust-content .analysis-page .analysis-guide-blocks strong,
+html body main.ust-content .analysis-page .analysis-calculation-item strong {
+    margin-bottom: 3px !important;
+    color: var(--analysis-deep) !important;
+    font-size: 11.5px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-guide-blocks p,
+html body main.ust-content .analysis-page .analysis-calculation-item p {
+    color: var(--analysis-muted) !important;
+    font-size: 10.5px !important;
+    line-height: 1.6 !important;
+}
+
+/* =========================================================
+   الرسم والمؤشر العام
+========================================================= */
+
+html body main.ust-content .analysis-page .analysis-main-grid {
+    gap: 12px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-performance-list {
+    gap: 8px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-performance-row {
+    grid-template-columns: minmax(170px, 1fr) 1.5fr 66px !important;
+    gap: 9px !important;
+    padding: 8px 9px !important;
+    border-color: var(--analysis-border) !important;
+    border-radius: 10px !important;
+    background: #fbfdff !important;
+}
+
+html body main.ust-content .analysis-page .analysis-performance-title strong {
+    color: var(--analysis-deep) !important;
+    font-size: 11px !important;
+    line-height: 1.55 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-performance-title span {
+    color: var(--analysis-muted) !important;
+    font-size: 10px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-performance-track,
+html body main.ust-content .analysis-page .mini-progress-track,
+html body main.ust-content .analysis-page .status-bar-track,
+html body main.ust-content .analysis-page .overall-meter-track {
+    height: 8px !important;
+    background: #edf5fb !important;
+}
+
+html body main.ust-content .analysis-page .analysis-performance-track span,
+html body main.ust-content .analysis-page .mini-progress-track span,
+html body main.ust-content .analysis-page .status-bar-fill,
+html body main.ust-content .analysis-page .overall-meter-track span {
+    background: linear-gradient(
+        90deg,
+        var(--analysis-light),
+        var(--analysis-main),
+        var(--analysis-dark)
+    );
+}
+
+html body main.ust-content .analysis-page .analysis-performance-value {
+    color: var(--analysis-deep) !important;
+    font-size: 13px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-overall-box {
+    grid-template-columns: 165px minmax(0, 1fr) !important;
+    gap: 13px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-donut {
+    width: 145px !important;
+    height: 145px !important;
+    background:
+        conic-gradient(
+            var(--analysis-main) calc(var(--value) * 1%),
+            #edf5fb 0
+        ) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-donut > div {
+    width: 98px !important;
+    height: 98px !important;
+    padding: 7px !important;
+    box-shadow: 0 5px 12px rgba(20, 93, 145, 0.08) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-donut strong {
+    color: var(--analysis-deep) !important;
+    font-size: 21px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-donut span {
+    color: var(--analysis-muted) !important;
+    font-size: 10px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-overall-list {
+    gap: 7px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-overall-list > div {
+    padding: 9px 10px !important;
+    border-color: var(--analysis-border) !important;
+    border-radius: 10px !important;
+    background: var(--analysis-soft-2) !important;
+}
+
+html body main.ust-content .analysis-page .analysis-overall-list span {
+    margin-bottom: 2px !important;
+    color: var(--analysis-muted) !important;
+    font-size: 10px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-overall-list strong {
+    color: var(--analysis-deep) !important;
+    font-size: 11.5px !important;
+}
+
+/* =========================================================
+   الأولويات والقراءات
+========================================================= */
+
+html body main.ust-content .analysis-page .analysis-priority-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-priority-card {
+    padding: 11px !important;
+    gap: 7px !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+}
+
+html body main.ust-content .analysis-page .analysis-priority-card h3 {
+    color: var(--analysis-deep) !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-priority-card p {
+    color: var(--analysis-muted) !important;
+    font-size: 10.5px !important;
+    line-height: 1.55 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-priority-head span,
+html body main.ust-content .analysis-page .analysis-priority-mini span {
+    font-size: 9.8px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-priority-head strong {
+    min-width: 36px !important;
+    height: 29px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-reading-grid,
+html body main.ust-content .analysis-page .analysis-grid {
+    gap: 12px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-reading-card,
+html body main.ust-content .analysis-page .analysis-panel {
+    padding: 14px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-reading-card h2,
+html body main.ust-content .analysis-page .analysis-panel-head h2 {
+    color: var(--analysis-deep) !important;
+    font-size: 15px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-reading-card p,
+html body main.ust-content .analysis-page .analysis-panel-head p {
+    color: var(--analysis-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.65 !important;
+}
+
+/* =========================================================
+   الجداول
+========================================================= */
+
+html body main.ust-content .analysis-page .analysis-table-panel .analysis-panel-head {
+    padding: 14px 14px 0 !important;
+}
+
+html body main.ust-content .analysis-page .analysis-table th {
+    padding: 9px 10px !important;
+    background: var(--analysis-soft) !important;
+    color: var(--analysis-deep) !important;
+    border-color: var(--analysis-border) !important;
+    font-size: 10.5px !important;
+}
+
+html body main.ust-content .analysis-page .analysis-table td {
+    padding: 9px 10px !important;
+    color: var(--analysis-text) !important;
+    border-color: #e8f1f8 !important;
+    font-size: 10.8px !important;
+}
+
+html body main.ust-content .analysis-page .standard-cell span,
+html body main.ust-content .analysis-page .analysis-small-note,
+html body main.ust-content .analysis-page .muted {
+    color: var(--analysis-muted) !important;
+    font-size: 10px !important;
+}
+
+html body main.ust-content .analysis-page .standard-cell strong {
+    color: var(--analysis-deep) !important;
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+}
+
+/* الشارات والأزرار */
+html body main.ust-content .analysis-page :is(
+    .status-pill,
+    .risk-pill,
+    .weight-pill,
+    .trend-pill
+) {
+    min-height: 26px !important;
+    padding: 0 9px !important;
+    font-size: 10px !important;
+}
+
+html body main.ust-content .analysis-page :is(
+    .analysis-filter-btn,
+    .analysis-primary-link,
+    .analysis-improvement-action
+) {
+    background: linear-gradient(
+        135deg,
+        var(--analysis-light),
+        var(--analysis-main),
+        var(--analysis-dark)
+    ) !important;
+    color: #ffffff !important;
+}
+
+html body main.ust-content .analysis-page :is(
+    .analysis-secondary-btn,
+    .analysis-row-action
+) {
+    border-color: var(--analysis-border-strong) !important;
+    color: var(--analysis-deep) !important;
+}
+
+html body main.ust-content .analysis-page .status-pill.is-draft {
+    background: var(--analysis-soft) !important;
+    color: var(--analysis-deep) !important;
+    border-color: var(--analysis-border) !important;
+}
+
+/* =========================================================
+   التجاوب
+========================================================= */
+
+@media (max-width: 1200px) {
+    html body main.ust-content .analysis-page .analysis-cards.analysis-cards-six {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    html body main.ust-content .analysis-page .analysis-priority-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 900px) {
+    html body main.ust-content .analysis-page .analysis-filters.is-four-columns,
+    html body main.ust-content .analysis-page .analysis-guide-blocks,
+    html body main.ust-content .analysis-page .analysis-calculation-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    html body main.ust-content .analysis-page .analysis-main-grid,
+    html body main.ust-content .analysis-page .analysis-reading-grid,
+    html body main.ust-content .analysis-page .analysis-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 650px) {
+    html body main.ust-content .analysis-page .analysis-cards.analysis-cards-six,
+    html body main.ust-content .analysis-page .analysis-priority-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    html body main.ust-content .analysis-page .analysis-overall-box,
+    html body main.ust-content .analysis-page .analysis-performance-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    html body main.ust-content .analysis-page .analysis-hero h1 {
+        font-size: 22px !important;
+    }
+}
+
+/* =========================================================
+   FINAL ANALYSIS TABS + TWO-BY-TWO FILTERS
+   صفان للفلاتر، زر صغير في المنتصف، وتبويب مستقل للرسوم
+========================================================= */
+
+/* بطاقة الفلاتر */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card.analysis-filter-card-clean {
+    padding: 12px 14px !important;
+    border-radius: 14px !important;
+}
+
+/* أربعة حقول: اثنان في الصف الأول واثنان في الصف الثاني */
+html body main.ust-content
+.analysis-page
+.analysis-filters.is-four-columns {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+
+    gap: 9px 12px !important;
+    align-items: end !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* الحقول */
+html body main.ust-content
+.analysis-page
+.analysis-field {
+    gap: 4px !important;
+    min-width: 0 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-field label {
+    color: #17324d !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-field select {
+    width: 100% !important;
+    min-width: 0 !important;
+
+    min-height: 38px !important;
+    height: 38px !important;
+
+    padding: 0 10px !important;
+
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 9px !important;
+
+    color: #17324d !important;
+    background: #ffffff !important;
+
+    font-size: 11px !important;
+    font-weight: 800 !important;
+}
+
+/* زر عرض التحليل: صغير وفي المنتصف */
+html body main.ust-content
+.analysis-page
+.analysis-filter-btn {
+    grid-column: 1 / -1 !important;
+    justify-self: center !important;
+    align-self: center !important;
+
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    min-height: 38px !important;
+    height: 38px !important;
+
+    margin-top: 2px !important;
+    padding: 0 16px !important;
+
+    border-radius: 9px !important;
+
+    background: linear-gradient(
+        135deg,
+        #60b7ef 0%,
+        #2f8ed6 48%,
+        #247fc5 100%
+    ) !important;
+
+    color: #ffffff !important;
+
+    font-size: 11.5px !important;
+    font-weight: 900 !important;
+
+    box-shadow:
+        0 6px 14px rgba(36, 127, 197, 0.16) !important;
+}
+
+/* الملاحظة أسفل الفلاتر */
+html body main.ust-content
+.analysis-page
+.analysis-filter-note-clean {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+
+    gap: 6px !important;
+
+    min-height: 34px !important;
+    margin-top: 8px !important;
+    padding: 7px 10px !important;
+
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 9px !important;
+
+    background: #f7fcff !important;
+
+    color: #6b7f95 !important;
+
+    font-size: 10.5px !important;
+    line-height: 1.55 !important;
+    text-align: center !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-filter-note-clean strong {
+    color: #145d91 !important;
+    flex: 0 0 auto !important;
+}
+
+/* =========================================================
+   شريط التبويبات
+========================================================= */
+
+html body main.ust-content
+.analysis-page
+.analysis-view-tabs {
+    position: sticky !important;
+    top: 8px !important;
+    z-index: 40 !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+
+    gap: 7px !important;
+
+    margin: 0 0 12px !important;
+    padding: 7px !important;
+
+    background: rgba(255, 255, 255, 0.96) !important;
+
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 13px !important;
+
+    box-shadow:
+        0 6px 16px rgba(20, 93, 145, 0.07) !important;
+
+    backdrop-filter: blur(7px) !important;
+    -webkit-backdrop-filter: blur(7px) !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-view-tab {
+    min-width: 0 !important;
+    min-height: 38px !important;
+
+    padding: 6px 9px !important;
+
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 9px !important;
+
+    background: #ffffff !important;
+    color: #145d91 !important;
+
+    font-family: inherit !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    line-height: 1.35 !important;
+
+    cursor: pointer !important;
+    transition: 0.16s ease !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-view-tab:hover {
+    background: #edf8ff !important;
+    border-color: #60b7ef !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-view-tab.active {
+    background: linear-gradient(
+        135deg,
+        #60b7ef 0%,
+        #2f8ed6 48%,
+        #247fc5 100%
+    ) !important;
+
+    color: #ffffff !important;
+    border-color: #2f8ed6 !important;
+
+    box-shadow:
+        0 5px 12px rgba(36, 127, 197, 0.17) !important;
+}
+
+/* لوحات المحتوى */
+html body main.ust-content
+.analysis-page
+.analysis-tab-panel {
+    display: grid !important;
+    gap: 12px !important;
+    min-width: 0 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-tab-panel[hidden] {
+    display: none !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-tab-panel.active {
+    animation: analysisTabFade 0.16s ease-out !important;
+}
+
+@keyframes analysisTabFade {
+    from {
+        opacity: 0;
+        transform: translateY(3px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* تبويب الرسوم: الرسم والمؤشر جنبًا إلى جنب */
+html body main.ust-content
+.analysis-page
+.analysis-tab-panel[data-analysis-panel="charts"]
+.analysis-main-grid {
+    grid-template-columns: 1.25fr 0.75fr !important;
+    gap: 12px !important;
+}
+
+/* دليل الاستخدام مغلق افتراضيًا */
+html body main.ust-content
+.analysis-page
+.analysis-user-system-guide:not([open]) {
+    margin-bottom: 0 !important;
+}
+
+/* الشاشات المتوسطة */
+@media (max-width: 1000px) {
+    html body main.ust-content
+    .analysis-page
+    .analysis-view-tabs {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    html body main.ust-content
+    .analysis-page
+    .analysis-tab-panel[data-analysis-panel="charts"]
+    .analysis-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* الشاشات الصغيرة */
+@media (max-width: 700px) {
+    html body main.ust-content
+    .analysis-page
+    .analysis-filters.is-four-columns {
+        grid-template-columns: 1fr !important;
+    }
+
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-btn {
+        width: 160px !important;
+        min-width: 160px !important;
+        max-width: 160px !important;
+    }
+
+    html body main.ust-content
+    .analysis-page
+    .analysis-view-tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-note-clean {
+        display: grid !important;
+    }
+}
+
+/* =========================================================
+   FINAL EXACT ANALYSIS FILTER GRID
+   الصف الأول: البرنامج + السنة
+   الصف الثاني: نوع القراءة + عرض المعايير
+   الصف الثالث: زر عرض التحليل في المنتصف
+========================================================= */
+
+html body main.ust-content
+.analysis-page
+.analysis-filter-card.analysis-filter-card-clean
+form.analysis-filters.is-four-columns {
+    display: grid !important;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr) !important;
+
+    grid-template-rows:
+        auto
+        auto
+        auto !important;
+
+    grid-auto-flow: row !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    gap: 9px 12px !important;
+    align-items: end !important;
+
+    direction: rtl !important;
+}
+
+/* البرنامج الأكاديمي: يمين الصف الأول */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card
+.analysis-filters
+.analysis-field:nth-of-type(1) {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+}
+
+/* السنة الأكاديمية: يسار الصف الأول */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card
+.analysis-filters
+.analysis-field:nth-of-type(2) {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+}
+
+/* نوع القراءة: يمين الصف الثاني */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card
+.analysis-filters
+.analysis-field:nth-of-type(3) {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+}
+
+/* عرض المعايير: يسار الصف الثاني */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card
+.analysis-filters
+.analysis-field:nth-of-type(4) {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+}
+
+/* زر عرض التحليل: الصف الثالث وفي المنتصف */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card
+.analysis-filters
+button.analysis-filter-btn {
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+
+    justify-self: center !important;
+    align-self: center !important;
+
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    height: 38px !important;
+    min-height: 38px !important;
+
+    margin: 2px auto 0 !important;
+}
+
+/* ضمان عدم تمدد الحقول أو خروجها من الشبكة */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card
+.analysis-filters
+.analysis-field {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-filter-card
+.analysis-filters
+.analysis-field select {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* الهاتف فقط: حقل واحد في كل صف */
+@media (max-width: 700px) {
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-card.analysis-filter-card-clean
+    form.analysis-filters.is-four-columns {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto !important;
+    }
+
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-card
+    .analysis-filters
+    .analysis-field:nth-of-type(1),
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-card
+    .analysis-filters
+    .analysis-field:nth-of-type(2),
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-card
+    .analysis-filters
+    .analysis-field:nth-of-type(3),
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-card
+    .analysis-filters
+    .analysis-field:nth-of-type(4),
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-card
+    .analysis-filters
+    button.analysis-filter-btn {
+        grid-column: 1 !important;
+        grid-row: auto !important;
+    }
+}
+
+/* =========================================================
+   FINAL ADVANCED ANALYSIS CHARTS
+   رسوم رادارية وتوزيعات ومقارنة زمنية
+========================================================= */
+
+html body main.ust-content .analysis-page {
+    --analysis-good: #25a56a;
+    --analysis-medium: #d99a13;
+    --analysis-weak: #df4a52;
+    --analysis-current: #2f8ed6;
+    --analysis-previous: #9bb6bf;
+}
+
+/* لوحة الرسوم العليا */
+html body main.ust-content
+.analysis-page
+.analysis-visual-dashboard {
+    display: grid !important;
+    grid-template-columns:
+        minmax(0, 1.25fr)
+        minmax(290px, 0.75fr) !important;
+
+    gap: 12px !important;
+    align-items: stretch !important;
+}
+
+/* كروت الرسوم */
+html body main.ust-content
+.analysis-page
+.analysis-chart-card {
+    min-width: 0 !important;
+    padding: 14px !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 15px !important;
+
+    box-shadow:
+        0 5px 15px rgba(20, 93, 145, 0.055) !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-card-head {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+
+    gap: 12px !important;
+    margin-bottom: 11px !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-kicker {
+    display: inline-flex !important;
+    align-items: center !important;
+
+    min-height: 25px !important;
+    margin-bottom: 4px !important;
+    padding: 2px 9px !important;
+
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 999px !important;
+
+    background: #edf8ff !important;
+    color: #145d91 !important;
+
+    font-size: 9.8px !important;
+    font-weight: 900 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-card-head h2 {
+    margin: 0 0 3px !important;
+
+    color: #145d91 !important;
+
+    font-size: 15px !important;
+    font-weight: 950 !important;
+    line-height: 1.5 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-card-head p {
+    max-width: 720px !important;
+    margin: 0 !important;
+
+    color: #6b7f95 !important;
+
+    font-size: 10.7px !important;
+    font-weight: 700 !important;
+    line-height: 1.65 !important;
+}
+
+/* =========================================================
+   الرسم الراداري
+========================================================= */
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-layout {
+    display: grid !important;
+    grid-template-columns:
+        minmax(0, 1fr)
+        210px !important;
+
+    gap: 12px !important;
+    align-items: center !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-wrap {
+    min-height: 325px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    padding: 4px !important;
+
+    border: 1px solid #e1edf7 !important;
+    border-radius: 12px !important;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(96, 183, 239, 0.08),
+            transparent 52%
+        ),
+        #fbfdff !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-svg {
+    width: 100% !important;
+    max-width: 440px !important;
+    height: 325px !important;
+    overflow: visible !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-grid {
+    fill: rgba(96, 183, 239, 0.035) !important;
+    stroke: #d8e8f3 !important;
+    stroke-width: 1.2 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-axis {
+    stroke: #d8e8f3 !important;
+    stroke-width: 1.1 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-value {
+    fill: rgba(47, 142, 214, 0.25) !important;
+    stroke: #247fc5 !important;
+    stroke-width: 2.5 !important;
+    stroke-linejoin: round !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-point {
+    fill: #ffffff !important;
+    stroke: #247fc5 !important;
+    stroke-width: 2.5 !important;
+    cursor: help !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-label {
+    fill: #145d91 !important;
+
+    font-size: 13px !important;
+    font-weight: 950 !important;
+
+    cursor: help !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-center {
+    fill: #145d91 !important;
+    font-size: 15px !important;
+    font-weight: 950 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-legend {
+    display: grid !important;
+    gap: 6px !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-legend > div {
+    display: grid !important;
+    grid-template-columns: 25px minmax(0, 1fr) !important;
+    align-items: center !important;
+
+    gap: 6px !important;
+    padding: 6px 7px !important;
+
+    border: 1px solid #e1edf7 !important;
+    border-radius: 9px !important;
+
+    background: #fbfdff !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-legend strong {
+    width: 25px !important;
+    height: 25px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 7px !important;
+
+    background: #2f8ed6 !important;
+    color: #ffffff !important;
+
+    font-size: 10px !important;
+    font-weight: 950 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-radar-legend span {
+    color: #465d73 !important;
+
+    font-size: 9.6px !important;
+    font-weight: 850 !important;
+    line-height: 1.45 !important;
+}
+
+/* =========================================================
+   دوائر التوزيع
+========================================================= */
+
+html body main.ust-content
+.analysis-page
+.analysis-distribution-column {
+    display: grid !important;
+    gap: 12px !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-distribution-card {
+    display: grid !important;
+    align-content: start !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-small-donut-layout {
+    display: grid !important;
+    grid-template-columns: 128px minmax(0, 1fr) !important;
+
+    gap: 12px !important;
+    align-items: center !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-small-donut {
+    width: 128px !important;
+    height: 128px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    border-radius: 50% !important;
+
+    background:
+        conic-gradient(#edf5fb 0deg 360deg);
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-small-donut > div {
+    width: 82px !important;
+    height: 82px !important;
+
+    display: grid !important;
+    place-content: center !important;
+
+    border-radius: 50% !important;
+
+    background: #ffffff !important;
+    border: 1px solid #e1edf7 !important;
+
+    text-align: center !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-small-donut strong {
+    display: block !important;
+
+    color: #145d91 !important;
+
+    font-size: 20px !important;
+    font-weight: 950 !important;
+    line-height: 1 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-small-donut span {
+    margin-top: 4px !important;
+
+    color: #6b7f95 !important;
+
+    font-size: 9.5px !important;
+    font-weight: 850 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend {
+    display: grid !important;
+    gap: 7px !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend > div {
+    display: grid !important;
+    grid-template-columns:
+        10px
+        minmax(0, 1fr)
+        auto !important;
+
+    gap: 7px !important;
+    align-items: center !important;
+
+    padding: 6px 0 !important;
+
+    border-bottom: 1px dashed #dcebf6 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend > div:last-child {
+    border-bottom: 0 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend i {
+    width: 9px !important;
+    height: 9px !important;
+
+    display: inline-block !important;
+
+    border-radius: 50% !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend i.is-good {
+    background: var(--analysis-good) !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend i.is-medium {
+    background: var(--analysis-medium) !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend i.is-weak {
+    background: var(--analysis-weak) !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend i.is-reviewed {
+    background: #2f8ed6 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend i.is-draft {
+    background: var(--analysis-medium) !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend i.is-pending {
+    background: var(--analysis-weak) !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend span {
+    color: #6b7f95 !important;
+
+    font-size: 9.8px !important;
+    font-weight: 800 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-legend strong {
+    color: #145d91 !important;
+
+    font-size: 11px !important;
+    font-weight: 950 !important;
+}
+
+/* =========================================================
+   الرسم الزمني
+========================================================= */
+
+html body main.ust-content
+.analysis-page
+.analysis-temporal-chart-card {
+    margin-top: 12px !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-chart-head-with-legend {
+    align-items: center !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-legend {
+    display: flex !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-legend span {
+    display: inline-flex !important;
+    align-items: center !important;
+
+    gap: 5px !important;
+
+    color: #6b7f95 !important;
+
+    font-size: 10px !important;
+    font-weight: 850 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-legend i {
+    width: 18px !important;
+    height: 3px !important;
+
+    display: inline-block !important;
+
+    border-radius: 999px !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-legend i.is-current {
+    background: var(--analysis-current) !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-legend i.is-previous {
+    background: var(--analysis-previous) !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-chart-wrap {
+    min-height: 300px !important;
+
+    padding: 8px !important;
+
+    border: 1px solid #e1edf7 !important;
+    border-radius: 12px !important;
+
+    background: #fbfdff !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-temporal-svg {
+    width: 100% !important;
+    height: 300px !important;
+    overflow: visible !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-grid {
+    stroke: #dce8eb !important;
+    stroke-width: 1 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-grid.is-vertical {
+    stroke-dasharray: 3 5 !important;
+    opacity: 0.75 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-axis-label {
+    fill: #6b7f95 !important;
+
+    font-size: 11px !important;
+    font-weight: 850 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-path {
+    fill: none !important;
+    stroke-width: 3 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-path.is-current {
+    stroke: var(--analysis-current) !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-path.is-previous {
+    stroke: var(--analysis-previous) !important;
+    stroke-dasharray: 7 6 !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-point {
+    fill: #ffffff !important;
+    stroke-width: 2.5 !important;
+    cursor: help !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-point.is-current {
+    stroke: var(--analysis-current) !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-line-point.is-previous {
+    stroke: var(--analysis-previous) !important;
+}
+
+/* =========================================================
+   التجاوب
+========================================================= */
+
+@media (max-width: 1050px) {
+    html body main.ust-content
+    .analysis-page
+    .analysis-visual-dashboard {
+        grid-template-columns: 1fr !important;
+    }
+
+    html body main.ust-content
+    .analysis-page
+    .analysis-distribution-column {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 760px) {
+    html body main.ust-content
+    .analysis-page
+    .analysis-radar-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    html body main.ust-content
+    .analysis-page
+    .analysis-radar-legend {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    html body main.ust-content
+    .analysis-page
+    .analysis-distribution-column {
+        grid-template-columns: 1fr !important;
+    }
+
+    html body main.ust-content
+    .analysis-page
+    .analysis-chart-head-with-legend {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+    }
+}
+
+@media (max-width: 520px) {
+    html body main.ust-content
+    .analysis-page
+    .analysis-small-donut-layout {
+        grid-template-columns: 1fr !important;
+        justify-items: center !important;
+    }
+
+    html body main.ust-content
+    .analysis-page
+    .analysis-radar-legend {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* =========================================================
+   ACADEMIC PERFORMANCE INDICATORS DASHBOARD
+========================================================= */
+
+html body main.ust-content .analysis-page .student-analysis-dashboard {
+    display: grid !important;
+    gap: 12px !important;
+}
+
+html body main.ust-content .analysis-page .student-analysis-heading {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    padding: 14px 16px !important;
+    background: linear-gradient(135deg, #ffffff, #f4faff) !important;
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 15px !important;
+    box-shadow: 0 5px 15px rgba(20, 93, 145, 0.055) !important;
+}
+
+html body main.ust-content .analysis-page .student-analysis-kicker {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 25px !important;
+    margin-bottom: 4px !important;
+    padding: 2px 9px !important;
+    background: #edf8ff !important;
+    color: #145d91 !important;
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 999px !important;
+    font-size: 9.8px !important;
+    font-weight: 900 !important;
+}
+
+html body main.ust-content .analysis-page .student-analysis-heading h2 {
+    margin: 0 0 3px !important;
+    color: #145d91 !important;
+    font-size: 17px !important;
+    font-weight: 950 !important;
+}
+
+html body main.ust-content .analysis-page .student-analysis-heading p {
+    max-width: 780px !important;
+    margin: 0 !important;
+    color: #6b7f95 !important;
+    font-size: 10.8px !important;
+    font-weight: 700 !important;
+    line-height: 1.65 !important;
+}
+
+html body main.ust-content .analysis-page .student-analysis-scope {
+    flex: 0 0 auto !important;
+    min-height: 30px !important;
+    padding: 5px 10px !important;
+    background: #ffffff !important;
+    color: #145d91 !important;
+    border: 1px solid #acd9f6 !important;
+    border-radius: 999px !important;
+    font-size: 10px !important;
+    font-weight: 900 !important;
+}
+
+html body main.ust-content .analysis-page .academic-metrics-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-card {
+    min-height: 145px !important;
+    padding: 12px !important;
+    display: grid !important;
+    align-content: start !important;
+    gap: 7px !important;
+    background: #ffffff !important;
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 13px !important;
+    box-shadow: 0 4px 11px rgba(20, 93, 145, 0.045) !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-card-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-card-head > span {
+    color: #465d73 !important;
+    font-size: 10.8px !important;
+    font-weight: 900 !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-card-head > small {
+    padding: 2px 7px !important;
+    color: #6b7f95 !important;
+    background: #f5fafb !important;
+    border: 1px solid #dcebf6 !important;
+    border-radius: 999px !important;
+    font-size: 8.8px !important;
+    font-weight: 800 !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-card > strong {
+    color: #145d91 !important;
+    font-size: 25px !important;
+    font-weight: 950 !important;
+    line-height: 1.15 !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-card > p {
+    margin: 0 !important;
+    color: #6b7f95 !important;
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    line-height: 1.5 !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-track {
+    width: 100% !important;
+    height: 8px !important;
+    overflow: hidden !important;
+    background: #edf5fb !important;
+    border-radius: 999px !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-track > span {
+    display: block !important;
+    height: 100% !important;
+    background: #2f8ed6 !important;
+    border-radius: inherit !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-card.is-good .academic-metric-track > span {
+    background: #25a56a !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-card.is-warning .academic-metric-track > span {
+    background: #d99a13 !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-card.is-danger .academic-metric-track > span {
+    background: #df4a52 !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-card.is-neutral {
+    background: linear-gradient(135deg, #ffffff, #f5fbff) !important;
+}
+
+html body main.ust-content .analysis-page .academic-metric-card.is-empty {
+    opacity: 0.72 !important;
+}
+
+html body main.ust-content .analysis-page .academic-gpa-badge {
+    min-height: 29px !important;
+    padding: 5px 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    color: #465d73 !important;
+    background: #edf8ff !important;
+    border: 1px dashed #acd9f6 !important;
+    border-radius: 8px !important;
+    font-size: 9px !important;
+    font-weight: 800 !important;
+}
+
+html body main.ust-content .analysis-page .academic-analysis-grid {
+    display: grid !important;
+    grid-template-columns: 1.3fr 0.7fr !important;
+    gap: 12px !important;
+}
+
+html body main.ust-content .analysis-page .academic-analysis-card {
+    min-width: 0 !important;
+    padding: 13px !important;
+    background: #ffffff !important;
+    border: 1px solid #d3e8f8 !important;
+    border-radius: 15px !important;
+    box-shadow: 0 5px 15px rgba(20, 93, 145, 0.055) !important;
+}
+
+html body main.ust-content .analysis-page .academic-analysis-card-head {
+    margin-bottom: 10px !important;
+}
+
+html body main.ust-content .analysis-page .academic-analysis-card-head h3 {
+    margin: 0 0 3px !important;
+    color: #145d91 !important;
+    font-size: 14px !important;
+    font-weight: 950 !important;
+}
+
+html body main.ust-content .analysis-page .academic-analysis-card-head p {
+    margin: 0 !important;
+    color: #6b7f95 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    line-height: 1.55 !important;
+}
+
+html body main.ust-content .analysis-page .academic-comparison-list {
+    display: grid !important;
+    gap: 8px !important;
+}
+
+html body main.ust-content .analysis-page .academic-comparison-row {
+    display: grid !important;
+    grid-template-columns: 190px minmax(0, 1fr) !important;
+    gap: 11px !important;
+    align-items: center !important;
+    padding: 8px 9px !important;
+    background: #fbfdff !important;
+    border: 1px solid #e1edf7 !important;
+    border-radius: 10px !important;
+}
+
+html body main.ust-content .analysis-page .academic-comparison-label strong {
+    display: block !important;
+    color: #145d91 !important;
+    font-size: 10.5px !important;
+    font-weight: 950 !important;
+}
+
+html body main.ust-content .analysis-page .academic-comparison-label span {
+    color: #6b7f95 !important;
+    font-size: 8.9px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+}
+
+html body main.ust-content .analysis-page .academic-comparison-value {
+    margin-bottom: 4px !important;
+    color: #145d91 !important;
+    font-size: 11.5px !important;
+    font-weight: 950 !important;
+}
+
+html body main.ust-content .analysis-page .academic-comparison-track {
+    width: 100% !important;
+    height: 10px !important;
+    overflow: hidden !important;
+    background: #edf5fb !important;
+    border-radius: 999px !important;
+}
+
+html body main.ust-content .analysis-page .academic-comparison-track > span {
+    display: block !important;
+    height: 100% !important;
+    background: #2f8ed6 !important;
+    border-radius: inherit !important;
+}
+
+html body main.ust-content .analysis-page .academic-comparison-row.is-good .academic-comparison-track > span {
+    background: #25a56a !important;
+}
+
+html body main.ust-content .analysis-page .academic-comparison-row.is-warning .academic-comparison-track > span {
+    background: #d99a13 !important;
+}
+
+html body main.ust-content .analysis-page .academic-comparison-row.is-danger .academic-comparison-track > span {
+    background: #df4a52 !important;
+}
+
+html body main.ust-content .analysis-page .academic-reading-list {
+    display: grid !important;
+    gap: 8px !important;
+}
+
+html body main.ust-content .analysis-page .academic-reading-list > div {
+    padding: 9px 10px !important;
+    background: #f7fcff !important;
+    border: 1px solid #e1edf7 !important;
+    border-radius: 10px !important;
+}
+
+html body main.ust-content .analysis-page .academic-reading-list span {
+    display: block !important;
+    margin-bottom: 3px !important;
+    color: #6b7f95 !important;
+    font-size: 9px !important;
+    font-weight: 800 !important;
+}
+
+html body main.ust-content .analysis-page .academic-reading-list strong {
+    color: #145d91 !important;
+    font-size: 11px !important;
+    font-weight: 950 !important;
+    line-height: 1.45 !important;
+}
+
+@media (max-width: 1050px) {
+    html body main.ust-content .analysis-page .academic-metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    html body main.ust-content .analysis-page .academic-analysis-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 650px) {
+    html body main.ust-content .analysis-page .student-analysis-heading {
+        flex-direction: column !important;
+    }
+
+    html body main.ust-content .analysis-page .academic-metrics-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    html body main.ust-content .analysis-page .academic-comparison-row {
+        grid-template-columns: 1fr !important;
+    }
+}
+/* =========================================================
+   تصغير أزرار خطط التحسين داخل بطاقات الأولوية
+========================================================= */
+
+html body main.ust-content
+.analysis-page
+.analysis-priority-card
+.analysis-improvement-form {
+    width: auto !important;
+    max-width: none !important;
+    margin: 8px auto 0 !important;
+
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    flex: 0 0 auto !important;
+    align-self: center !important;
+}
+
+
+html body main.ust-content
+.analysis-page
+.analysis-priority-card
+.analysis-improvement-action,
+
+html body main.ust-content
+.analysis-page
+.analysis-priority-card
+.analysis-row-action {
+    width: 165px !important;
+    min-width: 165px !important;
+    max-width: 165px !important;
+
+    min-height: 30px !important;
+    height: 30px !important;
+
+    padding: 3px 8px !important;
+    margin: 0 auto !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex: 0 0 145px !important;
+    align-self: center !important;
+
+    font-size: 9.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+
+    border-radius: 8px !important;
+}
+/* كروت أولويات التحسين */
+#analysis-followup .priority-card,
+#analysis-followup .improvement-priority-card,
+#analysis-followup .followup-priority-card,
+#analysis-followup .smart-priority-card,
+#analysis-followup .priority-item-card {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f3 !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+/* العنوان والنص داخل الكرت يبقوا واضحين */
+#analysis-followup .priority-card h4,
+#analysis-followup .priority-card h5,
+#analysis-followup .priority-card p,
+#analysis-followup .priority-card span,
+#analysis-followup .improvement-priority-card h4,
+#analysis-followup .improvement-priority-card h5,
+#analysis-followup .improvement-priority-card p,
+#analysis-followup .improvement-priority-card span {
+    color: #154c79;
+}
+
+/* الزر أو المستطيل الأزرق أسفل الكرت */
+#analysis-followup .priority-card .btn,
+#analysis-followup .priority-card .btn-primary,
+#analysis-followup .priority-card .create-plan-btn,
+#analysis-followup .priority-card .priority-action-btn,
+#analysis-followup .improvement-priority-card .btn,
+#analysis-followup .improvement-priority-card .btn-primary,
+#analysis-followup .improvement-priority-card .create-plan-btn,
+#analysis-followup .improvement-priority-card .priority-action-btn {
+    background: linear-gradient(135deg, #3fa0ea, #2b86d1) !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+/* عند المرور على الزر */
+#analysis-followup .priority-card .btn:hover,
+#analysis-followup .priority-card .btn-primary:hover,
+#analysis-followup .priority-card .create-plan-btn:hover,
+#analysis-followup .priority-card .priority-action-btn:hover,
+#analysis-followup .improvement-priority-card .btn:hover,
+#analysis-followup .improvement-priority-card .btn-primary:hover,
+#analysis-followup .improvement-priority-card .create-plan-btn:hover,
+#analysis-followup .improvement-priority-card .priority-action-btn:hover {
+    color: #ffffff !important;
+    opacity: 0.95;
+}
+/* =========================================================
+   تعديل كروت أولويات التحسين الذكية
+========================================================= */
+
+/* جعل خلفية جميع كروت الأولوية بيضاء */
+.analysis-priority-grid .analysis-priority-card,
+.analysis-priority-grid article.analysis-priority-card {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+
+    border: 1px solid #d7e6f2 !important;
+    box-shadow: 0 5px 16px rgba(31, 91, 135, 0.07) !important;
+}
+
+/* إلغاء أي خلفية ملونة قادمة من مستوى الخطورة */
+.analysis-priority-grid .analysis-priority-card[class] {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+}
+
+/* عنوان المعيار */
+.analysis-priority-grid .analysis-priority-card h3 {
+    color: #075b91 !important;
+}
+
+/* نص تفاصيل الدرجة والنسبة */
+.analysis-priority-grid .analysis-priority-card > p {
+    color: #173b57 !important;
+}
+
+/* الشرائح الصغيرة داخل الكرت */
+.analysis-priority-grid .analysis-priority-mini span {
+    background: #ffffff !important;
+    color: #173b57 !important;
+    border: 1px solid #d4e5f2 !important;
+}
+
+/* زر إنشاء أو عرض خطة التحسين */
+.analysis-priority-grid .analysis-improvement-action,
+.analysis-priority-grid .analysis-row-action.analysis-improvement-action,
+.analysis-priority-grid button.analysis-improvement-action,
+.analysis-priority-grid a.analysis-improvement-action {
+    background: #2995d8 !important;
+    background-color: #2995d8 !important;
+    background-image: none !important;
+
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+
+    border: none !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+}
+
+/* تثبيت النص الأبيض في كل حالات الزر */
+.analysis-priority-grid .analysis-improvement-action:link,
+.analysis-priority-grid .analysis-improvement-action:visited,
+.analysis-priority-grid .analysis-improvement-action:hover,
+.analysis-priority-grid .analysis-improvement-action:focus,
+.analysis-priority-grid .analysis-improvement-action:active {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* عند المرور على الزر */
+.analysis-priority-grid .analysis-improvement-action:hover {
+    background: #147dbc !important;
+    background-color: #147dbc !important;
+}
+
+/* مؤشر الأولوية أعلى الكرت */
+.analysis-priority-grid .analysis-priority-head strong {
+    color: #075b91 !important;
+    background: #ffffff !important;
+}
+/* الحقول الثلاثة في صف واحد */
+.analysis-filters.is-three-columns {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+    align-items: end !important;
+}
+
+/* زر عرض التحليل في سطر مستقل */
+.analysis-filters.is-three-columns .analysis-filter-btn {
+    grid-column: 1 / -1 !important;
+    justify-self: center !important;
+    width: 230px !important;
+}
+
+/* الشاشات الصغيرة */
+@media (max-width: 900px) {
+    .analysis-filters.is-three-columns {
+        grid-template-columns: 1fr !important;
+    }
+
+    .analysis-filters.is-three-columns .analysis-filter-btn {
+        width: 100% !important;
+    }
+}
+/* =====================================================
+   ترتيب فلاتر صفحة التحليل: ثلاثة حقول في سطر واحد
+===================================================== */
+
+.analysis-page .analysis-filters.is-three-columns {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    column-gap: 16px !important;
+    row-gap: 14px !important;
+    align-items: end !important;
+}
+
+/* إلغاء أي تنسيق سابق يجعل أحد الحقول يأخذ سطرًا كاملًا */
+.analysis-page .analysis-filters.is-three-columns > .analysis-field {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+/* البرنامج الأكاديمي */
+.analysis-page .analysis-filters.is-three-columns > .analysis-field:nth-of-type(1) {
+    grid-column: 1 !important;
+}
+
+/* السنة الأكاديمية */
+.analysis-page .analysis-filters.is-three-columns > .analysis-field:nth-of-type(2) {
+    grid-column: 2 !important;
+}
+
+/* عرض المعايير */
+.analysis-page .analysis-filters.is-three-columns > .analysis-field:nth-of-type(3) {
+    grid-column: 3 !important;
+}
+
+/* جعل جميع القوائم بعرض العمود */
+.analysis-page .analysis-filters.is-three-columns .analysis-field select {
+    width: 100% !important;
+}
+
+/* زر عرض التحليل في سطر مستقل أسفل الحقول */
+.analysis-page .analysis-filters.is-three-columns .analysis-filter-btn {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    justify-self: center !important;
+    width: 230px !important;
+}
+
+/* الشاشات الصغيرة */
+@media (max-width: 900px) {
+    .analysis-page .analysis-filters.is-three-columns {
+        grid-template-columns: 1fr !important;
+    }
+
+    .analysis-page .analysis-filters.is-three-columns > .analysis-field,
+    .analysis-page .analysis-filters.is-three-columns > .analysis-field:nth-of-type(1),
+    .analysis-page .analysis-filters.is-three-columns > .analysis-field:nth-of-type(2),
+    .analysis-page .analysis-filters.is-three-columns > .analysis-field:nth-of-type(3),
+    .analysis-page .analysis-filters.is-three-columns .analysis-filter-btn {
+        grid-column: 1 !important;
+        grid-row: auto !important;
+    }
+
+    .analysis-page .analysis-filters.is-three-columns .analysis-filter-btn {
+        width: 100% !important;
+    }
+}
+/* =====================================================
+   FIX: عرض فلاتر التحليل الثلاثة في سطر واحد
+===================================================== */
+
+html body main.ust-content
+.analysis-page
+.analysis-filter-card.analysis-filter-card-clean
+form.analysis-filters
+.analysis-filter-fields {
+    grid-column: 1 / -1 !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-rows: auto !important;
+
+    gap: 16px !important;
+    align-items: end !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+/* البرنامج الأكاديمي */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card.analysis-filter-card-clean
+form.analysis-filters
+.analysis-filter-fields > .analysis-field:nth-child(1) {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+}
+
+/* السنة الأكاديمية */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card.analysis-filter-card-clean
+form.analysis-filters
+.analysis-filter-fields > .analysis-field:nth-child(2) {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+}
+
+/* عرض المعايير */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card.analysis-filter-card-clean
+form.analysis-filters
+.analysis-filter-fields > .analysis-field:nth-child(3) {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+}
+
+/* ضمان تساوي عرض الحقول */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card.analysis-filter-card-clean
+form.analysis-filters
+.analysis-filter-fields > .analysis-field {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+html body main.ust-content
+.analysis-page
+.analysis-filter-card.analysis-filter-card-clean
+form.analysis-filters
+.analysis-filter-fields > .analysis-field select {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* زر عرض التحليل يبقى أسفل الحقول وفي المنتصف */
+html body main.ust-content
+.analysis-page
+.analysis-filter-card.analysis-filter-card-clean
+form.analysis-filters
+button.analysis-filter-btn {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+
+    justify-self: center !important;
+    width: 230px !important;
+}
+
+/* الشاشات الصغيرة فقط */
+@media (max-width: 800px) {
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-card.analysis-filter-card-clean
+    form.analysis-filters
+    .analysis-filter-fields {
+        grid-template-columns: 1fr !important;
+    }
+
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-card.analysis-filter-card-clean
+    form.analysis-filters
+    .analysis-filter-fields > .analysis-field:nth-child(1),
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-card.analysis-filter-card-clean
+    form.analysis-filters
+    .analysis-filter-fields > .analysis-field:nth-child(2),
+    html body main.ust-content
+    .analysis-page
+    .analysis-filter-card.analysis-filter-card-clean
+    form.analysis-filters
+    .analysis-filter-fields > .analysis-field:nth-child(3) {
+        grid-column: 1 !important;
+        grid-row: auto !important;
+    }
+}
+
+/* =========================================================
+   FINAL ACCORDION STYLE
+   مطابق لتصميم الأقسام القابلة للطي في صفحة التقييم
+========================================================= */
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card {
+    position: relative !important;
+    display: block !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    margin: 16px 0 0 !important;
+    background: #ffffff !important;
+    border: 1px solid #cfe4f4 !important;
+    border-radius: 18px !important;
+    box-shadow: none !important;
+}
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card::before,
+html body main.ust-content
+.analysis-page details.analysis-accordion-card::after {
+    content: none !important;
+    display: none !important;
+}
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card > summary {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    min-height: 74px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 14px 22px 14px 68px !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+    color: #075b98 !important;
+    border: 0 !important;
+    border-right: 4px solid #2f96df !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+    list-style: none !important;
+    user-select: none !important;
+}
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card > summary::-webkit-details-marker {
+    display: none !important;
+}
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card > summary::marker {
+    content: "" !important;
+    display: none !important;
+}
+
+/* دائرة الطي على اليسار — وليست الخط الجانبي */
+html body main.ust-content
+.analysis-page details.analysis-accordion-card > summary::before {
+    content: "⌄" !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 17px !important;
+    right: auto !important;
+    bottom: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    min-width: 36px !important;
+    max-width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #0b659f !important;
+    background: #eef8ff !important;
+    border: 1px solid #c7e4f7 !important;
+    border-radius: 50% !important;
+    font-family: Arial, sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    line-height: 30px !important;
+    text-align: center !important;
+    transform: translateY(-50%) !important;
+    box-sizing: border-box !important;
+    box-shadow: none !important;
+}
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card[open] > summary::before {
+    content: "⌃" !important;
+    color: #ffffff !important;
+    background: #3498db !important;
+    border-color: #3498db !important;
+    line-height: 40px !important;
+    transform: translateY(-50%) !important;
+}
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card > summary::after {
+    content: none !important;
+    display: none !important;
+}
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card > summary > span {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #075b98 !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    line-height: 1.5 !important;
+    text-align: right !important;
+}
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card > summary > span::before,
+html body main.ust-content
+.analysis-page details.analysis-accordion-card > summary > span::after {
+    content: none !important;
+    display: none !important;
+}
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card > summary > span > small {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #607d94 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+}
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card[open] > summary {
+    background: #f8fcff !important;
+    border-right: 4px solid #2f96df !important;
+    border-bottom: 1px solid #d8e9f5 !important;
+}
+
+html body main.ust-content
+.analysis-page details.analysis-accordion-card > .analysis-accordion-body {
+    margin: 0 !important;
+    padding: 20px !important;
+    background: #ffffff !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+/* إخفاء أي عناصر طي أضيفت سابقًا بواسطة JavaScript */
+html body main.ust-content
+.analysis-page .analysis-accordion-toggle,
+html body main.ust-content
+.analysis-page .analysis-user-guide-toggle,
+html body main.ust-content
+.analysis-page .analysis-user-guide-toggle-fixed {
+    display: none !important;
+}
+
+html body main.ust-content
+.analysis-page .analysis-cards + .analysis-user-system-guide {
+    margin-top: 20px !important;
+}
+
+html body main.ust-content
+.analysis-page .analysis-user-system-guide + .analysis-approval-card {
+    margin-top: 20px !important;
+}
+
+@media (max-width: 700px) {
+    html body main.ust-content
+    .analysis-page details.analysis-accordion-card > summary {
+        min-height: 70px !important;
+        padding: 12px 18px 12px 60px !important;
+    }
+
+    html body main.ust-content
+    .analysis-page details.analysis-accordion-card > summary::before {
+        left: 14px !important;
+        width: 34px !important;
+        min-width: 34px !important;
+        max-width: 34px !important;
+        height: 34px !important;
+        min-height: 34px !important;
+        max-height: 34px !important;
+        font-size: 17px !important;
+    }
+
+    html body main.ust-content
+    .analysis-page details.analysis-accordion-card > summary > span {
+        font-size: 16px !important;
+    }
+
+    html body main.ust-content
+    .analysis-page details.analysis-accordion-card > summary > span > small {
+        font-size: 12px !important;
+    }
+}
+
+/* =========================================================
+   FINAL CURRENT STANDARDS TABLE
+   جدول حالة المعايير الحالية: واضح، متوازن، وبدون سلايدر
+========================================================= */
+
+/* الحاوية لا تنشئ تمريرًا أفقيًا */
+.analysis-table-accordion .analysis-table-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    border-radius: 16px !important;
+}
+
+/* عزل هذا التنسيق عن بقية جداول صفحة التحليل */
+.analysis-table-accordion .analysis-current-standards-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    table-layout: fixed !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+
+/* توزيع الأعمدة بصورة متوازنة */
+.analysis-current-standards-table col.col-standard { width: 17% !important; }
+.analysis-current-standards-table col.col-status { width: 8% !important; }
+.analysis-current-standards-table col.col-percentage { width: 14% !important; }
+.analysis-current-standards-table col.col-rating { width: 8% !important; }
+.analysis-current-standards-table col.col-risk { width: 8% !important; }
+.analysis-current-standards-table col.col-indicators { width: 10% !important; }
+.analysis-current-standards-table col.col-missing { width: 4% !important; }
+.analysis-current-standards-table col.col-plan { width: 18% !important; }
+.analysis-current-standards-table col.col-action { width: 13% !important; }
+
+/* رأس الجدول */
+.analysis-current-standards-table th {
+    min-width: 0 !important;
+    padding: 12px 6px !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    box-sizing: border-box !important;
+}
+
+/* خلايا الجدول */
+.analysis-current-standards-table td {
+    min-width: 0 !important;
+    max-width: none !important;
+    padding: 13px 7px !important;
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    box-sizing: border-box !important;
+}
+
+/* عمود المعيار وخطة التحسين يحتاجان قراءة من اليمين */
+.analysis-current-standards-table .standard-cell,
+.analysis-current-standards-table .plan-cell {
+    text-align: right !important;
+}
+
+.analysis-current-standards-table .standard-cell span {
+    margin-bottom: 4px !important;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+}
+
+.analysis-current-standards-table .standard-cell strong {
+    font-size: 12px !important;
+    line-height: 1.75 !important;
+}
+
+/* النسبة النهائية: الرقم أعلى الشريط بدون تداخل مع التقدير */
+.analysis-current-standards-table .analysis-current-percent-box {
+    display: grid !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    gap: 7px !important;
+}
+
+.analysis-current-standards-table .analysis-current-percent-head {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    justify-items: center !important;
+    align-items: center !important;
+    gap: 2px !important;
+    min-width: 0 !important;
+}
+
+.analysis-current-standards-table .analysis-current-percent-head strong {
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+    white-space: nowrap !important;
+}
+
+.analysis-current-standards-table .analysis-current-percent-head span {
+    font-size: 10.5px !important;
+    line-height: 1.35 !important;
+    text-align: center !important;
+    white-space: normal !important;
+}
+
+.analysis-current-standards-table .analysis-current-progress {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 9px !important;
+    margin: 0 !important;
+}
+
+/* التقدير */
+.analysis-current-standards-table .rating-column {
+    font-size: 11.5px !important;
+    line-height: 1.55 !important;
+    font-weight: 800 !important;
+}
+
+/* الحالة والخطورة لا تُقسم الكلمة إلى أحرف */
+.analysis-current-standards-table .status-pill,
+.analysis-current-standards-table .risk-pill {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding: 5px 7px !important;
+    font-size: 10.5px !important;
+    line-height: 1.3 !important;
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    overflow-wrap: normal !important;
+    text-align: center !important;
+}
+
+/* المؤشرات */
+.analysis-current-standards-table .indicator-mini {
+    display: grid !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    gap: 3px !important;
+    justify-items: center !important;
+}
+
+.analysis-current-standards-table .indicator-mini span {
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+    white-space: nowrap !important;
+}
+
+/* النواقص */
+.analysis-current-standards-table .missing-column {
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+}
+
+/* خطة التحسين */
+.analysis-current-standards-table .plan-cell {
+    width: auto !important;
+    min-width: 0 !important;
+    font-size: 11.5px !important;
+    line-height: 1.75 !important;
+}
+
+.analysis-current-standards-table .plan-cell .muted {
+    font-size: 11px !important;
+    line-height: 1.65 !important;
+}
+
+/* الإجراءات */
+.analysis-current-standards-table .analysis-actions-stack,
+.analysis-current-standards-table .analysis-improvement-form {
+    display: grid !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    gap: 6px !important;
+    margin: 0 !important;
+}
+
+.analysis-current-standards-table .analysis-row-action,
+.analysis-current-standards-table .analysis-improvement-action {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    min-height: 42px !important;
+    padding: 7px 5px !important;
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+    white-space: normal !important;
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+}
+
+/* إبقاء نص زري عرض وإنشاء خطة التحسين أبيض */
+.analysis-current-standards-table a.analysis-improvement-action.is-view,
+.analysis-current-standards-table a.analysis-improvement-action.is-view:link,
+.analysis-current-standards-table a.analysis-improvement-action.is-view:visited,
+.analysis-current-standards-table a.analysis-improvement-action.is-view:hover,
+.analysis-current-standards-table a.analysis-improvement-action.is-view:focus,
+.analysis-current-standards-table a.analysis-improvement-action.is-view:active,
+.analysis-current-standards-table button.analysis-improvement-action,
+.analysis-current-standards-table button.analysis-improvement-action:hover,
+.analysis-current-standards-table button.analysis-improvement-action:focus,
+.analysis-current-standards-table button.analysis-improvement-action:active {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* عرض خطة التحسين بنفس الهوية الزرقاء بدل الخلفية الخضراء الفاتحة */
+.analysis-current-standards-table .analysis-improvement-action.is-view {
+    background: linear-gradient(
+        135deg,
+        var(--ust-blue-light, #60b7ef),
+        var(--ust-blue, #2f8ed6)
+    ) !important;
+    border-color: transparent !important;
+}
+
+/* الشاشات الأضيق: نقلل المسافات فقط دون إعادة السلايدر */
+@media (max-width: 1180px) {
+    .analysis-current-standards-table th {
+        padding-inline: 4px !important;
+        font-size: 11px !important;
+    }
+
+    .analysis-current-standards-table td {
+        padding-inline: 5px !important;
+        font-size: 11px !important;
+    }
+
+    .analysis-current-standards-table .standard-cell strong,
+    .analysis-current-standards-table .plan-cell {
+        font-size: 10.8px !important;
+    }
+
+    .analysis-current-standards-table .status-pill,
+    .analysis-current-standards-table .risk-pill {
+        font-size: 9.8px !important;
+        padding-inline: 5px !important;
+    }
+}
+
+
+/* =========================================================
+   FINAL CURRENT STANDARDS TABLE - WIDER WITH SMALL SCROLL
+   توسيع جدول حالة المعايير مع تمرير أفقي محدود وواضح
+========================================================= */
+
+/* السماح بتمرير أفقي صغير بدل ضغط الأعمدة والنصوص */
+.analysis-table-accordion .analysis-table-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    padding-bottom: 8px !important;
+    scrollbar-width: thin;
+    scrollbar-color: #8f99a3 #edf5fb;
+}
+
+.analysis-table-accordion .analysis-table-wrap::-webkit-scrollbar {
+    height: 7px !important;
+}
+
+.analysis-table-accordion .analysis-table-wrap::-webkit-scrollbar-track {
+    background: #edf5fb !important;
+    border-radius: 999px !important;
+}
+
+.analysis-table-accordion .analysis-table-wrap::-webkit-scrollbar-thumb {
+    background: #8f99a3 !important;
+    border-radius: 999px !important;
+}
+
+/* عرض ثابت مريح: التمرير المطلوب سيكون بسيطًا فقط */
+.analysis-table-accordion .analysis-current-standards-table {
+    width: 1240px !important;
+    min-width: 1240px !important;
+    max-width: none !important;
+    table-layout: fixed !important;
+}
+
+/* توزيع أعمدة واضح وغير مضغوط */
+.analysis-current-standards-table col.col-standard   { width: 190px !important; }
+.analysis-current-standards-table col.col-status     { width: 90px !important; }
+.analysis-current-standards-table col.col-percentage { width: 155px !important; }
+.analysis-current-standards-table col.col-rating     { width: 105px !important; }
+.analysis-current-standards-table col.col-risk       { width: 90px !important; }
+.analysis-current-standards-table col.col-indicators { width: 120px !important; }
+.analysis-current-standards-table col.col-missing    { width: 75px !important; }
+.analysis-current-standards-table col.col-plan       { width: 265px !important; }
+.analysis-current-standards-table col.col-action     { width: 150px !important; }
+
+/* إعادة النص إلى حجم مقروء */
+.analysis-current-standards-table th {
+    padding: 13px 9px !important;
+    font-size: 12.5px !important;
+    line-height: 1.55 !important;
+    white-space: normal !important;
+    overflow-wrap: normal !important;
+    word-break: keep-all !important;
+}
+
+.analysis-current-standards-table td {
+    padding: 14px 9px !important;
+    font-size: 12.5px !important;
+    line-height: 1.7 !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+}
+
+/* منع تقسيم كلمات العناوين القصيرة */
+.analysis-current-standards-table th:nth-child(2),
+.analysis-current-standards-table th:nth-child(4),
+.analysis-current-standards-table th:nth-child(5),
+.analysis-current-standards-table th:nth-child(6),
+.analysis-current-standards-table th:nth-child(7),
+.analysis-current-standards-table th:nth-child(9) {
+    white-space: nowrap !important;
+}
+
+/* المعيار */
+.analysis-current-standards-table .standard-cell span {
+    font-size: 11.5px !important;
+}
+
+.analysis-current-standards-table .standard-cell strong {
+    font-size: 12.5px !important;
+    line-height: 1.75 !important;
+}
+
+/* النسبة النهائية */
+.analysis-current-standards-table .analysis-current-percent-head strong {
+    font-size: 13px !important;
+}
+
+.analysis-current-standards-table .analysis-current-percent-head span {
+    font-size: 11px !important;
+}
+
+.analysis-current-standards-table .analysis-current-progress {
+    height: 10px !important;
+}
+
+/* التقدير والخطورة */
+.analysis-current-standards-table .rating-column {
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+}
+
+.analysis-current-standards-table .status-pill,
+.analysis-current-standards-table .risk-pill {
+    font-size: 11px !important;
+    padding: 6px 9px !important;
+}
+
+/* المؤشرات والنواقص */
+.analysis-current-standards-table .indicator-mini span {
+    font-size: 11.5px !important;
+    white-space: nowrap !important;
+}
+
+.analysis-current-standards-table .missing-column {
+    font-size: 12.5px !important;
+}
+
+/* خطة التحسين */
+.analysis-current-standards-table .plan-cell,
+.analysis-current-standards-table .plan-cell .muted {
+    font-size: 12px !important;
+    line-height: 1.8 !important;
+}
+
+/* أزرار الإجراءات */
+.analysis-current-standards-table .analysis-row-action,
+.analysis-current-standards-table .analysis-improvement-action {
+    min-height: 44px !important;
+    padding: 8px 8px !important;
+    font-size: 11.5px !important;
+    line-height: 1.45 !important;
+}
+
+/* تعطيل ضغط الجدول السابق في الشاشات المتوسطة */
+@media (max-width: 1180px) {
+    .analysis-current-standards-table th {
+        padding: 13px 9px !important;
+        font-size: 12.5px !important;
+    }
+
+    .analysis-current-standards-table td {
+        padding: 14px 9px !important;
+        font-size: 12.5px !important;
+    }
+
+    .analysis-current-standards-table .standard-cell strong,
+    .analysis-current-standards-table .plan-cell {
+        font-size: 12px !important;
+    }
+
+    .analysis-current-standards-table .status-pill,
+    .analysis-current-standards-table .risk-pill {
+        font-size: 11px !important;
+        padding-inline: 9px !important;
+    }
+}
+
+
+/* =========================================================
+   FINAL BALANCED WIDE CURRENT STANDARDS TABLE
+   جدول أوسع ومتناسق مع تمرير أفقي محدود
+========================================================= */
+
+/* استخدام كامل مساحة الكرت مع تمرير رفيع */
+.analysis-table-accordion .analysis-accordion-body,
+.analysis-table-accordion-body {
+    padding: 14px !important;
+}
+
+.analysis-table-accordion .analysis-table-wrap {
+    width: calc(100% + 8px) !important;
+    max-width: calc(100% + 8px) !important;
+    margin-inline: -4px !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    padding-bottom: 8px !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #8f99a3 #edf5fb !important;
+}
+
+.analysis-table-accordion .analysis-table-wrap::-webkit-scrollbar {
+    height: 7px !important;
+}
+
+.analysis-table-accordion .analysis-table-wrap::-webkit-scrollbar-track {
+    background: #edf5fb !important;
+    border-radius: 999px !important;
+}
+
+.analysis-table-accordion .analysis-table-wrap::-webkit-scrollbar-thumb {
+    background: #8f99a3 !important;
+    border-radius: 999px !important;
+}
+
+/* عرض متوازن: أوسع من السابق دون المبالغة في 1500px */
+.analysis-table-accordion .analysis-current-standards-table {
+    width: 1360px !important;
+    min-width: 1360px !important;
+    max-width: 1360px !important;
+    table-layout: fixed !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+
+/* إلغاء عروض الخلايا القديمة المتعارضة، والاعتماد على colgroup */
+.analysis-current-standards-table th,
+.analysis-current-standards-table td {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+}
+
+/* توزيع الأعمدة التسعة — المجموع 1360px */
+.analysis-current-standards-table col.col-standard   { width: 220px !important; }
+.analysis-current-standards-table col.col-status     { width: 145px !important; }
+.analysis-current-standards-table col.col-percentage { width: 175px !important; }
+.analysis-current-standards-table col.col-rating     { width: 135px !important; }
+.analysis-current-standards-table col.col-risk       { width: 110px !important; }
+.analysis-current-standards-table col.col-indicators { width: 130px !important; }
+.analysis-current-standards-table col.col-missing    { width: 90px !important; }
+.analysis-current-standards-table col.col-plan       { width: 230px !important; }
+.analysis-current-standards-table col.col-action     { width: 125px !important; }
+
+/* رأس وخلايا أوضح ومتناسقة */
+.analysis-current-standards-table th {
+    padding: 13px 9px !important;
+    font-size: 12.5px !important;
+    line-height: 1.45 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+}
+
+.analysis-current-standards-table td {
+    padding: 14px 10px !important;
+    font-size: 12.5px !important;
+    line-height: 1.7 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* محاذاة النصوص الطويلة */
+.analysis-current-standards-table .standard-cell,
+.analysis-current-standards-table .plan-cell {
+    text-align: right !important;
+}
+
+.analysis-current-standards-table .standard-cell strong {
+    font-size: 12.8px !important;
+    line-height: 1.75 !important;
+}
+
+.analysis-current-standards-table .standard-cell span {
+    font-size: 11.5px !important;
+}
+
+/* شارات الحالة والخطورة */
+.analysis-current-standards-table .status-pill,
+.analysis-current-standards-table .risk-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 36px !important;
+    max-width: 100% !important;
+    padding: 6px 12px !important;
+    font-size: 11.2px !important;
+    line-height: 1.25 !important;
+    white-space: nowrap !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+}
+
+.analysis-current-standards-table .status-pill {
+    min-width: 108px !important;
+}
+
+.analysis-current-standards-table .status-pill.is-empty {
+    min-width: 126px !important;
+}
+
+.analysis-current-standards-table .risk-pill {
+    min-width: 78px !important;
+}
+
+/* النسبة النهائية */
+.analysis-current-standards-table .analysis-current-percent-box {
+    width: 155px !important;
+    max-width: 155px !important;
+    margin: 0 auto !important;
+}
+
+.analysis-current-standards-table .analysis-current-percent-head {
+    display: grid !important;
+    gap: 2px !important;
+    justify-items: center !important;
+}
+
+.analysis-current-standards-table .analysis-current-percent-head strong {
+    font-size: 14px !important;
+}
+
+.analysis-current-standards-table .analysis-current-percent-head span {
+    font-size: 11.5px !important;
+}
+
+.analysis-current-standards-table .analysis-current-progress {
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+    height: 10px !important;
+    margin: 7px auto 0 !important;
+}
+
+/* التقدير والمؤشرات */
+.analysis-current-standards-table .rating-column {
+    font-size: 12.3px !important;
+    line-height: 1.6 !important;
+}
+
+.analysis-current-standards-table .indicator-mini {
+    display: grid !important;
+    gap: 3px !important;
+    justify-items: center !important;
+}
+
+.analysis-current-standards-table .indicator-mini span {
+    font-size: 11.7px !important;
+    white-space: nowrap !important;
+}
+
+.analysis-current-standards-table .missing-column {
+    font-size: 13px !important;
+    font-weight: 950 !important;
+    white-space: nowrap !important;
+}
+
+/* خطة التحسين */
+.analysis-current-standards-table .plan-cell,
+.analysis-current-standards-table .plan-cell .muted {
+    font-size: 12px !important;
+    line-height: 1.8 !important;
+}
+
+/* الإجراءات */
+.analysis-current-standards-table .analysis-actions-stack,
+.analysis-current-standards-table .analysis-improvement-form {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+.analysis-current-standards-table .analysis-row-action,
+.analysis-current-standards-table .analysis-improvement-action {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    min-height: 42px !important;
+    padding: 7px 5px !important;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+    white-space: normal !important;
+}
+
+/* تثبيت لون نص أزرار الخطة */
+.analysis-current-standards-table a.analysis-improvement-action.is-view,
+.analysis-current-standards-table a.analysis-improvement-action.is-view:visited,
+.analysis-current-standards-table a.analysis-improvement-action.is-view:hover,
+.analysis-current-standards-table button.analysis-improvement-action,
+.analysis-current-standards-table button.analysis-improvement-action:hover,
+.analysis-current-standards-table button.analysis-improvement-action:focus {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+/* =========================================================
+   توسيع جدول حالة المعايير قليلًا مع توزيع متوازن
+========================================================= */
+
+.analysis-table-accordion .analysis-table {
+    width: 1420px !important;
+    min-width: 1420px !important;
+    max-width: none !important;
+    table-layout: fixed !important;
+}
+
+/* المعيار */
+.analysis-table-accordion .analysis-table th:nth-child(1),
+.analysis-table-accordion .analysis-table td:nth-child(1) {
+    width: 240px !important;
+    min-width: 240px !important;
+}
+
+/* الحالة */
+.analysis-table-accordion .analysis-table th:nth-child(2),
+.analysis-table-accordion .analysis-table td:nth-child(2) {
+    width: 145px !important;
+    min-width: 145px !important;
+}
+
+/* النسبة النهائية */
+.analysis-table-accordion .analysis-table th:nth-child(3),
+.analysis-table-accordion .analysis-table td:nth-child(3) {
+    width: 190px !important;
+    min-width: 190px !important;
+}
+
+/* التقدير */
+.analysis-table-accordion .analysis-table th:nth-child(4),
+.analysis-table-accordion .analysis-table td:nth-child(4) {
+    width: 145px !important;
+    min-width: 145px !important;
+}
+
+/* الخطورة */
+.analysis-table-accordion .analysis-table th:nth-child(5),
+.analysis-table-accordion .analysis-table td:nth-child(5) {
+    width: 125px !important;
+    min-width: 125px !important;
+}
+
+/* المؤشرات */
+.analysis-table-accordion .analysis-table th:nth-child(6),
+.analysis-table-accordion .analysis-table td:nth-child(6) {
+    width: 145px !important;
+    min-width: 145px !important;
+}
+
+/* النواقص */
+.analysis-table-accordion .analysis-table th:nth-child(7),
+.analysis-table-accordion .analysis-table td:nth-child(7) {
+    width: 95px !important;
+    min-width: 95px !important;
+}
+
+/* خطة التحسين */
+.analysis-table-accordion .analysis-table th:nth-child(8),
+.analysis-table-accordion .analysis-table td:nth-child(8) {
+    width: 220px !important;
+    min-width: 220px !important;
+}
+
+/* الإجراء */
+.analysis-table-accordion .analysis-table th:nth-child(9),
+.analysis-table-accordion .analysis-table td:nth-child(9) {
+    width: 115px !important;
+    min-width: 115px !important;
+}

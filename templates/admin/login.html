@@ -1,0 +1,691 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block title %}
+تسجيل الدخول | نظام إدارة   أداء البرامج الأكاديمية
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login ust-login-page{% endblock %}
+
+{% block usertools %}{% endblock %}
+{% block nav-global %}{% endblock %}
+{% block nav-sidebar %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+{% block content_title %}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+
+<style>
+/* =========================================================
+   UST Admin Login Page
+   صفحة تسجيل دخول متناسقة مع واجهة النظام
+   ========================================================= */
+
+body.ust-login-page {
+    direction: rtl !important;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(104, 173, 187, 0.14), transparent 32%),
+        radial-gradient(circle at 82% 28%, rgba(216, 184, 75, 0.10), transparent 28%),
+        linear-gradient(135deg, #f7fbfc 0%, #edf5f7 100%) !important;
+}
+
+/* إخفاء أي فراغات مزعجة في صفحة الدخول */
+body.ust-login-page #content {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.ust-login-page #content-main {
+    width: 100% !important;
+}
+
+/* الحاوية العامة */
+.ust-login-shell {
+    min-height: calc(100vh - 118px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 42px 20px !important;
+    box-sizing: border-box !important;
+}
+
+/* كرت الدخول */
+.ust-login-card {
+    width: 440px !important;
+    max-width: 100% !important;
+
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid #cfe2e8 !important;
+    border-radius: 26px !important;
+
+    box-shadow:
+        0 22px 55px rgba(35, 79, 96, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+
+    overflow: hidden !important;
+}
+
+/* رأس الكرت */
+.ust-login-card-header {
+    padding: 26px 26px 20px !important;
+    text-align: center !important;
+
+    background:
+        linear-gradient(135deg, rgba(104, 173, 187, 0.18), rgba(255, 255, 255, 0.94)) !important;
+
+    border-bottom: 1px solid #e0edf1 !important;
+}
+
+.ust-login-logo {
+    width: 92px !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 auto 14px !important;
+}
+
+.ust-login-title {
+    margin: 0 !important;
+    color: #21485a !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    line-height: 1.6 !important;
+}
+
+.ust-login-subtitle {
+    margin: 6px 0 0 !important;
+    color: #5f7983 !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+}
+
+/* جسم الكرت */
+.ust-login-card-body {
+    padding: 26px 30px 30px !important;
+}
+
+/* رسائل الخطأ */
+.ust-login-error {
+    margin: 0 0 18px !important;
+    padding: 13px 15px !important;
+
+    background: #fff4f4 !important;
+    border: 1px solid #f0caca !important;
+    border-right: 5px solid #dc3545 !important;
+    border-radius: 14px !important;
+
+    color: #a8323a !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1.8 !important;
+}
+
+/* الحقول */
+.ust-login-field {
+    margin-bottom: 18px !important;
+    text-align: right !important;
+}
+
+.ust-login-field label {
+    display: block !important;
+    margin-bottom: 8px !important;
+
+    color: #21485a !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+}
+
+.ust-login-input-wrap {
+    position: relative !important;
+}
+
+.ust-login-input-wrap::before {
+    position: absolute !important;
+    right: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+
+    color: #5d9cac !important;
+    font-size: 15px !important;
+    font-weight: 900 !important;
+    z-index: 2 !important;
+}
+
+.ust-login-input-wrap.username::before {
+    content: "👤" !important;
+}
+
+.ust-login-input-wrap.password::before {
+    content: "🔒" !important;
+}
+
+.ust-login-input-wrap input {
+    width: 100% !important;
+    height: 48px !important;
+
+    padding: 0 44px 0 14px !important;
+    box-sizing: border-box !important;
+
+    border: 1px solid #cfe2e8 !important;
+    border-radius: 15px !important;
+
+    background: #f8fcfd !important;
+    color: #17384a !important;
+
+    font-size: 14px !important;
+    font-weight: 800 !important;
+
+    outline: none !important;
+    transition: 0.18s ease !important;
+}
+
+.ust-login-input-wrap input:focus {
+    background: #ffffff !important;
+    border-color: #68adbb !important;
+    box-shadow: 0 0 0 4px rgba(104, 173, 187, 0.16) !important;
+}
+
+/* زر الدخول */
+.ust-login-actions {
+    margin-top: 24px !important;
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.ust-login-submit {
+    min-width: 155px !important;
+    height: 46px !important;
+
+    border: none !important;
+    border-radius: 999px !important;
+
+    background:
+        linear-gradient(135deg, #68adbb 0%, #559cac 52%, #43899a 100%) !important;
+
+    color: #ffffff !important;
+
+    font-size: 14px !important;
+    font-weight: 900 !important;
+
+    cursor: pointer !important;
+
+    box-shadow: 0 10px 22px rgba(67, 137, 154, 0.22) !important;
+    transition: 0.18s ease !important;
+}
+
+.ust-login-submit:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 14px 28px rgba(67, 137, 154, 0.28) !important;
+    background:
+        linear-gradient(135deg, #5fa7b6 0%, #4e95a6 52%, #3c7f90 100%) !important;
+}
+
+/* النص السفلي */
+.ust-login-footer {
+    margin-top: 18px !important;
+    padding-top: 16px !important;
+
+    border-top: 1px solid #e3eef2 !important;
+
+    text-align: center !important;
+    color: #7a9099 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+}
+
+/* أخطاء الحقول */
+.ust-login-field .errorlist {
+    margin: 7px 0 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+
+    color: #b4232d !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+}
+
+/* إلغاء شكل Django الافتراضي */
+body.ust-login-page .form-row {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+body.ust-login-page .submit-row {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* موبايل */
+@media (max-width: 600px) {
+    .ust-login-shell {
+        padding: 26px 14px !important;
+    }
+
+    .ust-login-card-body {
+        padding: 22px 20px 24px !important;
+    }
+
+    .ust-login-title {
+        font-size: 19px !important;
+    }
+
+    .ust-login-logo {
+        width: 78px !important;
+    }
+}
+/* =========================================================
+   Compact Login Page
+   تصغير صفحة تسجيل الدخول لمنع ظهور السلايدر
+   ========================================================= */
+
+body.ust-login-page {
+    overflow-y: hidden !important;
+}
+
+/* تقليل ارتفاع مساحة الصفحة */
+.ust-login-shell {
+    min-height: calc(100vh - 92px) !important;
+    padding: 18px 20px !important;
+    align-items: center !important;
+}
+
+/* تصغير عرض وارتفاع الكرت */
+.ust-login-card {
+    width: 400px !important;
+    border-radius: 22px !important;
+}
+
+/* تصغير رأس الكرت */
+.ust-login-card-header {
+    padding: 14px 22px 12px !important;
+}
+
+/* تصغير الشعار */
+.ust-login-logo {
+    width: 68px !important;
+    margin-bottom: 8px !important;
+}
+
+/* تصغير العنوان */
+.ust-login-title {
+    font-size: 20px !important;
+    line-height: 1.35 !important;
+}
+
+/* تصغير الوصف */
+.ust-login-subtitle {
+    margin-top: 4px !important;
+    font-size: 12px !important;
+}
+
+/* تصغير جسم الكرت */
+.ust-login-card-body {
+    padding: 18px 26px 22px !important;
+}
+
+/* تقليل المسافات بين الحقول */
+.ust-login-field {
+    margin-bottom: 13px !important;
+}
+
+.ust-login-field label {
+    margin-bottom: 6px !important;
+    font-size: 12.5px !important;
+}
+
+/* تصغير الحقول */
+.ust-login-input-wrap input {
+    height: 42px !important;
+    border-radius: 13px !important;
+    font-size: 13px !important;
+}
+
+/* تصغير أيقونات الحقول */
+.ust-login-input-wrap::before {
+    font-size: 13px !important;
+}
+
+/* تصغير مساحة زر الدخول */
+.ust-login-actions {
+    margin-top: 17px !important;
+}
+
+.ust-login-submit {
+    min-width: 140px !important;
+    height: 42px !important;
+    font-size: 13px !important;
+}
+
+/* تصغير النص السفلي */
+.ust-login-footer {
+    margin-top: 14px !important;
+    padding-top: 12px !important;
+    font-size: 10.5px !important;
+}
+
+/* إلغاء أي مسافة عامة من قالب الأدمن */
+body.ust-login-page #content,
+body.ust-login-page #content-main {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+/* =========================================================
+   Move login card slightly upward
+   رفع كرت تسجيل الدخول قليلًا للأعلى
+   ========================================================= */
+
+.ust-login-card {
+    transform: translateY(-28px) !important;
+}
+/* =========================================================
+   Password show/hide only
+   إظهار وإخفاء كلمة المرور فقط
+   ========================================================= */
+
+.ust-login-input-wrap.password input {
+    padding-right: 44px !important;
+    padding-left: 48px !important;
+}
+
+/* زر إظهار / إخفاء كلمة المرور بدون رموز إيموجي */
+/* =========================================================
+   Soft Password Eye
+   عين ناعمة لإظهار وإخفاء كلمة المرور
+   ========================================================= */
+
+.ust-password-toggle {
+    position: absolute !important;
+    left: 13px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+
+    width: 28px !important;
+    height: 28px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border: 1px solid rgba(143, 197, 210, 0.55) !important;
+    border-radius: 50% !important;
+
+    background: rgba(255, 255, 255, 0.72) !important;
+    color: #5f9dab !important;
+
+    cursor: pointer !important;
+
+    box-shadow: 0 2px 6px rgba(35, 79, 96, 0.06) !important;
+    transition: 0.18s ease !important;
+}
+
+.ust-password-toggle:hover {
+    background: #ffffff !important;
+    border-color: #8fc5d2 !important;
+    color: #43899a !important;
+    box-shadow: 0 4px 10px rgba(35, 79, 96, 0.09) !important;
+}
+
+/* شكل العين الناعم */
+.ust-eye-shape {
+    position: relative !important;
+    width: 14px !important;
+    height: 8px !important;
+    display: inline-block !important;
+
+    border: 1.6px solid #5f9dab !important;
+    border-radius: 50% / 60% !important;
+
+    opacity: 0.9 !important;
+}
+
+/* بؤبؤ العين */
+.ust-eye-shape::before {
+    content: "" !important;
+    position: absolute !important;
+
+    top: 50% !important;
+    left: 50% !important;
+
+    width: 4px !important;
+    height: 4px !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    background: #5f9dab !important;
+    border-radius: 50% !important;
+}
+
+/* عند ظهور كلمة المرور */
+.ust-password-toggle.is-visible {
+    background: #fffaf0 !important;
+    border-color: #ead89a !important;
+}
+
+/* الخط المائل عند الإظهار */
+.ust-password-toggle.is-visible .ust-eye-shape::after {
+    content: "" !important;
+    position: absolute !important;
+
+    width: 18px !important;
+    height: 1.6px !important;
+
+    top: 3px !important;
+    left: -3px !important;
+
+    background: #b9932f !important;
+    border-radius: 999px !important;
+
+    transform: rotate(-35deg) !important;
+}
+/* =========================================================
+   FINAL ADMIN LOGIN BLUE THEME
+   ========================================================= */
+
+body.ust-login-page {
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(47, 136, 201, 0.11),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #f7fbfe 0%,
+            #edf6fc 100%
+        ) !important;
+}
+
+body.ust-login-page .ust-login-card {
+    border-color: #c9e1ef !important;
+
+    box-shadow:
+        0 18px 44px
+        rgba(23, 101, 159, 0.10) !important;
+}
+
+body.ust-login-page .ust-login-card-header {
+    background: linear-gradient(
+        135deg,
+        rgba(47, 136, 201, 0.14),
+        rgba(255, 255, 255, 0.96)
+    ) !important;
+
+    border-bottom-color: #d8eaf5 !important;
+}
+
+body.ust-login-page .ust-login-title {
+    color: #173f5f !important;
+}
+
+body.ust-login-page .ust-login-input-wrap input {
+    border-color: #c9e1ef !important;
+    background: #f8fbfe !important;
+}
+
+body.ust-login-page .ust-login-input-wrap input:focus {
+    border-color: #2f88c9 !important;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(47, 136, 201, 0.14) !important;
+}
+
+body.ust-login-page .ust-login-input-wrap::before {
+    color: #2f88c9 !important;
+}
+
+body.ust-login-page .ust-login-submit {
+    background: linear-gradient(
+        135deg,
+        #2f88c9 0%,
+        #17659f 100%
+    ) !important;
+
+    box-shadow:
+        0 8px 18px
+        rgba(23, 101, 159, 0.21) !important;
+}
+
+body.ust-login-page .ust-login-submit:hover {
+    background: linear-gradient(
+        135deg,
+        #267dbb 0%,
+        #125687 100%
+    ) !important;
+}
+
+body.ust-login-page .ust-password-toggle {
+    color: #17659f !important;
+    background: #eaf5fc !important;
+    border-color: #c9e1ef !important;
+}
+
+body.ust-login-page .ust-eye-shape {
+    border-color: #17659f !important;
+}
+
+body.ust-login-page .ust-eye-shape::before {
+    background: #17659f !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="ust-login-shell">
+    <div class="ust-login-card">
+
+        <div class="ust-login-card-header">
+            <img src="{% static 'admin/img/ust_logo.png' %}" alt="شعار الجامعة" class="ust-login-logo">
+
+            <h1 class="ust-login-title">
+                تسجيل الدخول إلى النظام
+            </h1>
+
+            <p class="ust-login-subtitle">
+                نظام إدارة   أداء البرامج الأكاديمية
+            </p>
+        </div>
+
+        <div class="ust-login-card-body">
+
+            {% if form.errors and not form.non_field_errors %}
+                <div class="ust-login-error">
+                    اسم المستخدم أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.
+                </div>
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                <div class="ust-login-error">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <div class="ust-login-error">
+                    حسابك لا يملك صلاحية الدخول إلى لوحة الإدارة.
+                </div>
+            {% endif %}
+
+            <form action="{{ app_path }}" method="post" id="login-form">
+                {% csrf_token %}
+
+                <div class="ust-login-field">
+                    <label for="{{ form.username.id_for_label }}">اسم المستخدم</label>
+                    <div class="ust-login-input-wrap username">
+                        {{ form.username }}
+                    </div>
+                    {{ form.username.errors }}
+                </div>
+
+                <div class="ust-login-field">
+    <label for="{{ form.password.id_for_label }}">كلمة المرور</label>
+
+    <div class="ust-login-input-wrap password">
+        {{ form.password }}
+
+        <button type="button"
+                class="ust-password-toggle"
+                id="ustPasswordToggle"
+                title="إظهار كلمة المرور"
+                aria-label="إظهار كلمة المرور">
+                <span class="ust-eye-shape"></span>
+
+        </button>
+    </div>
+
+    {{ form.password.errors }}
+</div>
+
+<input type="hidden" name="next" value="{% url 'admin:index' %}">
+                <div class="ust-login-actions">
+                    <button type="submit" class="ust-login-submit">
+                        دخول
+                    </button>
+                </div>
+            </form>
+
+            <div class="ust-login-footer">
+                للدخول إلى لوحة الإدارة، يرجى استخدام حساب مصرح له فقط.
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extrahead %}
+{{ block.super }}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const passwordInput = document.querySelector(".ust-login-input-wrap.password input");
+    const passwordToggle = document.getElementById("ustPasswordToggle");
+
+    if (!passwordInput || !passwordToggle) return;
+
+    passwordToggle.addEventListener("click", function () {
+        const isPassword = passwordInput.getAttribute("type") === "password";
+
+        passwordInput.setAttribute("type", isPassword ? "text" : "password");
+
+        passwordToggle.classList.toggle("is-visible", isPassword);
+
+        
+        passwordToggle.setAttribute(
+            "title",
+            isPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"
+        );
+
+        passwordToggle.setAttribute(
+            "aria-label",
+            isPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"
+        );
+    });
+});
+</script>
+{% endblock %}

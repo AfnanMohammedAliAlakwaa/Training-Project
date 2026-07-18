@@ -174,7 +174,7 @@ function formatPercentNumber(value, total) {
     dialogYearSelect.innerHTML = "";
     const option = document.createElement("option");
     option.value = "";
-    option.textContent = message || "اختاري البرنامج أولًا";
+    option.textContent = message || "اختار البرنامج أولًا";
     dialogYearSelect.appendChild(option);
     dialogYearSelect.disabled = true;
   }
@@ -182,7 +182,7 @@ function formatPercentNumber(value, total) {
     dialogYearSelect.innerHTML = "";
     const firstOption = document.createElement("option");
     firstOption.value = "";
-    firstOption.textContent = "اختاري سنة التقييم";
+    firstOption.textContent = "اختار سنة التقييم";
     dialogYearSelect.appendChild(firstOption);
     for (let year = startYear; year <= currentYear; year++) {
       const academicYear = year + "-" + (year + 1);
@@ -214,10 +214,10 @@ function formatPercentNumber(value, total) {
     const specialty = safeText(specialtyValue);
     const selectedYear = safeText(selectedYearValue);
     if (!specialty) {
-      resetYearSelect("اختاري التخصص أولًا");
+      resetYearSelect("اختار التخصص أولًا");
       if (programNote) {
         programNote.textContent =
-          "اختاري تخصص نظم المعلومات لتظهر سنوات التقييم المتاحة.";
+          "اختار تخصص نظم المعلومات لتظهر سنوات التقييم المتاحة.";
       }
       validateProgramSelection();
       return;
@@ -277,7 +277,7 @@ function formatPercentNumber(value, total) {
         updateSpecialtyUI(selectedSpecialty, selectedYear);
       } else if (programNote) {
         programNote.textContent =
-          "اختاري تخصص نظم المعلومات لتظهر سنوات التقييم المتاحة.";
+          "اختار تخصص نظم المعلومات لتظهر سنوات التقييم المتاحة.";
       }
     } else {
       if (specialtyWrapper) {
@@ -1394,9 +1394,9 @@ function isEmptySelectValue(value) {
     text === "" ||
     text === "اختر" ||
     text === "اختار" ||
-    text === "اختاري" ||
-    text === "اختاري العام" ||
-    text === "اختاري البرنامج أولًا" ||
+    text === "اختار" ||
+    text === "اختار العام" ||
+    text === "اختار البرنامج أولًا" ||
     text === "لم يتم تحديد سنة بداية البرنامج"
   );
 }

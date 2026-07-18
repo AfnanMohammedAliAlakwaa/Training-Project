@@ -1,0 +1,848 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}خطط التحسين الأكاديمي{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet"
+      href="{% static 'dashboard/css/improvement_plans.css' %}?v=15">
+
+<style>
+/* =========================================================
+   تصغير صفحة خطط التحسين فقط
+========================================================= */
+
+/* مسافة بين تسجيل الخروج وأول كرت */
+html body main.ust-content .improvement-page {
+    margin-top: 28px !important;
+    gap: 16px !important;
+}
+
+/* الكرت العلوي */
+html body main.ust-content .improvement-page .imp-hero {
+    min-height: auto !important;
+    padding: 20px 24px !important;
+    gap: 18px !important;
+    border-radius: 22px !important;
+}
+
+html body main.ust-content .improvement-page .imp-hero h1 {
+    margin: 5px 0 !important;
+    font-size: 30px !important;
+    line-height: 1.35 !important;
+}
+
+html body main.ust-content .improvement-page .imp-hero p {
+    margin: 5px 0 0 !important;
+    font-size: 13px !important;
+    line-height: 1.7 !important;
+}
+
+html body main.ust-content .improvement-page .imp-kicker {
+    padding: 5px 11px !important;
+    font-size: 10.5px !important;
+}
+
+/* مربع ملف التقييم الحالي */
+html body main.ust-content .improvement-page .imp-selected-file {
+    min-width: 230px !important;
+    max-width: 280px !important;
+    padding: 14px 16px !important;
+    border-radius: 18px !important;
+}
+
+html body main.ust-content .improvement-page .imp-selected-file span {
+    font-size: 10.5px !important;
+}
+
+html body main.ust-content .improvement-page .imp-selected-file strong {
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+}
+
+/* كرت الفلاتر */
+html body main.ust-content .improvement-page .imp-filter-card {
+    padding: 13px 16px !important;
+    border-radius: 20px !important;
+}
+
+html body main.ust-content .improvement-page .imp-filters {
+    gap: 10px !important;
+}
+
+html body main.ust-content .improvement-page .imp-field label {
+    font-size: 11.5px !important;
+}
+
+html body main.ust-content .improvement-page .imp-field select {
+    min-height: 40px !important;
+    padding: 0 10px !important;
+    font-size: 12px !important;
+    border-radius: 11px !important;
+}
+
+html body main.ust-content .improvement-page .imp-filter-btn {
+    min-height: 40px !important;
+    padding: 0 16px !important;
+    font-size: 12px !important;
+    border-radius: 11px !important;
+}
+
+/* بطاقات الإحصائيات الخمس */
+html body main.ust-content .improvement-page .imp-cards {
+    gap: 10px !important;
+}
+
+html body main.ust-content .improvement-page .imp-card {
+    min-height: 125px !important;
+    padding: 13px 14px !important;
+    border-radius: 18px !important;
+}
+
+html body main.ust-content .improvement-page .imp-card span {
+    font-size: 11.5px !important;
+}
+
+html body main.ust-content .improvement-page .imp-card strong {
+    margin-top: 4px !important;
+    font-size: 27px !important;
+    line-height: 1.15 !important;
+}
+
+html body main.ust-content .improvement-page .imp-card p {
+    margin-top: 5px !important;
+    font-size: 10.5px !important;
+    line-height: 1.55 !important;
+}
+
+/* شريط إضافة خطة يدوية */
+html body main.ust-content .improvement-page .imp-action-strip {
+    padding: 14px 17px !important;
+    border-radius: 18px !important;
+}
+
+html body main.ust-content .improvement-page .imp-action-strip strong {
+    font-size: 15px !important;
+}
+
+html body main.ust-content .improvement-page .imp-action-strip p {
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+}
+
+html body main.ust-content .improvement-page .imp-manual-btn,
+html body main.ust-content .improvement-page .imp-manual-disabled {
+    min-height: 36px !important;
+    padding: 0 14px !important;
+    font-size: 11px !important;
+}
+
+/* الأقسام المطوية */
+html body main.ust-content .improvement-page .imp-fold-summary {
+    min-height: 72px !important;
+    padding: 14px 18px !important;
+}
+
+html body main.ust-content .improvement-page .imp-fold-summary strong {
+    font-size: 17px !important;
+}
+
+html body main.ust-content .improvement-page .imp-fold-summary p {
+    margin-top: 3px !important;
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+}
+
+html body main.ust-content .improvement-page .imp-fold-count {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 13px !important;
+    font-size: 18px !important;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="improvement-page">
+
+    {% if messages %}
+        <div class="imp-messages">
+            {% for message in messages %}
+                <div class="imp-message imp-message-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <section class="imp-hero">
+        <div>
+            <span class="imp-kicker">Academic Improvement Plans</span>
+            <h1>خطط التحسين الأكاديمي</h1>
+            <p>
+                تحويل نتائج التحليل والتقييم إلى إجراءات تحسين واضحة، قابلة للمتابعة،
+                مرتبطة بالمعيار، المسؤول، الأولوية، ومؤشرات الإنجاز.
+            </p>
+        </div>
+
+        {% if selected_file %}
+            <div class="imp-selected-file">
+                <span>ملف التقييم الحالي</span>
+                <strong>{{ selected_file }}</strong>
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="imp-filter-card">
+        <form method="get" class="imp-filters">
+
+            <div class="imp-field">
+                <label for="file_id">ملف التقييم</label>
+                <select name="file_id" id="file_id">
+                    <option value="">آخر ملف متاح</option>
+                    {% for file in evaluation_files %}
+                        <option value="{{ file.id }}"
+                            {% if selected_file and selected_file.id == file.id %}selected{% endif %}>
+                            {{ file }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="imp-field">
+                <label for="filter_status">حالة الخطة</label>
+                <select name="status" id="filter_status">
+                    {% for value, label in status_options %}
+                        <option value="{{ value }}"
+                            {% if selected_status == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="imp-field">
+                <label for="filter_priority">الأولوية</label>
+                <select name="priority" id="filter_priority">
+                    {% for value, label in priority_options %}
+                        <option value="{{ value }}"
+                            {% if selected_priority == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="imp-filter-btn">
+                عرض الخطط
+            </button>
+
+        </form>
+    </section>
+
+    <section class="imp-cards">
+        <article class="imp-card">
+            <span>إجمالي الخطط</span>
+            <strong>{{ summary.total }}</strong>
+            <p>عدد خطط التحسين المسجلة.</p>
+        </article>
+
+        <article class="imp-card is-blue">
+            <span>مقترحة</span>
+            <strong>{{ summary.proposed }}</strong>
+            <p>خطط تم إنشاؤها ولم تبدأ بعد.</p>
+        </article>
+
+        <article class="imp-card is-navy">
+            <span>قيد التنفيذ</span>
+            <strong>{{ summary.in_progress }}</strong>
+            <p>خطط بدأ العمل عليها.</p>
+        </article>
+
+        <article class="imp-card is-green">
+            <span>مكتملة</span>
+            <strong>{{ summary.completed }}</strong>
+            <p>خطط تم تنفيذها.</p>
+        </article>
+
+        <article class="imp-card is-red">
+            <span>متأخرة</span>
+            <strong>{{ summary.overdue }}</strong>
+            <p>خطط تجاوزت تاريخها المتوقع.</p>
+        </article>
+    </section>
+
+    <section class="imp-action-strip">
+        <div>
+            <strong>إضافة خطة تحسين غير مرتبطة بمعيار</strong>
+            <p>
+                استخدمي هذا الخيار لإضافة خطة عامة مثل تطوير آلية الأرشفة،
+                تدريب المنسقين، أو تحسين نماذج المتابعة.
+            </p>
+        </div>
+
+        {% if selected_file %}
+            <a href="{% url 'improvement_plans' %}?file_id={{ selected_file.id }}&add=manual#manualPlanForm"
+               class="imp-manual-btn">
+                إضافة خطة يدوية
+            </a>
+        {% else %}
+            <span class="imp-manual-disabled">
+                اختاري ملف تقييم أولًا
+            </span>
+        {% endif %}
+    </section>
+
+    {% if manual_mode and selected_file %}
+        <section class="imp-panel imp-edit-panel" id="manualPlanForm">
+            <div class="imp-panel-head">
+                <h2>إضافة خطة تحسين يدوية</h2>
+                <p>
+                    هذه الخطة ستُحفظ كخطة عامة مرتبطة بملف التقييم الحالي،
+                    دون ربطها بمعيار محدد.
+                </p>
+            </div>
+
+            <form method="post"
+                  action="{% url 'create_manual_improvement_plan' %}"
+                  class="imp-edit-form">
+                {% csrf_token %}
+
+                <input type="hidden" name="evaluation_file_id" value="{{ selected_file.id }}">
+
+                <div class="imp-edit-summary">
+                    <span>ملف التقييم</span>
+                    <strong>{{ selected_file }}</strong>
+                    <p>خطة يدوية عامة غير مرتبطة بمعيار محدد.</p>
+                </div>
+
+                <div class="imp-input full">
+                    <label for="manual_title">عنوان الخطة</label>
+                    <input type="text"
+                           id="manual_title"
+                           name="title"
+                           placeholder="مثال: تطوير آلية أرشفة الشواهد"
+                           required>
+                </div>
+
+                <div class="imp-input full">
+                    <label for="manual_gap_description">وصف الفجوة</label>
+                    <textarea id="manual_gap_description"
+                              name="gap_description"
+                              rows="4"
+                              placeholder="اكتبي المشكلة أو الفجوة التي تستدعي خطة التحسين"></textarea>
+                </div>
+
+                <div class="imp-input full">
+                    <label for="manual_improvement_action">الإجراء التحسيني</label>
+                    <textarea id="manual_improvement_action"
+                              name="improvement_action"
+                              rows="4"
+                              placeholder="اكتبي الإجراء المطلوب تنفيذه"
+                              required></textarea>
+                </div>
+
+                <div class="imp-input">
+                    <label for="manual_responsible_party">الجهة المسؤولة</label>
+                    <input type="text"
+                           id="manual_responsible_party"
+                           name="responsible_party"
+                           placeholder="مثال: وحدة الجودة / مسؤول البرنامج">
+                </div>
+
+                <div class="imp-input">
+                    <label for="manual_priority">الأولوية</label>
+                    <select id="manual_priority" name="priority">
+                        {% for value, label in plan_priority_choices %}
+                            <option value="{{ value }}">
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="imp-input">
+                    <label for="manual_status">حالة الخطة</label>
+                    <select id="manual_status" name="status">
+                        {% for value, label in plan_status_choices %}
+                            <option value="{{ value }}"
+                                {% if value == "proposed" %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="imp-input">
+                    <label for="manual_start_date">تاريخ البداية</label>
+                    <input type="date"
+                           id="manual_start_date"
+                           name="start_date">
+                </div>
+
+                <div class="imp-input">
+                    <label for="manual_due_date">تاريخ الانتهاء المتوقع</label>
+                    <input type="date"
+                           id="manual_due_date"
+                           name="due_date">
+                </div>
+
+                <div class="imp-input full">
+                    <label for="manual_success_indicator">مؤشر الإنجاز</label>
+                    <textarea id="manual_success_indicator"
+                              name="success_indicator"
+                              rows="3"
+                              placeholder="مثال: وجود نموذج معتمد أو تقرير متابعة موثق"></textarea>
+                </div>
+
+                <div class="imp-input full">
+                    <label for="manual_required_evidence">الدليل المطلوب</label>
+                    <textarea id="manual_required_evidence"
+                              name="required_evidence"
+                              rows="3"
+                              placeholder="مثال: محضر اجتماع، نموذج محدث، تقرير تنفيذ"></textarea>
+                </div>
+
+                <div class="imp-input full">
+                    <label for="manual_notes">ملاحظات المتابعة</label>
+                    <textarea id="manual_notes"
+                              name="notes"
+                              rows="3"
+                              placeholder="أي ملاحظات إضافية حول تنفيذ الخطة"></textarea>
+                </div>
+
+                <div class="imp-edit-actions">
+                    <button type="submit" class="imp-save-btn">
+                        حفظ الخطة
+                    </button>
+                </div>
+            </form>
+        </section>
+    {% endif %}
+
+    {% if edit_plan %}
+        <section class="imp-panel imp-edit-panel" id="planEditForm">
+            <div class="imp-panel-head">
+                <h2>تعديل خطة التحسين</h2>
+                <p>
+                    عدّلي تفاصيل الخطة، المسؤول، الأولوية، تاريخ التنفيذ، ومؤشرات التحقق.
+                </p>
+            </div>
+
+            <form method="post"
+                  action="{% url 'update_improvement_plan_details' edit_plan.id %}"
+                  class="imp-edit-form">
+                {% csrf_token %}
+
+                <div class="imp-edit-summary">
+                    <span>الخطة المحددة</span>
+                    <strong>{{ edit_plan.title }}</strong>
+
+                    {% if edit_plan.standard_number %}
+                        <p>
+                            مرتبطة بـ معيار {{ edit_plan.standard_number }}:
+                            {{ edit_plan.standard_title }}
+                        </p>
+                    {% else %}
+                        <p>خطة تحسين عامة غير مرتبطة بمعيار محدد.</p>
+                    {% endif %}
+                </div>
+
+                <div class="imp-input full">
+                    <label for="edit_title">عنوان الخطة</label>
+                    <input type="text"
+                           id="edit_title"
+                           name="title"
+                           value="{{ edit_plan.title }}"
+                           required>
+                </div>
+
+                <div class="imp-input full">
+                    <label for="edit_gap_description">وصف الفجوة</label>
+                    <textarea id="edit_gap_description"
+                              name="gap_description"
+                              rows="4">{{ edit_plan.gap_description }}</textarea>
+                </div>
+
+                <div class="imp-input full">
+                    <label for="edit_improvement_action">الإجراء التحسيني</label>
+                    <textarea id="edit_improvement_action"
+                              name="improvement_action"
+                              rows="4"
+                              required>{{ edit_plan.improvement_action }}</textarea>
+                </div>
+
+                <div class="imp-input">
+                    <label for="edit_responsible_party">الجهة المسؤولة</label>
+                    <input type="text"
+                           id="edit_responsible_party"
+                           name="responsible_party"
+                           value="{{ edit_plan.responsible_party }}">
+                </div>
+
+                <div class="imp-input">
+                    <label for="edit_priority">الأولوية</label>
+                    <select id="edit_priority" name="priority">
+                        {% for value, label in plan_priority_choices %}
+                            <option value="{{ value }}"
+                                {% if edit_plan.priority == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="imp-input">
+                    <label for="edit_status">حالة الخطة</label>
+                    <select id="edit_status" name="status">
+                        {% for value, label in plan_status_choices %}
+                            <option value="{{ value }}"
+                                {% if edit_plan.status == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="imp-input">
+                    <label for="edit_start_date">تاريخ البداية</label>
+                    <input type="date"
+                           id="edit_start_date"
+                           name="start_date"
+                           value="{% if edit_plan.start_date %}{{ edit_plan.start_date|date:'Y-m-d' }}{% endif %}">
+                </div>
+
+                <div class="imp-input">
+                    <label for="edit_due_date">تاريخ الانتهاء المتوقع</label>
+                    <input type="date"
+                           id="edit_due_date"
+                           name="due_date"
+                           value="{% if edit_plan.due_date %}{{ edit_plan.due_date|date:'Y-m-d' }}{% endif %}">
+                </div>
+
+                <div class="imp-input full">
+                    <label for="edit_success_indicator">مؤشر الإنجاز</label>
+                    <textarea id="edit_success_indicator"
+                              name="success_indicator"
+                              rows="3">{{ edit_plan.success_indicator }}</textarea>
+                </div>
+
+                <div class="imp-input full">
+                    <label for="edit_required_evidence">الدليل المطلوب</label>
+                    <textarea id="edit_required_evidence"
+                              name="required_evidence"
+                              rows="3">{{ edit_plan.required_evidence }}</textarea>
+                </div>
+
+                <div class="imp-input full">
+                    <label for="edit_notes">ملاحظات المتابعة</label>
+                    <textarea id="edit_notes"
+                              name="notes"
+                              rows="3">{{ edit_plan.notes }}</textarea>
+                </div>
+
+                <div class="imp-edit-actions">
+                    <button type="submit" class="imp-save-btn">
+                        حفظ التعديل
+                    </button>
+                </div>
+            </form>
+        </section>
+    {% endif %}
+
+    <details class="imp-fold-section">
+        <summary class="imp-fold-summary">
+            <div>
+                <span>فرص التحسين</span>
+                <strong>فرص التحسين المقترحة من التحليل</strong>
+                <p>
+                    فرص مستخرجة من نتائج التقييم والتحليل، خصوصًا المعايير ذات النسبة المنخفضة
+                    أو الخطورة المرتفعة أو غير المعتمدة.
+                </p>
+            </div>
+
+            <div class="imp-fold-count">
+                {{ opportunities|length }}
+            </div>
+
+            <span class="imp-fold-toggle">عرض</span>
+        </summary>
+
+        <div class="imp-fold-body">
+            <div class="imp-opportunity-cards">
+                {% for item in opportunities %}
+                    <article class="imp-opportunity-card {% if item.has_plan %}has-plan{% endif %}">
+                        <div class="imp-op-card-head">
+                            <span>معيار {{ item.standard_number }}</span>
+                            <strong>{{ item.standard_title }}</strong>
+                        </div>
+
+                        <div class="imp-op-card-badges">
+                            <span class="imp-percentage-badge">
+                                النسبة:
+                                <bdi dir="ltr">
+                                    {{ item.percentage_display }}%
+                                </bdi>
+                            </span>
+
+                            <span class="priority priority-{{ item.priority }}">
+                                {{ item.priority_label }}
+                            </span>
+
+                            <span>
+                                مؤشرات ضعيفة: {{ item.weak_indicators_count }}
+                            </span>
+                        </div>
+
+                        <p>
+                            {{ item.gap_description|truncatechars:180 }}
+                        </p>
+
+                        {% if item.has_plan %}
+                            <div class="imp-existing-plan">
+                                <span>توجد خطة محفوظة لهذا المعيار</span>
+
+                                <a href="{% url 'improvement_plans' %}?file_id={{ selected_file.id }}&open_plan={{ item.plan_id }}#plan-{{ item.plan_id }}"
+                                   class="imp-view-plan-btn">
+                                    عرض الخطة
+                                </a>
+                            </div>
+                        {% else %}
+                            <form method="post"
+                                  action="{% url 'create_improvement_plan_from_standard' %}">
+                                {% csrf_token %}
+
+                                <input type="hidden"
+                                       name="standard_review_id"
+                                       value="{{ item.standard_review.id }}">
+
+                                <button type="submit"
+                                        class="imp-create-btn">
+                                    إنشاء خطة تحسين
+                                </button>
+                            </form>
+                        {% endif %}
+                    </article>
+                {% empty %}
+                    <div class="imp-empty">
+                        لا توجد فرص تحسين مقترحة حاليًا لهذا الملف.
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </details>
+
+    <details class="imp-fold-section"
+             id="plansTable"
+             {% if edit_plan or open_plan_id %}open{% endif %}>
+
+        <summary class="imp-fold-summary">
+            <div>
+                <span>خطط التحسين</span>
+                <strong>خطط التحسين المحفوظة</strong>
+                <p>
+                    اضغطي لعرض الخطط بشكل مختصر، ثم افتحي أي خطة للاطلاع على تفاصيلها الكاملة.
+                </p>
+            </div>
+
+            <div class="imp-fold-count">
+                {{ plans|length }}
+            </div>
+
+            <span class="imp-fold-toggle">عرض</span>
+        </summary>
+
+        <div class="imp-fold-body">
+            <div class="imp-plan-cards">
+
+                {% for plan in plans %}
+                    <details id="plan-{{ plan.id }}"
+                             class="imp-plan-card"
+                             {% if edit_plan and edit_plan.id == plan.id or open_plan_id == plan.id %}open{% endif %}>
+
+                        <summary class="imp-plan-card-summary">
+
+                            <div class="imp-plan-title">
+                                <span>
+                                    {% if plan.standard_number %}
+                                        معيار {{ plan.standard_number }}
+                                    {% else %}
+                                        خطة عامة
+                                    {% endif %}
+                                </span>
+
+                                <strong>{{ plan.title }}</strong>
+
+                                {% if plan.standard_title %}
+                                    <p>{{ plan.standard_title }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="imp-plan-statuses">
+                                <span class="priority priority-{{ plan.priority }}">
+                                    {{ plan.get_priority_display }}
+                                </span>
+
+                                <span class="status status-{{ plan.status }}">
+                                    {{ plan.get_status_display }}
+                                </span>
+
+                                {% if plan.is_overdue %}
+                                    <span class="status status-overdue">
+                                        متأخرة
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            <div class="imp-plan-short-info">
+                                <div>
+                                    <span>المسؤول</span>
+                                    <strong>{{ plan.responsible_party|default:"غير محدد" }}</strong>
+                                </div>
+
+                                <div>
+                                    <span>تاريخ الانتهاء</span>
+                                    <strong>
+                                        {% if plan.due_date %}
+                                            {{ plan.due_date|date:"Y-m-d" }}
+                                        {% else %}
+                                            غير محدد
+                                        {% endif %}
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <span class="imp-plan-open-btn">
+                                تفاصيل الخطة
+                            </span>
+
+                        </summary>
+
+                        <div class="imp-plan-card-body">
+
+                            <div class="imp-detail-box full">
+                                <span>وصف الفجوة</span>
+                                <p>
+                                    {% if plan.gap_description %}
+                                        {{ plan.gap_description }}
+                                    {% else %}
+                                        لا يوجد وصف فجوة مدخل.
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <div class="imp-detail-box full">
+                                <span>الإجراء التحسيني</span>
+                                <p>
+                                    {% if plan.improvement_action %}
+                                        {{ plan.improvement_action }}
+                                    {% else %}
+                                        لا يوجد إجراء تحسيني مدخل.
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <div class="imp-detail-box">
+                                <span>تاريخ البداية</span>
+                                <p>
+                                    {% if plan.start_date %}
+                                        {{ plan.start_date|date:"Y-m-d" }}
+                                    {% else %}
+                                        غير محدد
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <div class="imp-detail-box">
+                                <span>تاريخ الانتهاء المتوقع</span>
+                                <p>
+                                    {% if plan.due_date %}
+                                        {{ plan.due_date|date:"Y-m-d" }}
+                                    {% else %}
+                                        غير محدد
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <div class="imp-detail-box full">
+                                <span>مؤشر الإنجاز</span>
+                                <p>
+                                    {% if plan.success_indicator %}
+                                        {{ plan.success_indicator }}
+                                    {% else %}
+                                        غير محدد.
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <div class="imp-detail-box full">
+                                <span>الدليل المطلوب</span>
+                                <p>
+                                    {% if plan.required_evidence %}
+                                        {{ plan.required_evidence }}
+                                    {% else %}
+                                        غير محدد.
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <div class="imp-detail-box full">
+                                <span>ملاحظات المتابعة</span>
+                                <p>
+                                    {% if plan.notes %}
+                                        {{ plan.notes }}
+                                    {% else %}
+                                        لا توجد ملاحظات.
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <div class="imp-plan-actions">
+                                <form method="post"
+                                      action="{% url 'update_improvement_plan_status' plan.id %}"
+                                      class="status-form">
+                                    {% csrf_token %}
+
+                                    <select name="status">
+                                        {% for value, label in plan_status_choices %}
+                                            <option value="{{ value }}"
+                                                {% if plan.status == value %}selected{% endif %}>
+                                                {{ label }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+
+                                    <button type="submit">
+                                        تحديث الحالة
+                                    </button>
+                                </form>
+
+                                <a href="{% url 'improvement_plans' %}?file_id={{ plan.evaluation_file.id }}&edit_id={{ plan.id }}#planEditForm"
+                                   class="imp-edit-link">
+                                    تعديل الخطة
+                                </a>
+                            </div>
+
+                        </div>
+                    </details>
+
+                {% empty %}
+                    <div class="imp-empty">
+                        لا توجد خطط تحسين محفوظة حتى الآن.
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </details>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'dashboard/js/improvement_plans.js' %}?v=1"></script>
+{% endblock %}

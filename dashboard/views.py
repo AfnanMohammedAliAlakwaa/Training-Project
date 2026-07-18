@@ -1,26 +1,96 @@
 import json
 
-from django.shortcuts import render, redirect
+from django.apps import apps
+from django.conf import settings
 from django.contrib import messages
+from programs.models import Program
+from django.contrib.auth.decorators import login_not_required
+from django.contrib.auth.forms import AuthenticationForm
+from .program_catalog import get_program_options
+from django.db import transaction
 from django.db.models import Count, Q
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.decorators.http import require_http_methods, require_POST
+from programs.models import Program as MainProgram
+from django.contrib.auth import login, logout
+from evaluations.models import StandardEvaluationReview
+from django.contrib.auth.decorators import login_not_required
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+from django.contrib.auth.decorators import login_not_required
 from .models import (
     AcademicProgram,
-    EvaluationFile,
-    QualityStandard,
-    StandardEntry,
-    EvidenceAttachment,
-    StudentLevelCount,
-    GraduateRecord,
     CourseRecord,
+    DataEntryTableRecord,
+    EducationProcessRecord,
+    EvaluationFile,
+    EvidenceAttachment,
     FacultyMemberRecord,
+    GraduateRecord,
     InfrastructureRecord,
     LibrarySourceRecord,
-    EducationProcessRecord,
+    QualityStandard,
+    StandardEntry,
+    StudentLevelCount,
+    log_activity,
+)
+from .models import (
+    AcademicProgram,
+    CourseRecord,
     DataEntryTableRecord,
+    EducationProcessRecord,
+    EvaluationFile,
+    EvidenceAttachment,
+    FacultyMemberRecord,
+    GraduateRecord,
+    InfrastructureRecord,
+    LibrarySourceRecord,
+    QualityStandard,
+    StandardEntry,
+    StudentLevelCount,
+    log_activity,
 )
 
+
+# ============================================================
+# Unified Login Gateway
+# ============================================================
+
+@login_not_required
+def login_gateway(request):
+    return render(
+        request,
+        "dashboard/login_gateway.html",
+    )
+
+
+@login_not_required
+@never_cache
+def gateway_system_login(request):
+    logout(request)
+
+    return redirect(
+        f"{reverse('system_login')}?source=gateway"
+    )
+
+
+@login_not_required
+def gateway_admin_login(request):
+    logout(request)
+
+    admin_login_url = reverse("admin:login")
+    admin_index_url = reverse("admin:index")
+
+    return redirect(
+        f"{admin_login_url}?next={admin_index_url}"
+    )
+# ============================================================
+# Constants
+# ============================================================
+
+COURSE_SPECIFICATION_TYPE = "course_specification"
 
 # ============================================================
 # Constants
@@ -332,6 +402,7 @@ def get_data_entry_standards():
                             "label": "عدد أعضاء هيئة التدريس حملة الدكتوراه",
                             "name": "phd_faculty_count",
                             "type": "number",
+                            
                         },
                         {
                             "label": "عدد المعامل / المختبرات",
@@ -595,56 +666,7 @@ def get_data_entry_standards():
             "id": "standard6",
             "tab_title": "6. البنية المادية",
             "title": "المعيار السادس: البنية المادية للبرنامج",
-            "weight": "10%",
-            "cards": [
-                {
-                    "title": "القاعات الدراسية والمعامل",
-                    "fields": [
-                        {
-                            "label": "عدد القاعات الدراسية",
-                            "name": "classrooms_count",
-                            "type": "number",
-                        },
-                        {
-                            "label": "المساحة الإجمالية للقاعات م²",
-                            "name": "classrooms_total_area",
-                            "type": "number",
-                        },
-                        {
-                            "label": "عدد المختبرات / المعامل",
-                            "name": "labs_total_count",
-                            "type": "number",
-                        },
-                        {
-                            "label": "المساحة الإجمالية للمعامل م²",
-                            "name": "labs_total_area",
-                            "type": "number",
-                        },
-                        {
-                            "label": "عدد الورش / المشاغل",
-                            "name": "workshops_count",
-                            "type": "number",
-                        },
-                        {
-                            "label": "عدد الفنيين",
-                            "name": "infrastructure_technicians_count",
-                            "type": "number",
-                        },
-                        {
-                            "label": "نسبة أجهزة الحاسب إلى الطلبة",
-                            "name": "computer_student_ratio",
-                            "type": "text",
-                            "placeholder": "مثال: 1:4",
-                        },
-                        {
-                            "label": "ملاحظات حول كفاية القاعات والمعامل والتجهيزات",
-                            "name": "infrastructure_notes",
-                            "type": "textarea",
-                            "full": True,
-                        },
-                    ],
-                },
-            ],
+            
             "attachments": [
                 {
                     "label": "ملحق 19: قائمة القاعات الدراسية والمساحة والتجهيزات",
@@ -857,11 +879,401 @@ def get_data_entry_standards():
             ],
         },
     ]
+def make_standard_tab_title(number, title):
+    title = clean_text(title)
+
+    if ":" in title:
+        title = title.split(":", 1)[1].strip()
+
+    if not title:
+        title = f"المعيار {number}"
+
+    return f"{number}. {title}"
 
 
+def make_dynamic_standard_from_db(quality_standard):
+    """
+    يستخدم فقط إذا أضفتِ معيارًا جديدًا من الأدمن وليس له تصميم خاص داخل الصفحة.
+    يظهر كمعيار عام بحقل نصي.
+    """
+
+    number = quality_standard.number
+
+    return {
+        "id": f"standard{number}",
+        "number": number,
+        "tab_title": make_standard_tab_title(number, quality_standard.title),
+        "title": quality_standard.title,
+        "weight": f"{quality_standard.weight}%",
+        "cards": [
+            {
+                "title": "بيانات المعيار",
+                "fields": [
+                    {
+                        "label": "تفاصيل المعيار",
+                        "name": f"standard_{number}_notes",
+                        "type": "textarea",
+                        "full": True,
+                        "placeholder": "اكتبي بيانات هذا المعيار هنا.",
+                    },
+                ],
+            },
+        ],
+        "attachments": [],
+    }
+
+
+def get_data_entry_standards_from_admin():
+    """
+    هذه الدالة تجعل صفحة إدخال البيانات تقرأ عنوان المعيار والوزن النسبي
+    من جدول QualityStandard في الأدمن.
+
+    المهم:
+    - لا نلغي التصميم التفصيلي الموجود للمعايير الثمانية.
+    - فقط نستبدل العنوان والوزن من قاعدة البيانات.
+    - إذا كان المعيار غير نشط في الأدمن، لا يظهر في صفحة الإدخال.
+    - إذا أضيف معيار جديد في الأدمن، يظهر كمعيار عام بحقل نصي.
+    """
+
+    static_standards = get_data_entry_standards()
+
+    db_standards = list(
+        QualityStandard.objects.all().order_by("number")
+    )
+
+    db_by_number = {
+        item.number: item
+        for item in db_standards
+    }
+
+    final_standards = []
+    static_numbers = set()
+
+    for index, standard in enumerate(static_standards, start=1):
+        standard_number = to_int(standard.get("number"), index)
+
+        standard["number"] = standard_number
+        static_numbers.add(standard_number)
+
+        db_standard = db_by_number.get(standard_number)
+
+        if db_standard:
+            if not db_standard.is_active:
+                continue
+
+            standard["title"] = db_standard.title
+            standard["weight"] = f"{db_standard.weight}%"
+            standard["tab_title"] = make_standard_tab_title(
+                db_standard.number,
+                db_standard.title
+            )
+
+        final_standards.append(standard)
+
+    for db_standard in db_standards:
+        if not db_standard.is_active:
+            continue
+
+        if db_standard.number in static_numbers:
+            continue
+
+        final_standards.append(
+            make_dynamic_standard_from_db(db_standard)
+        )
+
+    return sorted(
+        final_standards,
+        key=lambda item: to_int(item.get("number"), 9999)
+    )    
+
+
+@require_POST
+def delete_evaluation_file(request, file_id):
+    evaluation_file = get_object_or_404(
+        EvaluationFile.objects.select_related("program"),
+        id=file_id
+    )
+
+    program_name = str(evaluation_file.program)
+    academic_year = evaluation_file.academic_year
+
+    evaluation_file.delete()
+
+    messages.success(
+    request,
+    f"تم حذف بيانات ملف التقييم: {program_name} / {academic_year}"
+)
+
+    return redirect("data_entry")
 # ============================================================
 # Program and Evaluation File
 # ============================================================
+
+# ============================================================
+# Create New Evaluation File From Previous Template
+# ============================================================
+
+STATIC_STANDARD_NUMBERS_TO_COPY = [1, 2, 3, 4, 6, 7]
+
+FORM_FIELDS_TO_CLEAR_WHEN_CLONING = [
+    # بيانات تتغير سنويًا
+    "current_students_count",
+    "graduates_count",
+
+    # مؤشرات أداء الطلبة
+    "male_success_rate",
+    "female_success_rate",
+    "average_success_rate",
+    "male_cumulative_gpa",
+    "female_cumulative_gpa",
+    "average_cumulative_gpa",
+    "male_progress_rate",
+    "female_progress_rate",
+    "average_progress_rate",
+    "male_retention_rate",
+    "female_retention_rate",
+    "average_retention_rate",
+    "male_flow_rate",
+    "female_flow_rate",
+    "average_flow_rate",
+    "male_withdrawal_rate",
+    "female_withdrawal_rate",
+    "average_withdrawal_rate",
+]
+
+DYNAMIC_TABLES_TO_COPY_AS_STATIC = [
+    # المعيار السادس
+    "classroomsDataTable",
+    "labsDataTable",
+
+    # المعيار السابع
+    # جدول libraryCriteriaTable محسوب تلقائيًا، لذلك لا ننسخه كبيانات ثابتة.
+    "librarySourcesTable",
+]
+
+DYNAMIC_TABLES_TO_NEVER_COPY = [
+    # الطلاب والخريجون
+    "studentsLevelsTable",
+    "graduatesTable",
+
+    # جدول محسوب تلقائيًا، لا يُنسخ ولا يُستعاد كصفوف ثابتة
+    "libraryCriteriaTable",
+
+    # ملحقات إدارة العملية التعليمية لأنها غالبًا سنوية
+    "std8Annex26Table",
+    "std8Annex27Table",
+    "std8Annex28Table",
+    "std8Annex29Table",
+    "std8Annex30EducationTable",
+    "std8Annex30LibraryTable",
+    "std8Annex33Table",
+]
+
+
+def copy_standard_entries_as_template(source_file, target_file, new_program_name):
+    source_entries = (
+        StandardEntry.objects
+        .filter(
+            evaluation_file=source_file,
+            standard__number__in=STATIC_STANDARD_NUMBERS_TO_COPY
+        )
+        .select_related("standard")
+    )
+
+    for source_entry in source_entries:
+        old_form_data = source_entry.form_data or {}
+
+        if not isinstance(old_form_data, dict):
+            old_form_data = {}
+
+        new_form_data = dict(old_form_data)
+
+        # اسم البرنامج الجديد بدل اسم البرنامج القديم
+        if "program_name" in new_form_data:
+            new_form_data["program_name"] = new_program_name
+
+        # تفريغ الحقول السنوية المتغيرة
+        for field_name in FORM_FIELDS_TO_CLEAR_WHEN_CLONING:
+            if field_name in new_form_data:
+                new_form_data[field_name] = ""
+
+        completion_status, completion_percentage = calculate_completion_status(new_form_data)
+
+        StandardEntry.objects.update_or_create(
+            evaluation_file=target_file,
+            standard=source_entry.standard,
+            defaults={
+                "form_data": new_form_data,
+                "completion_status": completion_status,
+                "completion_percentage": completion_percentage,
+                "saved_as_draft": True,
+            },
+        )
+
+
+def copy_static_course_records(source_file, target_file):
+    for record in CourseRecord.objects.filter(evaluation_file=source_file):
+        CourseRecord.objects.create(
+            evaluation_file=target_file,
+            course_name=record.course_name,
+            course_code=record.course_code,
+            credit_hours=record.credit_hours,
+            level=record.level,
+            requirement_type=record.requirement_type,
+            has_specification=record.has_specification,
+        )
+
+
+def copy_static_infrastructure_records(source_file, target_file):
+    for record in InfrastructureRecord.objects.filter(evaluation_file=source_file):
+        InfrastructureRecord.objects.create(
+            evaluation_file=target_file,
+            facility_type=record.facility_type,
+            count=record.count,
+            area=record.area,
+            equipment=record.equipment,
+            notes=record.notes,
+        )
+
+
+def copy_static_library_records(source_file, target_file):
+    for record in LibrarySourceRecord.objects.filter(evaluation_file=source_file):
+        LibrarySourceRecord.objects.create(
+            evaluation_file=target_file,
+            source_type=record.source_type,
+            title=record.title,
+            count=record.count,
+            release_year=record.release_year,
+            notes=record.notes,
+        )
+
+
+def copy_static_dynamic_tables(source_file, target_file):
+    records = DataEntryTableRecord.objects.filter(
+        evaluation_file=source_file,
+        table_key__in=DYNAMIC_TABLES_TO_COPY_AS_STATIC,
+    )
+
+    for record in records:
+        if record.table_key in DYNAMIC_TABLES_TO_NEVER_COPY:
+            continue
+
+        DataEntryTableRecord.objects.update_or_create(
+            evaluation_file=target_file,
+            table_key=record.table_key,
+            defaults={
+                "standard_key": record.standard_key,
+                "table_title": record.table_title,
+                "rows": record.rows or [],
+            },
+        )
+
+
+@require_POST
+@transaction.atomic
+def create_evaluation_from_template(request):
+    source_file_id = clean_text(request.POST.get("source_file_id"))
+    new_program_name = clean_text(request.POST.get("new_program_name"))
+    new_specialty = clean_text(request.POST.get("new_specialty"))
+    new_academic_year = clean_text(request.POST.get("new_academic_year"))
+    new_start_year = to_int(request.POST.get("new_start_year"), None)
+    program_updated = False
+
+    if not source_file_id:
+        messages.error(request, "اختاري الملف السابق الذي سيتم استخدامه كقالب.")
+        return redirect("data_entry")
+
+    if not new_program_name:
+        messages.error(request, "اكتبي اسم البرنامج الجديد.")
+        return redirect("data_entry")
+
+    if not new_academic_year:
+        messages.error(request, "اكتبي سنة التقييم الجديدة.")
+        return redirect("data_entry")
+
+    source_file = get_object_or_404(EvaluationFile, id=source_file_id)
+
+    if new_specialty in ["لا يوجد", "غير محددة", "-"]:
+        new_specialty = ""
+
+    target_program = (
+        AcademicProgram.objects
+        .filter(
+            name=new_program_name,
+            specialization=new_specialty,
+    )
+        .order_by("id")
+        .first()
+)
+
+    if target_program is None:
+        target_program = AcademicProgram.objects.create(
+            name=new_program_name,
+            specialization=new_specialty,
+            start_year=new_start_year,
+            is_active=True,
+    )
+
+        program_updated = False
+
+    if new_start_year and target_program.start_year != new_start_year:
+        target_program.start_year = new_start_year
+        program_updated = True
+
+    if not target_program.is_active:
+        target_program.is_active = True
+        program_updated = True
+
+    if program_updated:
+        target_program.save()
+
+    # مهم جدًا:
+    # هذا السطر يجب أن يكون خارج if program_updated
+    existing_file = find_existing_evaluation_file(
+        new_program_name,
+        new_specialty,
+        new_academic_year,
+    )
+
+    if existing_file:
+        messages.error(
+            request,
+            f"لا يمكن إنشاء الملف؛ لأنه موجود مسبقًا: {existing_file.program} - سنة التقييم: {new_academic_year}. اختاري سنة أخرى أو برنامجًا آخر."
+        )
+        return redirect("data_entry")
+
+    target_file, created_file = EvaluationFile.objects.get_or_create(
+        program=target_program,
+        academic_year=new_academic_year,
+        defaults={
+            "status": "template_preview",
+        },
+    )
+
+    if not created_file:
+        messages.warning(
+            request,
+            "يوجد ملف محفوظ مسبقًا لنفس البرنامج والسنة، لذلك تم فتح الملف الموجود بدل إنشاء نسخة جديدة."
+        )
+        return redirect(f"{reverse('data_entry')}?file_id={target_file.id}")
+
+    copy_standard_entries_as_template(
+        source_file=source_file,
+        target_file=target_file,
+        new_program_name=new_program_name,
+    )
+
+    copy_static_course_records(source_file, target_file)
+    copy_static_infrastructure_records(source_file, target_file)
+    copy_static_library_records(source_file, target_file)
+    copy_static_dynamic_tables(source_file, target_file)
+
+    messages.success(
+        request,
+        "تم إنشاء ملف جديد من بيانات سابقة. تم نسخ البيانات الثابتة وترك البيانات السنوية فارغة."
+    )
+
+    return redirect(f"{reverse('data_entry')}?file_id={target_file.id}")
 
 def get_or_create_program_from_request(request):
     program_name = clean_text(request.POST.get("selected_program"))
@@ -874,27 +1286,41 @@ def get_or_create_program_from_request(request):
     if not program_name:
         program_name = "برنامج غير محدد"
 
-    program, created = AcademicProgram.objects.get_or_create(
-        name=program_name,
-        specialization=specialization,
-        defaults={
-            "start_year": start_year,
-            "is_active": True,
-        },
+    # نستخدم أول سجل مطابق بدل get_or_create
+    # لأن قاعدة البيانات قد تحتوي على سجلات برامج مكررة.
+    program = (
+        AcademicProgram.objects
+        .filter(
+            name=program_name,
+            specialization=specialization,
+        )
+        .order_by("id")
+        .first()
     )
 
-    updated = False
+    # إذا لم يوجد البرنامج ننشئه.
+    if program is None:
+        program = AcademicProgram.objects.create(
+            name=program_name,
+            specialization=specialization,
+            start_year=start_year,
+            is_active=True,
+        )
+
+        return program
+
+    updated_fields = []
 
     if start_year and program.start_year != start_year:
         program.start_year = start_year
-        updated = True
+        updated_fields.append("start_year")
 
     if not program.is_active:
         program.is_active = True
-        updated = True
+        updated_fields.append("is_active")
 
-    if updated:
-        program.save()
+    if updated_fields:
+        program.save(update_fields=updated_fields)
 
     return program
 
@@ -917,6 +1343,9 @@ def get_or_create_evaluation_file(request):
 
         if evaluation_file:
             updated = False
+            if evaluation_file.status == "template_preview":
+                evaluation_file.status = "in_progress"
+                updated = True
 
             if evaluation_file.program_id != program.id:
                 evaluation_file.program = program
@@ -1068,7 +1497,33 @@ def collect_student_performance_rates_data(request):
 
     return data
 
+def collect_standard7_equipment_data(request):
+    """
+    يحفظ حقول تجهيزات المكتبة الجديدة الموجودة في HTML.
+    هذه الحقول ليست كلها موجودة داخل cards في get_data_entry_standards،
+    لذلك إذا لم نجمعها هنا فلن تُحفظ ولن تُسترجع عند فتح الملف.
+    """
 
+    field_names = [
+        "library_total_area",
+        "library_chairs_count",
+        "library_staff_computers_count",
+        "library_students_computers_count",
+        "library_electronic_sources_count",
+        "library_curriculum_books_count",
+        "library_specialized_books_count",
+        "library_has_automation",
+        "library_staff_count",
+        "library_specialist_staff_count",
+        "library_university_students_total",
+    ]
+
+    data = {}
+
+    for field_name in field_names:
+        data[field_name] = clean_text(request.POST.get(field_name))
+
+    return data
 def collect_standard_form_data(request, standard):
     form_data = {}
 
@@ -1100,6 +1555,10 @@ def collect_standard_form_data(request, standard):
     if standard_id == "standard5":
         form_data.update(collect_student_performance_rates_data(request))
 
+    # مهم جدًا: حفظ حقول تجهيزات المكتبة المخصصة في المعيار السابع
+    if standard_id == "standard7":
+        form_data.update(collect_standard7_equipment_data(request))
+
     return form_data
 
 
@@ -1128,8 +1587,12 @@ def save_standard_entries(request, evaluation_file, standards):
     saved_as_draft = save_mode == "draft"
 
     for index, standard in enumerate(standards, start=1):
-        quality_standard, created = QualityStandard.objects.update_or_create(
-            number=index,
+        standard_number = to_int(standard.get("number"), index)
+
+        quality_standard, created = QualityStandard.objects.get_or_create(
+
+            number=standard_number,
+
             defaults={
                 "title": standard.get("title", ""),
                 "weight": parse_weight(standard.get("weight", 0)),
@@ -1194,41 +1657,401 @@ def delete_old_table_records(evaluation_file):
     EducationProcessRecord.objects.filter(evaluation_file=evaluation_file).delete()
 
 
+# ============================================================
+# Dynamic Tables Fallback Maps
+# ============================================================
+
+# جداول عادية: كل صف يكرر نفس أسماء الحقول
+DYNAMIC_TABLE_COLUMN_MAPS = {
+    # ========================================================
+    # المعيار السادس
+    # ========================================================
+    "classroomsDataTable": {
+        "standard_key": "standard6",
+        "table_title": "قائمة بالقاعات الدراسية والمساحة والتجهيزات",
+        "fields": [
+            "classroom_group[]",
+            "classroom_name[]",
+            "classroom_area[]",
+            "classroom_capacity[]",
+            "classroom_has_desk[]",
+            "classroom_has_projector[]",
+            "classroom_has_board[]",
+            "classroom_has_platform[]",
+        ],
+    },
+    "labsDataTable": {
+        "standard_key": "standard6",
+        "table_title": "قائمة بالمعامل والمختبرات والورش والمساحة والتجهيزات",
+        "fields": [
+            "lab_kind[]",
+            "lab_name[]",
+            "lab_area[]",
+            "lab_capacity[]",
+            "lab_devices_count[]",
+            "lab_has_projector[]",
+            "lab_has_board[]",
+        ],
+    },
+
+    # ========================================================
+    # المعيار الثامن - جداول قابلة لإضافة صفوف
+    # ========================================================
+    "std8Annex26Table": {
+        "standard_key": "standard8",
+        "table_title": "عدد الساعات للمقرر ومطابقتها في الجدول الدراسي وعدد المحاضرات المنفذة",
+        "fields": [
+            "std8_26_course[]",
+            "std8_26_desc_hours[]",
+            "std8_26_schedule_hours[]",
+            "std8_26_done_lectures[]",
+            "std8_26_office_hours_percent[]",
+        ],
+    },
+    "std8Annex27Table": {
+        "standard_key": "standard8",
+        "table_title": "متابعة الأنشطة الصفية والتكاليف والتدريب",
+        "fields": [
+            "std8_27_course[]",
+            "std8_27_class_activity[]",
+            "std8_27_assignment_followup[]",
+            "std8_27_practical_training[]",
+            "std8_27_teacher_feedback[]",
+        ],
+    },
+    "std8Annex28Table": {
+        "standard_key": "standard8",
+        "table_title": "قائمة بالمواضيع الجديدة للأبحاث المتعلقة بالتخصص ومتابعة تنفيذها",
+        "fields": [
+            "std8_28_new_topics[]",
+            "std8_28_execution_followup[]",
+        ],
+    },
+}
+
+
+# جداول ثابتة: كل صف له أسماء حقول مختلفة
+# وهنا كان سبب المشكلة؛ لا يجوز جمعها كصف واحد.
+DYNAMIC_TABLE_ROW_MAPS = {
+    "std8Annex29Table": {
+        "standard_key": "standard8",
+        "table_title": "نتائج رضا أعضاء هيئة التدريس",
+        "rows": [
+            ["std8_29_current_salary[]", "std8_29_previous_salary[]"],
+            ["std8_29_current_training[]", "std8_29_previous_training[]"],
+            ["std8_29_current_work_conditions[]", "std8_29_previous_work_conditions[]"],
+            ["std8_29_current_management[]", "std8_29_previous_management[]"],
+            ["std8_29_current_policies[]", "std8_29_previous_policies[]"],
+            ["std8_29_current_services[]", "std8_29_previous_services[]"],
+            ["std8_29_current_general_climate[]", "std8_29_previous_general_climate[]"],
+        ],
+    },
+    "std8Annex30EducationTable": {
+        "standard_key": "standard8",
+        "table_title": "نتائج رضا الطلبة على جودة الخدمات التعليمية المقدمة لهم",
+        "rows": [
+            ["std8_30_edu_current_infrastructure[]", "std8_30_edu_previous_infrastructure[]"],
+            ["std8_30_edu_current_staff[]", "std8_30_edu_previous_staff[]"],
+            ["std8_30_edu_current_admission[]", "std8_30_edu_previous_admission[]"],
+            ["std8_30_edu_current_public_services[]", "std8_30_edu_previous_public_services[]"],
+            ["std8_30_edu_current_student_activities[]", "std8_30_edu_previous_student_activities[]"],
+            ["std8_30_edu_current_university_image[]", "std8_30_edu_previous_university_image[]"],
+            ["std8_30_edu_current_personal_development[]", "std8_30_edu_previous_personal_development[]"],
+        ],
+    },
+    "std8Annex30LibraryTable": {
+        "standard_key": "standard8",
+        "table_title": "نتائج رضا الطلبة على جودة الخدمات المكتبية",
+        "rows": [
+            ["std8_30_lib_current_admin_services[]", "std8_30_lib_previous_admin_services[]"],
+            ["std8_30_lib_current_learning_resources[]", "std8_30_lib_previous_learning_resources[]"],
+            ["std8_30_lib_current_environment[]", "std8_30_lib_previous_environment[]"],
+        ],
+    },
+    "std8Annex33Table": {
+        "standard_key": "standard8",
+        "table_title": "نتائج تقييم سير العملية الامتحانية",
+        "rows": [
+            ["std8_33_current_organization[]", "std8_33_previous_organization[]"],
+            ["std8_33_current_equipment[]", "std8_33_previous_equipment[]"],
+            ["std8_33_current_halls_readiness[]", "std8_33_previous_halls_readiness[]"],
+            ["std8_33_current_forms_availability[]", "std8_33_previous_forms_availability[]"],
+        ],
+    },
+}
+
+
 def normalize_dynamic_cell_value(value):
+    """
+    تنظيف قيمة الخلية قبل حفظها داخل JSON.
+    يدعم النصوص، الأرقام، القوائم، والقيم الفارغة.
+    """
+    if value is None:
+        return ""
+
     if isinstance(value, list):
-        return [clean_text(item) for item in value if clean_text(item)]
+        return [
+            clean_text(item)
+            for item in value
+            if clean_text(item)
+        ]
+
+    if isinstance(value, dict):
+        return {
+            clean_text(key): normalize_dynamic_cell_value(item)
+            for key, item in value.items()
+            if clean_text(key)
+        }
 
     return clean_text(value)
 
 
 def dynamic_row_has_value(row):
+    """
+    تتحقق هل الصف يحتوي على قيمة حقيقية أم لا.
+    مهم حتى لا نحفظ الصفوف الفارغة.
+    """
+    if not isinstance(row, dict):
+        return False
+
     for key, value in row.items():
-        if str(key).startswith("__"):
+        # نتجاهل رقم الصف لأنه ليس إدخالًا من المستخدم
+        if key == "__row_index":
             continue
 
         if isinstance(value, list):
             if any(clean_text(item) for item in value):
                 return True
+
+        elif isinstance(value, dict):
+            if dynamic_row_has_value(value):
+                return True
+
         else:
             if clean_text(value):
                 return True
 
     return False
+# ============================================================
+# Dynamic Tables POST Fallback
+# ============================================================
+
+DYNAMIC_TABLE_COLUMN_MAPS = {
+    # المعيار السادس
+    "classroomsDataTable": {
+        "standard_key": "standard6",
+        "table_title": "قائمة بالقاعات الدراسية والمساحة والتجهيزات",
+        "fields": [
+            "classroom_group[]",
+            "classroom_name[]",
+            "classroom_area[]",
+            "classroom_capacity[]",
+            "classroom_has_desk[]",
+            "classroom_has_projector[]",
+            "classroom_has_board[]",
+            "classroom_has_platform[]",
+        ],
+    },
+    "labsDataTable": {
+        "standard_key": "standard6",
+        "table_title": "قائمة بالمعامل والمختبرات والورش والمساحة والتجهيزات",
+        "fields": [
+            "lab_kind[]",
+            "lab_name[]",
+            "lab_area[]",
+            "lab_capacity[]",
+            "lab_devices_count[]",
+            "lab_has_projector[]",
+            "lab_has_board[]",
+        ],
+    },
+
+    # المعيار الثامن - الجداول التي يمكن أن تتكرر صفوفها
+    "std8Annex26Table": {
+        "standard_key": "standard8",
+        "table_title": "عدد الساعات ومطابقتها في الجداول الدراسية",
+        "fields": [
+            "std8_26_course[]",
+            "std8_26_desc_hours[]",
+            "std8_26_schedule_hours[]",
+            "std8_26_done_lectures[]",
+            "std8_26_office_hours_percent[]",
+        ],
+    },
+    "std8Annex27Table": {
+        "standard_key": "standard8",
+        "table_title": "متابعة الأنشطة الصفية والتكاليف والتدريب",
+        "fields": [
+            "std8_27_course[]",
+            "std8_27_class_activity[]",
+            "std8_27_assignment_followup[]",
+            "std8_27_practical_training[]",
+            "std8_27_teacher_feedback[]",
+        ],
+    },
+    "std8Annex28Table": {
+        "standard_key": "standard8",
+        "table_title": "مواضيع أبحاث التخرج ومتابعة التنفيذ",
+        "fields": [
+            "std8_28_new_topics[]",
+            "std8_28_execution_followup[]",
+        ],
+    },
+}
 
 
+DYNAMIC_TABLE_ROW_MAPS = {
+    # المعيار الثامن - جداول ثابتة، كل صف له حقول مختلفة
+
+    "std8Annex29Table": {
+        "standard_key": "standard8",
+        "table_title": "نتائج رضا أعضاء هيئة التدريس",
+        "rows": [
+            ["std8_29_current_salary[]", "std8_29_previous_salary[]"],
+            ["std8_29_current_training[]", "std8_29_previous_training[]"],
+            ["std8_29_current_work_conditions[]", "std8_29_previous_work_conditions[]"],
+            ["std8_29_current_management[]", "std8_29_previous_management[]"],
+            ["std8_29_current_policies[]", "std8_29_previous_policies[]"],
+            ["std8_29_current_services[]", "std8_29_previous_services[]"],
+            ["std8_29_current_general_climate[]", "std8_29_previous_general_climate[]"],
+        ],
+    },
+
+    "std8Annex30EducationTable": {
+        "standard_key": "standard8",
+        "table_title": "رضا الطلبة على جودة الخدمات التعليمية",
+        "rows": [
+            ["std8_30_edu_current_infrastructure[]", "std8_30_edu_previous_infrastructure[]"],
+            ["std8_30_edu_current_staff[]", "std8_30_edu_previous_staff[]"],
+            ["std8_30_edu_current_admission[]", "std8_30_edu_previous_admission[]"],
+            ["std8_30_edu_current_public_services[]", "std8_30_edu_previous_public_services[]"],
+            ["std8_30_edu_current_student_activities[]", "std8_30_edu_previous_student_activities[]"],
+            ["std8_30_edu_current_university_image[]", "std8_30_edu_previous_university_image[]"],
+            ["std8_30_edu_current_personal_development[]", "std8_30_edu_previous_personal_development[]"],
+        ],
+    },
+
+    "std8Annex30LibraryTable": {
+        "standard_key": "standard8",
+        "table_title": "رضا الطلبة على جودة الخدمات المكتبية",
+        "rows": [
+            ["std8_30_lib_current_admin_services[]", "std8_30_lib_previous_admin_services[]"],
+            ["std8_30_lib_current_learning_resources[]", "std8_30_lib_previous_learning_resources[]"],
+            ["std8_30_lib_current_environment[]", "std8_30_lib_previous_environment[]"],
+        ],
+    },
+
+    "std8Annex33Table": {
+        "standard_key": "standard8",
+        "table_title": "تقييم سير العملية الامتحانية",
+        "rows": [
+            ["std8_33_current_organization[]", "std8_33_previous_organization[]"],
+            ["std8_33_current_equipment[]", "std8_33_previous_equipment[]"],
+            ["std8_33_current_halls_readiness[]", "std8_33_previous_halls_readiness[]"],
+            ["std8_33_current_forms_availability[]", "std8_33_previous_forms_availability[]"],
+        ],
+    },
+}
+
+
+def collect_dynamic_rows_from_post(request, field_names):
+    columns = {
+        field_name: request.POST.getlist(field_name)
+        for field_name in field_names
+    }
+
+    max_rows = 0
+
+    for values in columns.values():
+        max_rows = max(max_rows, len(values))
+
+    rows = []
+
+    for index in range(max_rows):
+        row = {
+            "__row_index": index + 1
+        }
+
+        for field_name in field_names:
+            values = columns.get(field_name, [])
+            value = values[index] if index < len(values) else ""
+            row[field_name] = clean_text(value)
+
+        if dynamic_row_has_value(row):
+            rows.append(row)
+
+    return rows
+
+
+def collect_fixed_dynamic_rows_from_post(request, row_field_groups):
+    rows = []
+
+    for index, field_names in enumerate(row_field_groups, start=1):
+        row = {
+            "__row_index": index
+        }
+
+        for field_name in field_names:
+            values = request.POST.getlist(field_name)
+            row[field_name] = clean_text(values[0] if values else "")
+
+        if dynamic_row_has_value(row):
+            rows.append(row)
+
+    return rows
+
+
+def build_dynamic_tables_payload_from_post(request):
+    payload = {}
+
+    for table_key, config in DYNAMIC_TABLE_COLUMN_MAPS.items():
+        rows = collect_dynamic_rows_from_post(
+            request,
+            config.get("fields", [])
+        )
+
+        if rows:
+            payload[table_key] = {
+                "standard_key": config.get("standard_key", ""),
+                "table_title": config.get("table_title", ""),
+                "rows": rows,
+            }
+
+    for table_key, config in DYNAMIC_TABLE_ROW_MAPS.items():
+        rows = collect_fixed_dynamic_rows_from_post(
+            request,
+            config.get("rows", [])
+        )
+
+        if rows:
+            payload[table_key] = {
+                "standard_key": config.get("standard_key", ""),
+                "table_title": config.get("table_title", ""),
+                "rows": rows,
+            }
+
+    return payload
 def save_dynamic_tables(request, evaluation_file):
     raw_json = request.POST.get("dynamic_tables_json", "")
 
+    print("RAW dynamic_tables_json length =", len(raw_json))
+    print("RAW dynamic_tables_json start =", raw_json[:300])
+
     if not raw_json:
+        print("لم يصل dynamic_tables_json إلى views.py")
         return
 
     try:
         tables_payload = json.loads(raw_json)
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as error:
+        print("JSON ERROR in dynamic_tables_json:", error)
         return
 
     if not isinstance(tables_payload, dict):
+        print("dynamic_tables_json ليس dict")
         return
+
+    print("TABLE KEYS RECEIVED =", list(tables_payload.keys()))
 
     DataEntryTableRecord.objects.filter(
         evaluation_file=evaluation_file
@@ -1236,6 +2059,10 @@ def save_dynamic_tables(request, evaluation_file):
 
     for table_key, table_data in tables_payload.items():
         table_key = clean_text(table_key)
+
+        # جدول محسوب، لا نحفظه كمدخلات
+        if table_key == "libraryCriteriaTable":
+            continue
 
         if not table_key:
             continue
@@ -1282,7 +2109,7 @@ def save_dynamic_tables(request, evaluation_file):
             },
         )
 
-
+        print("SAVED TABLE:", table_key, "ROWS:", len(cleaned_rows))
 def save_student_level_counts(request, evaluation_file):
     levels = request.POST.getlist("student_level[]")
     males = request.POST.getlist("student_male[]")
@@ -1515,20 +2342,208 @@ def save_tables_data(request, evaluation_file):
     save_education_process_records(request, evaluation_file)
 
     save_dynamic_tables(request, evaluation_file)
+    
 
+def dynamic_table_has_rows(evaluation_file, table_key):
+    return DataEntryTableRecord.objects.filter(
+        evaluation_file=evaluation_file,
+        table_key=table_key
+    ).exclude(rows=[]).exists()
 
+def update_standard7_completion(evaluation_file):
+    """
+    تحديث حالة اكتمال المعيار السابع اعتمادًا على الحقول الجديدة الفعلية
+    وليس الحقول القديمة الفارغة الموجودة في cards.
+    """
+
+    try:
+        standard = QualityStandard.objects.get(number=7)
+    except QualityStandard.DoesNotExist:
+        return
+
+    entry = StandardEntry.objects.filter(
+        evaluation_file=evaluation_file,
+        standard=standard
+    ).first()
+
+    if not entry:
+        return
+
+    form_data = entry.form_data or {}
+
+    required_fields = [
+        "library_total_area",
+        "library_chairs_count",
+        "library_staff_count",
+        "library_specialist_staff_count",
+        "library_staff_computers_count",
+        "library_students_computers_count",
+        "library_has_automation",
+        "library_university_students_total",
+        "library_curriculum_books_count",
+        "library_specialized_books_count",
+        "library_electronic_sources_count",
+    ]
+
+    total_items = len(required_fields)
+    filled_items = 0
+
+    for field_name in required_fields:
+        if clean_text(form_data.get(field_name)):
+            filled_items += 1
+
+    # جدول أبحاث التخرج والرسائل العلمية، إذا كان مطلوبًا ضمن المعيار السابع
+    research_has_rows = DataEntryTableRecord.objects.filter(
+        evaluation_file=evaluation_file,
+        table_key="researchProjectsTable"
+    ).exclude(rows=[]).exists()
+
+    total_items += 1
+
+    if research_has_rows:
+        filled_items += 1
+
+    if filled_items == 0:
+        entry.completion_status = "empty"
+        entry.completion_percentage = 0
+    elif filled_items >= total_items:
+        entry.completion_status = "complete"
+        entry.completion_percentage = 100
+    else:
+        entry.completion_status = "partial"
+        entry.completion_percentage = round((filled_items / total_items) * 100)
+
+    entry.save(update_fields=[
+        "completion_status",
+        "completion_percentage",
+        "updated_at",
+    ])
+def update_standard4_faculty_table_completion(evaluation_file):
+    """
+    تحديث نسبة المعيار الرابع فقط بسبب جدول أعضاء هيئة التدريس.
+    لا نغير منطق المعيار كله، فقط نضيف وجود بيانات جدول أعضاء هيئة التدريس كعنصر محسوب.
+    """
+
+    try:
+        standard = QualityStandard.objects.get(number=4)
+    except QualityStandard.DoesNotExist:
+        return
+
+    entry = StandardEntry.objects.filter(
+        evaluation_file=evaluation_file,
+        standard=standard
+    ).first()
+
+    if not entry:
+        return
+
+    form_data = entry.form_data or {}
+
+    if not isinstance(form_data, dict):
+        form_data = {}
+
+    has_faculty_members = FacultyMemberRecord.objects.filter(
+        evaluation_file=evaluation_file
+    ).exists()
+
+    # عنصر داخلي فقط للحساب، لا يظهر في الواجهة
+    if has_faculty_members:
+        form_data["_faculty_members_table_has_rows"] = "yes"
+    else:
+        form_data.pop("_faculty_members_table_has_rows", None)
+
+    completion_status, completion_percentage = calculate_completion_status(form_data)
+
+    entry.form_data = form_data
+    entry.completion_status = completion_status
+    entry.completion_percentage = completion_percentage
+
+    entry.save(update_fields=[
+        "form_data",
+        "completion_status",
+        "completion_percentage",
+        "updated_at",
+    ])    
+def update_dynamic_standards_completion(evaluation_file):
+    """
+    تحديث حالة المعايير التي تعتمد على الجداول الديناميكية.
+    لأن بيانات هذه المعايير لا تظهر كلها داخل StandardEntry.form_data.
+    """
+
+    dynamic_required_tables = {
+        6: [
+            "classroomsDataTable",
+            "labsDataTable",
+        ],
+        8: [
+            "std8Annex26Table",
+            "std8Annex27Table",
+            "std8Annex28Table",
+            "std8Annex29Table",
+            "std8Annex30EducationTable",
+            "std8Annex30LibraryTable",
+            "std8Annex33Table",
+        ],
+    }
+
+    for standard_number, table_keys in dynamic_required_tables.items():
+        try:
+            standard = QualityStandard.objects.get(number=standard_number)
+        except QualityStandard.DoesNotExist:
+            continue
+
+        entry, created = StandardEntry.objects.get_or_create(
+            evaluation_file=evaluation_file,
+            standard=standard,
+            defaults={
+                "form_data": {},
+                "saved_as_draft": True,
+            }
+        )
+
+        total_tables = len(table_keys)
+        filled_tables = 0
+
+        for table_key in table_keys:
+            if dynamic_table_has_rows(evaluation_file, table_key):
+                filled_tables += 1
+
+        if total_tables == 0 or filled_tables == 0:
+            entry.completion_status = "empty"
+            entry.completion_percentage = 0
+        elif filled_tables == total_tables:
+            entry.completion_status = "complete"
+            entry.completion_percentage = 100
+        else:
+            entry.completion_status = "partial"
+            entry.completion_percentage = round((filled_tables / total_tables) * 100)
+
+        entry.save(update_fields=[
+            "completion_status",
+            "completion_percentage",
+            "updated_at",
+        ])
 def save_data_entry_to_database(request, standards):
     evaluation_file = get_or_create_evaluation_file(request)
 
     save_standard_entries(request, evaluation_file, standards)
     save_tables_data(request, evaluation_file)
 
+    update_standard4_faculty_table_completion(evaluation_file)
+    update_dynamic_standards_completion(evaluation_file)
+    update_standard7_completion(evaluation_file)
+
     save_mode = clean_text(request.POST.get("save_mode"))
 
     if save_mode == "draft":
         evaluation_file.status = "draft"
-    elif evaluation_file.status == "draft":
-        evaluation_file.status = "in_progress"
+    else:
+        all_entries = StandardEntry.objects.filter(evaluation_file=evaluation_file)
+
+        if all_entries.exists() and all_entries.filter(completion_status="complete").count() == all_entries.count():
+            evaluation_file.status = "completed"
+        else:
+            evaluation_file.status = "in_progress"
 
     evaluation_file.save(update_fields=["status", "updated_at"])
 
@@ -1934,27 +2949,446 @@ def collect_saved_attachments_data(evaluation_file, standards):
 # ============================================================
 
 def home(request):
-    return render(request, "dashboard/home.html")
+    programs_count = MainProgram.objects.count()
+
+    standards_count = QualityStandard.objects.filter(is_active=True).count()
+    if standards_count == 0:
+        standards_count = 8
+
+    draft_standards_count = (
+        StandardEvaluationReview.objects
+        .filter(review_status="draft")
+        .count()
+    )
+
+    approved_standards_count = (
+        StandardEvaluationReview.objects
+        .filter(review_status="reviewed")
+        .count()
+    )
+
+    evaluations_count = draft_standards_count + approved_standards_count
+
+    improvement_plans_count = (
+        StandardEvaluationReview.objects
+        .exclude(review_status="empty")
+        .exclude(improvement_plan="")
+        .count()
+    )
+
+    home_alerts = []
+
+    if draft_standards_count > 0:
+        home_alerts.append(
+            f"يوجد {draft_standards_count} معيار محفوظ كمسودة ولم يتم اعتماده بعد."
+        )
+
+    if approved_standards_count == 0 and evaluations_count > 0:
+        home_alerts.append(
+            "توجد تقييمات محفوظة، لكن لا يوجد أي معيار معتمد حتى الآن."
+        )
+
+    if evaluations_count == 0:
+        home_alerts.append(
+            "لا توجد تقييمات محفوظة حتى الآن. ابدأ من صفحة التقييم بعد إدخال بيانات المعايير."
+        )
+
+    # بيانات التشارت في لوحة التحكم
+    status_total_count = draft_standards_count + approved_standards_count
+
+    if status_total_count > 0:
+        approved_chart_percent = (approved_standards_count / status_total_count) * 100
+        draft_chart_percent = (draft_standards_count / status_total_count) * 100
+    else:
+        approved_chart_percent = 0
+        draft_chart_percent = 0
+
+    chart_max_count = max(
+        approved_standards_count,
+        draft_standards_count,
+        improvement_plans_count,
+        1,
+    )
+
+    approved_bar_width = (approved_standards_count / chart_max_count) * 100
+    draft_bar_width = (draft_standards_count / chart_max_count) * 100
+    plans_bar_width = (improvement_plans_count / chart_max_count) * 100
+
+    context = {
+        "programs_count": programs_count,
+        "standards_count": standards_count,
+        "evaluations_count": evaluations_count,
+        "draft_standards_count": draft_standards_count,
+        "approved_standards_count": approved_standards_count,
+        "improvement_plans_count": improvement_plans_count,
+        "home_alerts": home_alerts,
+
+        "status_total_count": status_total_count,
+        "approved_chart_percent": f"{approved_chart_percent:.2f}",
+        "draft_chart_percent": f"{draft_chart_percent:.2f}",
+        "approved_bar_width": f"{approved_bar_width:.2f}",
+        "draft_bar_width": f"{draft_bar_width:.2f}",
+        "plans_bar_width": f"{plans_bar_width:.2f}",
+    }
+
+    return render(request, "dashboard/home.html", context)
+
+def find_existing_evaluation_file(program_name, specialization, academic_year, exclude_file_id=None):
+    program_name = clean_text(program_name)
+    specialization = clean_text(specialization)
+    academic_year = clean_text(academic_year)
+
+    if specialization in ["لا يوجد", "غير محددة", "-"]:
+        specialization = ""
+
+    if not program_name or not academic_year:
+        return None
+
+    query = EvaluationFile.objects.select_related("program").filter(
+        program__name=program_name,
+        program__specialization=specialization,
+        academic_year=academic_year,
+    )
+
+    # إذا عندك ملفات مؤقتة من القالب لا نعتبرها محفوظة
+    query = query.exclude(status="template_preview")
+
+    if exclude_file_id:
+        query = query.exclude(id=exclude_file_id)
+
+    return query.first()
+# ============================================================
+# Programs Dialog Source
+# يقرأ البرامج من جدول programs.Program في الأدمن
+# ============================================================
+
+def model_has_field(model, field_name):
+    return any(field.name == field_name for field in model._meta.fields)
 
 
+def get_model_text_value(obj, field_names, default=""):
+    for field_name in field_names:
+        if hasattr(obj, field_name):
+            value = getattr(obj, field_name)
+            if value is not None:
+                return clean_text(value)
+
+    return default
+
+
+def get_model_year_value(obj, field_names, default=2024):
+    for field_name in field_names:
+        if hasattr(obj, field_name):
+            value = getattr(obj, field_name)
+            year = to_int(value, None)
+            if year:
+                return year
+
+    return default
+
+
+def build_program_options_for_dialog():
+    """
+    مصدر البرامج في Dialog إدخال البيانات.
+
+    يقرأ أولًا من:
+        programs.Program
+
+    وهو الجدول الظاهر عندك في:
+        /admin/programs/program/add/
+
+    وإذا لم يجده لأي سبب، يرجع احتياطيًا إلى AcademicProgram.
+    """
+
+    try:
+        ProgramModel = apps.get_model("programs", "Program")
+    except LookupError:
+        ProgramModel = None
+
+    program_map = {}
+
+    # --------------------------------------------------------
+    # المصدر الأساسي: جدول البرامج في تطبيق programs
+    # --------------------------------------------------------
+    if ProgramModel is not None:
+        programs_qs = ProgramModel.objects.all()
+
+        if model_has_field(ProgramModel, "is_active"):
+            programs_qs = programs_qs.filter(is_active=True)
+
+        elif model_has_field(ProgramModel, "active"):
+            programs_qs = programs_qs.filter(active=True)
+
+        if model_has_field(ProgramModel, "name"):
+            programs_qs = programs_qs.order_by("name", "id")
+
+        elif model_has_field(ProgramModel, "program_name"):
+            programs_qs = programs_qs.order_by("program_name", "id")
+
+        else:
+            programs_qs = programs_qs.order_by("id")
+
+        for program in programs_qs:
+            program_name = get_model_text_value(
+                program,
+                [
+                    "name",
+                    "program_name",
+                    "title",
+                    "program_title",
+                ],
+            )
+
+            if not program_name:
+                continue
+
+            specialization = get_model_text_value(
+                program,
+                [
+                    "specialization",
+                    "specialty",
+                    "track",
+                    "path",
+                    "major",
+                ],
+            )
+
+            if specialization in ["لا يوجد", "غير محددة", "-"]:
+                specialization = ""
+
+            start_year = get_model_year_value(
+                program,
+                [
+                    "start_year",
+                    "establishment_year",
+                    "program_establishment_year",
+                    "created_year",
+                    "year",
+                ],
+                default=2024,
+            )
+
+            if program_name not in program_map:
+                program_map[program_name] = {
+                    "name": program_name,
+                    "start_year": start_year,
+                    "specialties": [],
+                }
+
+            if specialization:
+                exists = any(
+                    item["name"] == specialization
+                    for item in program_map[program_name]["specialties"]
+                )
+
+                if not exists:
+                    program_map[program_name]["specialties"].append({
+                        "name": specialization,
+                        "start_year": start_year,
+                    })
+
+            else:
+                if start_year and not program_map[program_name].get("start_year"):
+                    program_map[program_name]["start_year"] = start_year
+
+    # --------------------------------------------------------
+    # مصدر احتياطي: AcademicProgram
+    # --------------------------------------------------------
+    else:
+        programs_qs = (
+            AcademicProgram.objects
+            .filter(is_active=True)
+            .order_by("name", "specialization", "start_year", "id")
+        )
+
+        for program in programs_qs:
+            program_name = clean_text(program.name)
+            specialization = clean_text(program.specialization)
+
+            if not program_name:
+                continue
+
+            if specialization in ["لا يوجد", "غير محددة", "-"]:
+                specialization = ""
+
+            start_year = program.start_year or 2024
+
+            if program_name not in program_map:
+                program_map[program_name] = {
+                    "name": program_name,
+                    "start_year": start_year,
+                    "specialties": [],
+                }
+
+            if specialization:
+                program_map[program_name]["specialties"].append({
+                    "name": specialization,
+                    "start_year": start_year,
+                })
+
+    program_options = list(program_map.values())
+
+    for item in program_options:
+        item["specialties"] = sorted(
+            item["specialties"],
+            key=lambda specialty: specialty["name"]
+        )
+
+    return sorted(program_options, key=lambda item: item["name"])
+def get_posted_standard_label(post_data, standards):
+    active_standard_id = clean_text(post_data.get("active_standard_id"))
+    active_standard_title = clean_text(post_data.get("active_standard_title"))
+
+    if active_standard_title:
+        return active_standard_title
+
+    if not active_standard_id:
+        return "ملف التقييم كامل"
+
+    for index, standard in enumerate(standards, start=1):
+        standard_id = str(getattr(standard, "id", "") or standard.get("id", ""))
+        standard_title = (
+            getattr(standard, "title", "")
+            or getattr(standard, "name", "")
+            or standard.get("title", "")
+            or standard.get("name", "")
+        )
+
+        if standard_id == active_standard_id:
+            return f"المعيار {index}: {standard_title}"
+
+    return "ملف التقييم كامل"
+def get_edited_standard_labels_from_post(post_data):
+    raw_labels = post_data.get("edited_standards_json", "[]")
+    active_label = clean_text(post_data.get("active_standard_title"))
+
+    labels = []
+
+    try:
+        parsed_labels = json.loads(raw_labels)
+    except json.JSONDecodeError:
+        parsed_labels = []
+
+    if isinstance(parsed_labels, list):
+        for label in parsed_labels:
+            label = clean_text(label)
+
+            if label and label not in labels:
+                labels.append(label)
+
+    # في حال لم يتم التقاط أي تعديل، نسجل التبويب النشط كحل احتياطي.
+    if not labels:
+        labels.append(active_label or "ملف التقييم كامل")
+
+    return labels
 def data_entry(request):
-    standards = get_data_entry_standards()
+    standards = get_data_entry_standards_from_admin()
 
     if request.method == "POST":
-        
-        
+        post_data = request.POST.copy()
+        edited_standard_labels = get_edited_standard_labels_from_post(post_data)
+        evaluation_file_id = clean_text(post_data.get("evaluation_file_id"))
+
+        current_file = None
+        if evaluation_file_id:
+            current_file = (
+                EvaluationFile.objects
+                .select_related("program")
+                .filter(id=evaluation_file_id)
+                .first()
+            )
+
+        selected_program = clean_text(post_data.get("selected_program"))
+        selected_specialty = clean_text(post_data.get("selected_specialty"))
+        selected_academic_year = clean_text(post_data.get("selected_academic_year"))
+        selected_start_year = clean_text(post_data.get("selected_start_year"))
+
+        is_update_operation = current_file is not None
+
+        # عند تعديل ملف محفوظ، نعتمد بيانات البرنامج والسنة من الملف نفسه
+        # إذا كانت الحقول المرسلة من الواجهة فارغة.
+        if current_file:
+            if not selected_program:
+                selected_program = clean_text(current_file.program.name)
+
+            if not selected_specialty:
+                selected_specialty = clean_text(current_file.program.specialization)
+
+            if selected_specialty in ["لا يوجد", "غير محددة", "-"]:
+                selected_specialty = ""
+
+            if not selected_academic_year:
+                selected_academic_year = clean_text(current_file.academic_year)
+
+            if not selected_start_year:
+                selected_start_year = clean_text(current_file.program.start_year)
+
+            post_data["selected_program"] = selected_program
+            post_data["selected_specialty"] = selected_specialty
+            post_data["selected_academic_year"] = selected_academic_year
+            post_data["selected_start_year"] = selected_start_year
+            request.POST = post_data
+
+        existing_file = find_existing_evaluation_file(
+            selected_program,
+            selected_specialty,
+            selected_academic_year,
+            exclude_file_id=evaluation_file_id,
+        )
+
+        if existing_file:
+            messages.error(
+                request,
+                (
+                    f"هذا الملف موجود مسبقًا: {existing_file.program} - "
+                    f"سنة التقييم: {selected_academic_year}. "
+                    "اختاري سنة أخرى أو افتحي الملف من الملفات المحفوظة."
+                ),
+            )
+
+            if evaluation_file_id:
+                return redirect(
+                    f"{reverse('data_entry')}?file_id={evaluation_file_id}"
+                )
+
+            return redirect("data_entry")
+
         evaluation_file = save_data_entry_to_database(request, standards)
+
+        action_type = "update" if is_update_operation else "create"
+        action_text = "تعديل" if is_update_operation else "إضافة"
+
+        for standard_label in edited_standard_labels:
+            log_activity(
+                request=request,
+                action=action_type,
+                section="إدخال بيانات المعايير",
+                standard_label=standard_label,
+                model_name="ملف تقييم",
+                object_id=evaluation_file.id,
+                object_repr=(
+                    f"{evaluation_file.program} - "
+                    f"{evaluation_file.academic_year}"
+                ),
+                changes=(
+                    f"تمت عملية {action_text} بيانات هذا المعيار "
+                    "من النظام الرئيسي."
+                ),
+            )
 
         messages.success(
             request,
-            f"تم حفظ بيانات ملف التقييم: {evaluation_file}"
+            f"تم حفظ بيانات ملف التقييم: {evaluation_file}",
         )
 
-        return redirect(f"{reverse('data_entry')}?file_id={evaluation_file.id}")
+        return redirect(
+            f"{reverse('data_entry')}?file_id={evaluation_file.id}"
+        )
 
     evaluation_files = (
         EvaluationFile.objects
         .select_related("program")
+        .exclude(status="template_preview")
         .annotate(saved_standards_count=Count("standard_entries"))
         .order_by("-updated_at")
     )
@@ -1965,29 +3399,25 @@ def data_entry(request):
         messages.warning(request, "لم يتم العثور على ملف التقييم المطلوب.")
 
     selected_context = build_selected_file_context(selected_evaluation_file)
-
     saved_form_data = collect_saved_form_data(selected_evaluation_file)
     saved_tables_data = collect_saved_tables_data(selected_evaluation_file)
-
     saved_attachments_data = collect_saved_attachments_data(
-    selected_evaluation_file,
-    standards
-)
+        selected_evaluation_file,
+        standards,
+    )
 
     graduation_year_options = build_graduation_year_options(
         selected_context.get("selected_start_year"),
         selected_context.get("selected_academic_year"),
     )
 
+    program_options = build_program_options_for_dialog()
+
     context = {
         "standards": standards,
         "page_title": "إدخال بيانات البرنامج الأكاديمي",
-        "programs": [
-            "تقنية المعلومات",
-            "نظم المعلومات",
-            "علوم الحاسوب",
-            "الأمن السيبراني",
-        ],
+        "program_options": program_options,
+        "programs": [program["name"] for program in program_options],
         "academic_years": [
             "2024-2025",
             "2025-2026",
@@ -2008,29 +3438,28 @@ def data_entry(request):
 
     return render(request, "dashboard/data_entry.html", context)
 
-from django.shortcuts import get_object_or_404, redirect
-from django.contrib import messages
-from django.views.decorators.http import require_POST
-
-from .models import EvaluationFile
-
-
-@require_POST
-def delete_evaluation_file(request, file_id):
-    evaluation_file = get_object_or_404(EvaluationFile, id=file_id)
-
-    evaluation_file.delete()
-
-    messages.success(request, "تم حذف ملف التقييم والبيانات المرتبطة به بنجاح.")
-    return redirect("data_entry")
-
 
 def evaluation(request):
     return render(request, "dashboard/evaluation.html")
 
 
 def analysis(request):
-    return render(request, "dashboard/analysis.html")
+    programs = (
+        Program.objects
+        .filter(is_active=True)
+        .order_by(
+            "name",
+            "specialization",
+        )
+    )
+
+    return render(
+        request,
+        "dashboard/analysis.html",
+        {
+            "programs": programs,
+        },
+    )
 
 
 def improvement_plans(request):
@@ -2043,3 +3472,146 @@ def reports(request):
 
 def system_management(request):
     return render(request, "dashboard/system_management.html")
+def _get_safe_next_url(request):
+    """
+    تحديد الوجهة الآمنة بعد تسجيل الدخول.
+
+    يمنع إعادة المستخدم إلى:
+    - بوابة الدخول /
+    - صفحة تسجيل الدخول نفسها
+    """
+
+    next_url = (
+        request.POST.get("next")
+        or request.GET.get("next")
+        or ""
+    ).strip()
+
+    home_url = reverse("home")
+    gateway_url = reverse("login_gateway")
+    system_login_url = reverse("system_login")
+
+    blocked_destinations = {
+        "",
+        "/",
+        gateway_url,
+        system_login_url,
+    }
+
+    if next_url in blocked_destinations:
+        return home_url
+
+    if next_url and url_has_allowed_host_and_scheme(
+        url=next_url,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        return next_url
+
+    return home_url
+
+
+@login_not_required
+@never_cache
+@ensure_csrf_cookie
+@csrf_protect
+@require_http_methods(["GET", "POST"])
+def system_login_view(request):
+    raw_next_url = (
+        request.POST.get("next")
+        or request.GET.get("next")
+        or ""
+    ).strip()
+
+    admin_index_url = reverse("admin:index")
+
+    is_admin_login = (
+        request.path.startswith("/admin/")
+        or raw_next_url.startswith("/admin/")
+    )
+
+    # المستخدم مسجل مسبقًا
+    if request.user.is_authenticated:
+        safe_next = _get_safe_next_url(request)
+
+        if is_admin_login:
+            if request.user.is_staff:
+                return redirect(admin_index_url)
+
+            messages.error(
+                request,
+                "حسابك لا يملك صلاحية الدخول إلى لوحة الإدارة.",
+            )
+
+            logout(request)
+
+            return redirect(
+                reverse("system_login")
+            )
+
+        return redirect(safe_next)
+
+    if request.method == "POST":
+        form = AuthenticationForm(
+            request=request,
+            data=request.POST,
+        )
+
+        if form.is_valid():
+            user = form.get_user()
+
+            login(request, user)
+
+            safe_next = _get_safe_next_url(request)
+
+            if safe_next.startswith("/admin/"):
+                if user.is_staff:
+                    return redirect(safe_next)
+
+                messages.error(
+                    request,
+                    "حسابك لا يملك صلاحية الدخول إلى لوحة الإدارة.",
+                )
+
+                logout(request)
+
+                return redirect(
+                    reverse("system_login")
+                )
+
+            return redirect(safe_next)
+
+        messages.error(
+            request,
+            "اسم المستخدم أو كلمة المرور غير صحيحة.",
+        )
+
+    else:
+        form = AuthenticationForm(
+            request=request,
+        )
+
+    next_value = raw_next_url
+
+    if next_value in {
+        "",
+        "/",
+        reverse("login_gateway"),
+        reverse("system_login"),
+    }:
+        next_value = ""
+
+    return render(
+        request,
+        "dashboard/system_login.html",
+        {
+            "form": form,
+            "next": next_value,
+        },
+    )
+
+
+@require_POST
+def system_logout_view(request):
+    logout(request)
+    return redirect(settings.LOGOUT_REDIRECT_URL)

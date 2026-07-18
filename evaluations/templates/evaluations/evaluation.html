@@ -1,0 +1,1065 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load l10n %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{% static 'dashboard/css/evaluation.css' %}?v=78">
+{% endblock %}
+
+{% block content %}
+
+<div class="evaluation-page"
+     dir="rtl"
+     data-load-draft="{% if load_draft %}1{% else %}0{% endif %}">
+
+    {% if messages %}
+        <div class="ev-messages">
+            {% for message in messages %}
+                <div class="ev-message ev-message-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="ev-header">
+        <div>
+            <h1>تقييم جودة البرنامج الأكاديمي</h1>
+            <p>
+                {% if is_all_programs %}
+                    يعرض هذا الوضع التقييمات المعتمدة والمسودات المحفوظة لجميع البرامج.
+                {% else %}
+                    اختار ملف البيانات، ثم قيّم كل معيار بشكل مستقل.
+                    يمكن حفظ كل معيار كمسودة منفصلة أو اعتماده بشكل مستقل.
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="ev-header-badge">
+            <span>نموذج التقييم</span>
+            <strong>مسودات لكل معيار</strong>
+        </div>
+    </div>
+
+    <div class="ev-select-card">
+        <div>
+            <h2>اختيار ملف البيانات</h2>
+            <p>اختار ملفًا محفوظًا من صفحة إدخال البيانات حتى يبدأ النظام في التقييم.</p>
+        </div>
+
+        <form method="get" class="ev-file-form">
+            <select name="file_id"
+                    id="evaluationFileSelect"
+                    onchange="this.form.submit()">
+
+                <option value="all"
+                        {% if is_all_programs %}selected{% endif %}>
+                    جميع البرامج
+                </option>
+
+                {% for file in evaluation_files %}
+                    <option value="{{ file.id }}"
+                            {% if selected_file and selected_file.id == file.id %}selected{% endif %}>
+                        {{ file.program }} - {{ file.academic_year }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    {% if selected_file and review %}
+
+        <div class="ev-program-card">
+            <div>
+                <span class="ev-small-label">ملف التقييم الحالي</span>
+                <h2>{{ selected_file.program }}</h2>
+                <p>السنة الأكاديمية: {{ selected_file.academic_year }}</p>
+            </div>
+
+            <div class="ev-program-actions">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="file_id" value="{{ selected_file.id }}">
+
+                    <button type="submit"
+                            name="action"
+                            value="generate"
+                            class="ev-generate-btn">
+                        إعادة توليد التقييم الآلي
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="ev-summary-grid">
+            <div class="ev-summary-card">
+                <span>التقييم الآلي</span>
+                <strong>{{ review.overall_auto_percentage|unlocalize }}%</strong>
+            </div>
+
+            <div class="ev-summary-card">
+                <span>تقييم المراجع</span>
+                <strong>
+                    {% if review.overall_reviewer_percentage %}
+                        {{ review.overall_reviewer_percentage|unlocalize }}%
+                    {% else %}
+                        لم يعتمد بعد
+                    {% endif %}
+                </strong>
+            </div>
+
+            <div class="ev-summary-card">
+                <span>النسبة النهائية</span>
+                <strong>{{ review.final_percentage|unlocalize }}%</strong>
+            </div>
+
+            <div class="ev-summary-card status-card">
+                <span>التقدير النهائي</span>
+                <strong>{{ review.final_status_label }}</strong>
+            </div>
+        </div>
+
+    {% endif %}
+
+        <!-- ============================================================
+             التقييمات المعتمدة لكل معيار مستقل
+        ============================================================= -->
+        <details class="ev-approved-section" {% if approved_open %}open{% endif %}>
+            <summary class="ev-approved-summary">
+                <span>
+                    التقييمات المعتمدة
+                    <small>كل معيار معتمد يظهر كسجل مستقل</small>
+                </span>
+
+                <strong>{{ approved_standard_cards|length }}</strong>
+            </summary>
+
+            <div class="ev-approved-body">
+                {% if approved_standard_cards %}
+
+                    {% for item in approved_standard_cards %}
+                        {% with approved=item.review standard_review=item.standard_review block=item.block %}
+
+                            <details class="ev-approved-item"
+                                     id="standard-card-{{ standard_review.id }}"
+                                     {% if active_standard_id == standard_review.id and approved_open %}open{% endif %}>
+
+                                <summary class="ev-approved-item-summary">
+                                    <span class="ev-approved-program">
+                                        <strong>{{ approved.evaluation_file.program }}</strong>
+                                        <small>
+                                            السنة الأكاديمية: {{ approved.evaluation_file.academic_year }}
+                                            — المعيار {{ block.obj.standard.number }}: {{ block.obj.standard.title }}
+                                        </small>
+                                    </span>
+
+                                    <span class="ev-approved-percent">
+                                        {{ block.final_percentage|unlocalize }}%
+                                    </span>
+
+                                    <span class="ev-approved-status">
+                                        معتمد
+                                    </span>
+
+                                    <span class="ev-approved-date">
+                                        {{ standard_review.updated_at|date:"Y-m-d H:i" }}
+                                    </span>
+                                </summary>
+
+                                <div class="ev-approved-detail">
+                                    <div class="ev-approved-mini-grid">
+                                        <div>
+                                            <span>درجة النظام</span>
+                                            <strong>{{ block.obj.auto_score }}/5</strong>
+                                        </div>
+
+                                        <div>
+                                            <span>درجة المراجع</span>
+                                            <strong>
+                                                {% if block.obj.reviewer_score %}
+                                                    {{ block.obj.reviewer_score }}/5
+                                                {% else %}
+                                                    —
+                                                {% endif %}
+                                            </strong>
+                                        </div>
+
+                                        <div>
+                                            <span>نسبة المعيار</span>
+                                            <strong>{{ block.final_percentage|unlocalize }}%</strong>
+                                        </div>
+
+                                        <div>
+                                            <span>اعتمد بواسطة</span>
+                                            <strong>
+                                                {% if standard_review.reviewed_by %}
+                                                    {{ standard_review.reviewed_by.get_full_name|default:standard_review.reviewed_by.username }}
+                                                {% else %}
+                                                    —
+                                                {% endif %}
+                                            </strong>
+                                        </div>
+                                    </div>
+
+                                    <details class="ev-approved-standard" open>
+                                        <summary>
+                                            <span>
+                                                المعيار {{ block.obj.standard.number }}:
+                                                {{ block.obj.standard.title }}
+                                            </span>
+
+                                            <strong>{{ block.final_percentage|unlocalize }}% - {{ block.final_label }}</strong>
+                                        </summary>
+
+                                        <div class="ev-approved-standard-body">
+                                            <div class="ev-approved-note">
+                                                <h4>ملاحظات المراجع</h4>
+                                                <p>{{ block.obj.reviewer_notes|default:"لا توجد ملاحظات مراجعة لهذا المعيار." }}</p>
+                                            </div>
+
+                                            {% if block.filled_indicators %}
+                                                <div class="ev-table-wrap">
+                                                    <table class="ev-table ev-approved-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>م</th>
+                                                                <th>المؤشر</th>
+                                                                <th>درجة النظام</th>
+                                                                <th>درجة المراجع</th>
+                                                                <th>ملاحظة المراجع</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            {% for indicator in block.filled_indicators %}
+                                                                <tr>
+                                                                    <td>{{ forloop.counter }}</td>
+
+                                                                    <td class="indicator-text">
+                                                                        {{ indicator.obj.indicator_text }}
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <span class="ev-score-pill score-{{ indicator.obj.auto_score }}">
+                                                                            {{ indicator.obj.auto_score }}/5
+                                                                        </span>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        {% if indicator.obj.reviewer_score %}
+                                                                            <span class="ev-score-pill score-{{ indicator.obj.reviewer_score }}">
+                                                                                {{ indicator.obj.reviewer_score }}/5
+                                                                            </span>
+                                                                        {% else %}
+                                                                            —
+                                                                        {% endif %}
+                                                                    </td>
+
+                                                                    <td class="auto-note">
+                                                                        {{ indicator.obj.reviewer_notes|default:"—" }}
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            {% endif %}
+
+                                            <div class="ev-approved-improvement-grid">
+                                                <div class="ev-approved-note">
+                                                    <h4>نقاط القوة</h4>
+                                                    <p>{{ block.obj.strengths|default:"لا توجد نقاط قوة مدخلة." }}</p>
+                                                </div>
+
+                                                <div class="ev-approved-note">
+                                                    <h4>نقاط الضعف</h4>
+                                                    <p>{{ block.obj.weaknesses|default:"لا توجد نقاط ضعف مدخلة." }}</p>
+                                                </div>
+
+                                                <div class="ev-approved-note">
+                                                    <h4>خطة التحسين</h4>
+                                                    <p>{{ block.obj.improvement_plan|default:"لا توجد خطة تحسين مدخلة." }}</p>
+                                                </div>
+
+                                                <div class="ev-approved-note">
+                                                    <h4>زمن التنفيذ</h4>
+                                                    <p>{{ block.obj.execution_time|default:"غير محدد." }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </details>
+                                </div>
+                            </details>
+
+                        {% endwith %}
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="ev-approved-empty">
+                        لا توجد معايير معتمدة حتى الآن.
+                    </div>
+
+                {% endif %}
+            </div>
+        </details>
+
+        <!-- ============================================================
+             المسودات المحفوظة لكل معيار مستقل
+        ============================================================= -->
+        <details class="ev-approved-section ev-draft-section" {% if draft_open %}open{% endif %}>
+            <summary class="ev-approved-summary ev-draft-summary">
+                <span>
+                    المسودات المحفوظة
+                    <small>كل معيار محفوظ يظهر كمسودة مستقلة قابلة للتعديل</small>
+                </span>
+
+                <strong>{{ draft_standard_cards|length }}</strong>
+            </summary>
+
+            <div class="ev-approved-body">
+                {% if draft_standard_cards %}
+
+                    {% for item in draft_standard_cards %}
+                        {% with draft=item.review standard_review=item.standard_review block=item.block %}
+
+                            <details class="ev-approved-item"
+                                     id="standard-card-{{ standard_review.id }}"
+                                     {% if active_standard_id == standard_review.id and draft_open %}open{% endif %}>
+
+                                <summary class="ev-approved-item-summary">
+                                    <span class="ev-approved-program">
+                                        <strong>{{ draft.evaluation_file.program }}</strong>
+                                        <small>
+                                            السنة الأكاديمية: {{ draft.evaluation_file.academic_year }}
+                                            — المعيار {{ block.obj.standard.number }}: {{ block.obj.standard.title }}
+                                        </small>
+                                    </span>
+
+                                    <span class="ev-approved-percent">
+                                        {{ block.final_percentage|unlocalize }}%
+                                    </span>
+
+                                    <span class="ev-approved-status ev-draft-status">
+                                        مسودة
+                                    </span>
+
+                                    <span class="ev-approved-date">
+                                        {{ standard_review.updated_at|date:"Y-m-d H:i" }}
+                                    </span>
+                                </summary>
+
+                                <div class="ev-approved-detail">
+                                    <div class="ev-draft-actions">
+                                        <a href="{% url 'evaluation' %}?file_id={{ draft.evaluation_file.id }}&standard_review_id={{ standard_review.id }}&load_draft=1&draft_open=1#standard-{{ block.obj.standard.number }}"
+                                           class="ev-draft-edit-btn"
+                                           data-ev-draft-edit="1">
+                                            فتح مسودة هذا المعيار للتعديل
+                                        </a>
+                                    </div>
+
+                                    <div class="ev-approved-mini-grid">
+                                        <div>
+                                            <span>درجة النظام</span>
+                                            <strong>{{ block.obj.auto_score }}/5</strong>
+                                        </div>
+
+                                        <div>
+                                            <span>درجة المراجع</span>
+                                            <strong>
+                                                {% if block.obj.reviewer_score %}
+                                                    {{ block.obj.reviewer_score }}/5
+                                                {% else %}
+                                                    —
+                                                {% endif %}
+                                            </strong>
+                                        </div>
+
+                                        <div>
+                                            <span>نسبة المعيار</span>
+                                            <strong>{{ block.final_percentage|unlocalize }}%</strong>
+                                        </div>
+
+                                        <div>
+                                            <span>حالة المعيار</span>
+                                            <strong>مسودة</strong>
+                                        </div>
+                                    </div>
+
+                                    <details class="ev-approved-standard" open>
+                                        <summary>
+                                            <span>
+                                                المعيار {{ block.obj.standard.number }}:
+                                                {{ block.obj.standard.title }}
+                                            </span>
+
+                                            <strong>{{ block.final_percentage|unlocalize }}% - {{ block.final_label }}</strong>
+                                        </summary>
+
+                                        <div class="ev-approved-standard-body">
+                                            <div class="ev-approved-note">
+                                                <h4>ملاحظات المراجع</h4>
+                                                <p>{{ block.obj.reviewer_notes|default:"لا توجد ملاحظات مراجعة لهذا المعيار." }}</p>
+                                            </div>
+
+                                            {% if block.filled_indicators %}
+                                                <div class="ev-table-wrap">
+                                                    <table class="ev-table ev-approved-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>م</th>
+                                                                <th>المؤشر</th>
+                                                                <th>درجة النظام</th>
+                                                                <th>درجة المراجع</th>
+                                                                <th>ملاحظة المراجع</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            {% for indicator in block.filled_indicators %}
+                                                                <tr>
+                                                                    <td>{{ forloop.counter }}</td>
+
+                                                                    <td class="indicator-text">
+                                                                        {{ indicator.obj.indicator_text }}
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <span class="ev-score-pill score-{{ indicator.obj.auto_score }}">
+                                                                            {{ indicator.obj.auto_score }}/5
+                                                                        </span>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        {% if indicator.obj.reviewer_score %}
+                                                                            <span class="ev-score-pill score-{{ indicator.obj.reviewer_score }}">
+                                                                                {{ indicator.obj.reviewer_score }}/5
+                                                                            </span>
+                                                                        {% else %}
+                                                                            —
+                                                                        {% endif %}
+                                                                    </td>
+
+                                                                    <td class="auto-note">
+                                                                        {{ indicator.obj.reviewer_notes|default:"—" }}
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            {% endif %}
+
+                                            <div class="ev-approved-improvement-grid">
+                                                <div class="ev-approved-note">
+                                                    <h4>نقاط القوة</h4>
+                                                    <p>{{ block.obj.strengths|default:"لا توجد نقاط قوة مدخلة." }}</p>
+                                                </div>
+
+                                                <div class="ev-approved-note">
+                                                    <h4>نقاط الضعف</h4>
+                                                    <p>{{ block.obj.weaknesses|default:"لا توجد نقاط ضعف مدخلة." }}</p>
+                                                </div>
+
+                                                <div class="ev-approved-note">
+                                                    <h4>خطة التحسين</h4>
+                                                    <p>{{ block.obj.improvement_plan|default:"لا توجد خطة تحسين مدخلة." }}</p>
+                                                </div>
+
+                                                <div class="ev-approved-note">
+                                                    <h4>زمن التنفيذ</h4>
+                                                    <p>{{ block.obj.execution_time|default:"غير محدد." }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </details>
+                                </div>
+                            </details>
+
+                        {% endwith %}
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="ev-approved-empty">
+                        لا توجد مسودات محفوظة حتى الآن.
+                    </div>
+
+                {% endif %}
+            </div>
+        </details>
+
+    {% if selected_file and review %}
+
+        <!-- ============================================================
+             نموذج تقييم معيار واحد أو جميع المعايير عند البداية
+        ============================================================= -->
+        <form method="post" id="reviewForm">
+            {% csrf_token %}
+
+            <input type="hidden" name="file_id" value="{{ selected_file.id }}">
+            <input type="hidden"
+                   name="evaluation_mode"
+                   id="evaluationModeInput"
+                   value="manual">
+
+            <input type="hidden"
+                   name="active_standard_id"
+                   id="activeStandardIdInput"
+                   value="{% if selected_standard_review %}{{ selected_standard_review.id }}{% else %}{% for block in review_blocks %}{% if forloop.first %}{{ block.obj.id }}{% endif %}{% endfor %}{% endif %}">
+
+            <input type="hidden"
+                   name="standard_review_id"
+                   id="standardReviewIdInput"
+                   value="{% if selected_standard_review %}{{ selected_standard_review.id }}{% else %}{% for block in review_blocks %}{% if forloop.first %}{{ block.obj.id }}{% endif %}{% endfor %}{% endif %}">
+
+            <div class="ev-mode-card">
+                <div class="ev-mode-text">
+                    <h3>اختيار طريقة التقييم</h3>
+                    <p>
+                        عند اختيار التقييم الآلي سيتم تعبئة حقول المعيار الحالي بنتائج النظام مع إمكانية تعديلها.
+                        وعند اختيار التقييم اليدوي سيتم تفريغ حقول المعيار الحالي فقط.
+                    </p>
+
+                    {% if load_draft %}
+                        <div class="ev-draft-load-alert">
+                            تم فتح مسودة معيار محفوظة للتعديل. بعد المراجعة يمكنك حفظها مرة أخرى أو اعتمادها.
+                        </div>
+                    {% endif %}
+
+                    {% if selected_standard_review and selected_standard_review.review_status == "reviewed" %}
+                        <div class="ev-approved-load-alert">
+                            هذا المعيار معتمد بالفعل، ولا يمكن تعديله مباشرة.
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="ev-mode-actions">
+                    <button type="button"
+                            class="ev-mode-btn auto-mode-btn"
+                            id="useAutoModeBtn">
+                        استخدام التقييم الآلي للمعيار الحالي
+                    </button>
+
+                    <button type="button"
+                            class="ev-mode-btn manual-mode-btn active"
+                            id="useManualModeBtn">
+                        تقييم يدوي فارغ للمعيار الحالي
+                    </button>
+                </div>
+            </div>
+
+            <div class="ev-tabs">
+                {% for block in review_blocks %}
+                    <button type="button"
+                            class="ev-tab {% if forloop.first %}active{% endif %}"
+                            data-target="standard-{{ block.obj.standard.number }}"
+                            data-standard-review-id="{{ block.obj.id }}"
+                            title="المعيار {{ block.obj.standard.number }}: {{ block.obj.standard.title }}">
+
+                        <span class="ev-tab-number">
+                            {{ block.obj.standard.number }}.
+                        </span>
+
+                        <span class="ev-tab-title">
+                            {% if block.obj.standard.number == 1 %}
+                                معلومات البرنامج
+                            {% elif block.obj.standard.number == 2 %}
+                                رسالة وأهداف وخطط البرنامج
+                            {% elif block.obj.standard.number == 3 %}
+                                مخرجات تعلم البرنامج
+                            {% elif block.obj.standard.number == 4 %}
+                                مواصفات البرنامج الأكاديمي
+                            {% elif block.obj.standard.number == 5 %}
+                                الطلبة
+                            {% elif block.obj.standard.number == 6 %}
+                                البنية التحتية للبرنامج
+                            {% elif block.obj.standard.number == 7 %}
+                                المكتبة
+                            {% elif block.obj.standard.number == 8 %}
+                                إدارة العملية التعليمية
+                            {% else %}
+                                {{ block.obj.standard.title }}
+                            {% endif %}
+                        </span>
+                    </button>
+                {% endfor %}
+            </div>
+
+            {% for block in review_blocks %}
+
+                <section class="ev-standard-panel {% if forloop.first %}active{% endif %}"
+                         id="standard-{{ block.obj.standard.number }}"
+                         data-standard-review-id="{{ block.obj.id }}">
+
+                    <div class="ev-standard-head">
+                        <div>
+                            <span class="ev-standard-number">
+                                المعيار {{ block.obj.standard.number }}
+                            </span>
+
+                            <h2>{{ block.obj.standard.title }}</h2>
+
+                            <p>
+                                الوزن النسبي: {{ block.obj.weight|unlocalize }}%
+                                —
+                                حالة المعيار:
+                                <strong>{{ block.review_status_label }}</strong>
+                            </p>
+                        </div>
+
+                        <div class="ev-standard-score-box">
+                            <span>نتيجة المعيار الحالية</span>
+                            <strong>{{ block.final_percentage|unlocalize }}%</strong>
+                            <em>{{ block.final_label }}</em>
+                        </div>
+                    </div>
+
+                    <div class="ev-standard-sections">
+                        <details class="ev-standard-section" open>
+                            <summary>
+                                <span class="ev-standard-section-title">
+                                    تقييم المعيار وملاحظات المراجع
+                                </span>
+                                <span class="ev-standard-section-desc">
+                                    الدرجة العامة للمعيار وملاحظات المراجع
+                                </span>
+                                <span class="ev-standard-section-arrow" aria-hidden="true">⌄</span>
+                            </summary>
+
+                            <div class="ev-standard-section-body">
+                                <div class="ev-standard-metrics ev-auto-only">
+                                    <div>
+                                        <span>درجة النظام</span>
+                                        <strong>{{ block.obj.auto_score }}/5</strong>
+                                    </div>
+
+                                    <div>
+                                        <span>نسبة النظام</span>
+                                        <strong>{{ block.obj.auto_percentage|unlocalize }}%</strong>
+                                    </div>
+
+                                    <div>
+                                        <span>الدرجة الوزنية الآلية</span>
+                                        <strong>{{ block.obj.auto_weighted_score|unlocalize }}%</strong>
+                                    </div>
+
+                                    <div>
+                                        <span>حالة تعديل المراجع</span>
+                                        <strong>
+                                            {% if block.obj.modified_by_reviewer %}
+                                                تم التعديل
+                                            {% else %}
+                                                لم يعدل
+                                            {% endif %}
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="ev-auto-note ev-auto-only">
+                                    <strong>ملاحظة النظام:</strong>
+                                    <span>{{ block.obj.auto_notes }}</span>
+                                </div>
+
+                                <div class="ev-review-box">
+                                    <div class="ev-field">
+                                        <label>درجة المراجع لهذا المعيار</label>
+
+                                        <select name="standard_score_{{ block.obj.id }}"
+                                                class="review-score-select js-standard-score"
+                                                data-auto-score="{{ block.obj.auto_score }}">
+                                            <option value="">فارغ - اختار درجة المراجع</option>
+
+                                            {% for value, label in score_options %}
+                                                <option value="{{ value }}"
+                                                        {% if block.obj.reviewer_score == value %}selected{% endif %}>
+                                                    {{ label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="ev-field">
+                                        <label>ملاحظات المراجع على المعيار</label>
+
+                                        <textarea name="standard_notes_{{ block.obj.id }}"
+                                                  rows="3"
+                                                  class="js-standard-notes"
+                                                  data-auto-note="{{ block.obj.auto_notes|escape }}"
+                                                  placeholder="اكتبي ملاحظة المراجع اليدوية هنا">{% if load_draft and block.obj.reviewer_notes and block.obj.reviewer_notes != block.obj.auto_notes %}{{ block.obj.reviewer_notes }}{% endif %}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="ev-standard-section">
+                            <summary>
+                                <span class="ev-standard-section-title">
+                                    جدول المؤشرات
+                                </span>
+                                <span class="ev-standard-section-desc">
+                                    درجات المؤشرات وملاحظات المراجع
+                                </span>
+                                <span class="ev-standard-section-arrow" aria-hidden="true">⌄</span>
+                            </summary>
+
+                            <div class="ev-standard-section-body">
+                                <div class="ev-table-wrap">
+                                    <table class="ev-table">
+                                        <thead>
+                                            <tr>
+                                                <th>م</th>
+                                                <th>المؤشر</th>
+                                                <th class="ev-auto-only-col">درجة النظام</th>
+                                                <th class="ev-auto-only-col">ملاحظة النظام</th>
+                                                <th>درجة المراجع</th>
+                                                <th>ملاحظة المراجع</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for indicator in block.indicators %}
+                                                <tr class="js-indicator-row"
+                                                    data-auto-score="{{ indicator.obj.auto_score }}"
+                                                    data-indicator-text="{{ indicator.obj.indicator_text|escape }}">
+                                                    <td>{{ forloop.counter }}</td>
+
+                                                    <td class="indicator-text">
+                                                        {{ indicator.obj.indicator_text }}
+                                                    </td>
+
+                                                    <td class="ev-auto-only-col">
+                                                        <span class="ev-score-pill score-{{ indicator.obj.auto_score }}">
+                                                            {{ indicator.obj.auto_score }}/5
+                                                        </span>
+                                                        <small>{{ indicator.obj.auto_percentage|unlocalize }}%</small>
+                                                    </td>
+
+                                                    <td class="auto-note ev-auto-only-col">
+                                                        {{ indicator.obj.auto_notes }}
+                                                    </td>
+
+                                                    <td>
+                                                        <select name="indicator_score_{{ indicator.obj.id }}"
+                                                                class="js-indicator-score"
+                                                                data-auto-score="{{ indicator.obj.auto_score }}"
+                                                                data-included-in-calculation="{% if indicator.obj.data_snapshot.included_in_standard == False %}0{% else %}1{% endif %}">
+                                                            <option value="">فارغ - اختار الدرجة</option>
+
+                                                            {% for value, label in score_options %}
+                                                                <option value="{{ value }}"
+                                                                        {% if indicator.obj.reviewer_score == value %}selected{% endif %}>
+                                                                    {{ value }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </td>
+
+                                                    <td>
+                                                        <textarea name="indicator_notes_{{ indicator.obj.id }}"
+                                                                  rows="2"
+                                                                  class="js-indicator-notes"
+                                                                  data-auto-note="{{ indicator.obj.auto_notes|escape }}"
+                                                                  placeholder="اكتبي ملاحظة المراجع اليدوية هنا">{% if load_draft and indicator.obj.reviewer_notes and indicator.obj.reviewer_notes != indicator.obj.auto_notes %}{{ indicator.obj.reviewer_notes }}{% endif %}</textarea>
+                                                    </td>
+                                                </tr>
+                                            {% empty %}
+                                                <tr>
+                                                    <td colspan="6" class="ev-empty-row">
+                                                        لا توجد مؤشرات مولدة لهذا المعيار.
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="ev-standard-section">
+                            <summary>
+                                <span class="ev-standard-section-title">
+                                    نقاط القوة والضعف وخطة التحسين
+                                </span>
+                                <span class="ev-standard-section-desc">
+                                    ملخص المراجعة والتحسين
+                                </span>
+                                <span class="ev-standard-section-arrow" aria-hidden="true">⌄</span>
+                            </summary>
+
+                            <div class="ev-standard-section-body">
+                                <div class="ev-improvement-grid">
+                                    <div class="ev-field">
+                                        <label>نقاط القوة</label>
+
+                                        <textarea name="strengths_{{ block.obj.id }}"
+                                                  rows="3"
+                                                  class="js-strengths"
+                                                  placeholder="تعبأ تلقائيًا عند اختيار التقييم الآلي، أو يدويًا عند اختيار التقييم اليدوي">{% if load_draft %}{{ block.obj.strengths }}{% endif %}</textarea>
+                                    </div>
+
+                                    <div class="ev-field">
+                                        <label>نقاط الضعف</label>
+
+                                        <textarea name="weaknesses_{{ block.obj.id }}"
+                                                  rows="3"
+                                                  class="js-weaknesses"
+                                                  placeholder="تعبأ تلقائيًا عند اختيار التقييم الآلي، أو يدويًا عند اختيار التقييم اليدوي">{% if load_draft %}{{ block.obj.weaknesses }}{% endif %}</textarea>
+                                    </div>
+
+                                    <div class="ev-field">
+                                        <label>خطة التحسين</label>
+
+                                        <textarea name="improvement_plan_{{ block.obj.id }}"
+                                                  rows="3"
+                                                  class="js-improvement-plan"
+                                                  placeholder="تعبأ تلقائيًا عند اختيار التقييم الآلي، أو يدويًا عند اختيار التقييم اليدوي">{% if load_draft %}{{ block.obj.improvement_plan }}{% endif %}</textarea>
+                                    </div>
+
+                                    <div class="ev-field">
+                                        <label>زمن التنفيذ</label>
+
+                                        <input type="text"
+                                               name="execution_time_{{ block.obj.id }}"
+                                               class="js-execution-time"
+                                               value="{% if load_draft %}{{ block.obj.execution_time }}{% endif %}"
+                                               placeholder="مثال: خلال الفصل القادم">
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </section>
+
+            {% endfor %}
+
+            <div class="ev-general-notes">
+                <label>ملاحظات عامة على التقييم</label>
+
+                <textarea name="general_notes"
+                          rows="4"
+                          placeholder="اكتبي الملاحظات العامة هنا">{% if load_draft %}{{ review.general_notes }}{% endif %}</textarea>
+            </div>
+
+            <div class="ev-actions">
+                {% if selected_standard_review and selected_standard_review.review_status == "reviewed" %}
+                    <div class="ev-approved-readonly-message">
+                        هذا المعيار معتمد بالفعل ولا يمكن تعديله.
+                    </div>
+                {% else %}
+                    <button type="submit"
+                            name="action"
+                            value="draft"
+                            class="ev-save-btn">
+                        حفظ المعيار الحالي كمسودة
+                    </button>
+
+                    <button type="submit"
+                            name="action"
+                            value="approve"
+                            class="ev-approve-btn">
+                        اعتماد المعيار الحالي
+                    </button>
+                {% endif %}
+            </div>
+        </form>
+
+        <div class="ev-confirm-modal" id="evConfirmModal" aria-hidden="true">
+            <div class="ev-confirm-backdrop" data-ev-close-modal></div>
+
+            <div class="ev-confirm-dialog"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="evConfirmTitle">
+
+                <div class="ev-confirm-icon" id="evConfirmIcon">!</div>
+
+                <div class="ev-confirm-content">
+                    <h3 id="evConfirmTitle">تأكيد الإجراء</h3>
+                    <p id="evConfirmMessage">هل تريدين المتابعة؟</p>
+                </div>
+
+                <div class="ev-confirm-actions">
+                    <button type="button"
+                            class="ev-confirm-cancel"
+                            id="evConfirmCancel">
+                        إلغاء
+                    </button>
+
+                    <button type="button"
+                            class="ev-confirm-ok"
+                            id="evConfirmOk">
+                        متابعة
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+</div>
+
+<script src="{% static 'dashboard/js/evaluation.js' %}?v=77"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const reviewForm = document.getElementById("reviewForm");
+    const evaluationModeInput = document.getElementById("evaluationModeInput");
+    const autoModeButton = document.getElementById("useAutoModeBtn");
+    const manualModeButton = document.getElementById("useManualModeBtn");
+
+    if (!reviewForm || !evaluationModeInput) {
+        return;
+    }
+
+    const scoreLabels = {
+        1: "غير مستوفي",
+        2: "مستوفي جزئيًا",
+        3: "مستوفي",
+        4: "مستوفي بإتقان",
+        5: "مستوفي بتميز"
+    };
+
+    function scoreFromPercentage(percentage) {
+        if (percentage >= 90) {
+            return 5;
+        }
+
+        if (percentage >= 80) {
+            return 4;
+        }
+
+        if (percentage >= 65) {
+            return 3;
+        }
+
+        if (percentage >= 40) {
+            return 2;
+        }
+
+        return 1;
+    }
+
+    function getActiveStandardPanel() {
+        return reviewForm.querySelector(
+            ".ev-standard-panel.active"
+        );
+    }
+
+    function syncStandardScoreFromIndicators() {
+        if (evaluationModeInput.value !== "auto") {
+            return;
+        }
+
+        const activePanel = getActiveStandardPanel();
+
+        if (!activePanel) {
+            return;
+        }
+
+        const indicatorScores = Array.from(
+            activePanel.querySelectorAll(
+                ".js-indicator-score"
+            )
+        )
+            .filter(function (select) {
+                // المؤشرات المرتبطة بالمرفقات فقط تُحفظ درجتها
+                // للعرض، لكنها لا تدخل في نتيجة المعيار.
+                return select.dataset.includedInCalculation !== "0";
+            })
+            .map(function (select) {
+                const value = Number(select.value);
+                return Number.isFinite(value) && value >= 1 && value <= 5
+                    ? value
+                    : null;
+            })
+            .filter(function (value) {
+                return value !== null;
+            });
+
+        if (!indicatorScores.length) {
+            return;
+        }
+
+        const total = indicatorScores.reduce(
+            function (sum, value) {
+                return sum + value;
+            },
+            0
+        );
+
+        const percentage = (
+            total / (indicatorScores.length * 5)
+        ) * 100;
+
+        const standardScore = scoreFromPercentage(
+            percentage
+        );
+
+        const standardScoreSelect = activePanel.querySelector(
+            ".js-standard-score"
+        );
+
+        if (standardScoreSelect) {
+            standardScoreSelect.value = String(standardScore);
+        }
+
+        const currentPercentage = activePanel.querySelector(
+            ".ev-standard-score-box strong"
+        );
+
+        const currentLabel = activePanel.querySelector(
+            ".ev-standard-score-box em"
+        );
+
+        if (currentPercentage) {
+            currentPercentage.textContent = (
+                percentage.toFixed(2) + "%"
+            );
+        }
+
+        if (currentLabel) {
+            currentLabel.textContent = scoreLabels[standardScore];
+        }
+    }
+
+    reviewForm.addEventListener("change", function (event) {
+        if (event.target.classList.contains("js-indicator-score")) {
+            syncStandardScoreFromIndicators();
+        }
+    });
+
+    reviewForm.addEventListener("submit", function () {
+        syncStandardScoreFromIndicators();
+    });
+
+    if (autoModeButton) {
+        autoModeButton.addEventListener("click", function () {
+            evaluationModeInput.value = "auto";
+
+            window.setTimeout(
+                syncStandardScoreFromIndicators,
+                0
+            );
+        });
+    }
+
+    if (manualModeButton) {
+        manualModeButton.addEventListener("click", function () {
+            evaluationModeInput.value = "manual";
+        });
+    }
+
+    document.querySelectorAll(".ev-tab").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+            window.setTimeout(
+                syncStandardScoreFromIndicators,
+                0
+            );
+        });
+    });
+});
+</script>
+
+{% endblock %}

@@ -1,135 +1,808 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}نظام الجودة الأكاديمية{% endblock %}</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+            نظام أداء البرامج الأكاديمية
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'dashboard/css/ust_theme.css' %}?v=72">
 
     <style>
-        body {
-            margin: 0;
-            font-family: Tahoma, Arial, sans-serif;
-            background: #f4f7fb;
-            direction: rtl;
-        }
-
-        .sidebar {
-            width: 270px;
-            height: 100vh;
-            background: #1f3b57;
-            color: white;
-            position: fixed;
-            right: 0;
-            top: 0;
-            padding: 30px 22px;
+        /* =========================================================
+           شعار الجامعة
+        ========================================================= */
+        .ust-logo-box {
+            width: 104px;
+            height: 104px;
+            margin: 0 auto 15px;
+            padding: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 27px;
+            background: #ffffff;
+            overflow: hidden;
             box-sizing: border-box;
         }
 
-        .sidebar h2 {
-            font-size: 22px;
-            margin-bottom: 40px;
-            text-align: center;
+        .ust-logo-box .ust-logo {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain !important;
         }
 
-        .sidebar a {
-            display: block;
-            color: white;
-            text-decoration: none;
-            padding: 14px 16px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            font-size: 17px;
+        .ust-logo-box .ust-logo-fallback {
+            display: none !important;
         }
 
-        .sidebar a:hover {
-            background: #2f5c85;
+        .ust-logo-box.no-logo .ust-logo {
+            display: none !important;
         }
 
-        .content {
-            margin-right: 270px;
-            padding: 45px;
+        .ust-logo-box.no-logo .ust-logo-fallback {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            color: #0f5f96;
+            font-size: 23px;
+            font-weight: 900;
         }
 
-        .page-title {
-            font-size: 36px;
-            margin-bottom: 10px;
-            color: #111827;
+        /* =========================================================
+           الحساب أعلى اليسار - تصميم مصغر وناعم
+        ========================================================= */
+        .ust-top-account {
+            position: absolute;
+            top: 12px;
+            left: 62px;
+            z-index: 5000;
+
+            height: 40px;
+            padding: 4px 5px 4px 9px;
+
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            direction: rtl;
+
+            border: 1px solid rgba(193, 221, 240, 0.88);
+            border-radius: 13px;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 5px 14px rgba(35, 111, 158, 0.075);
+            backdrop-filter: blur(8px);
+            box-sizing: border-box;
         }
 
-        .page-subtitle {
-            color: #4b5563;
-            margin-bottom: 35px;
+        .ust-top-user {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
         }
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-            min-height: 120px;
-        }
-
-        .card h3 {
-            margin: 0 0 15px;
-            color: #4b5563;
-            font-size: 18px;
-        }
-
-        .card p {
+        .ust-top-avatar-btn {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            padding: 0;
             margin: 0;
-            color: #1f3b57;
-            font-size: 34px;
-            font-weight: bold;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            border-radius: 50%;
+            overflow: hidden;
+
+            background: linear-gradient(135deg, #69bceb, #3998d5);
+            color: #ffffff;
+
+            font-family: inherit;
+            font-size: 11.5px;
+            font-weight: 900;
+            line-height: 1;
+
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(52, 150, 215, 0.16);
+            transition: transform 0.16s ease, box-shadow 0.16s ease;
         }
 
-        .section-box {
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-            margin-top: 25px;
+        .ust-top-avatar-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 11px rgba(52, 150, 215, 0.22);
         }
 
-        .btn {
-            display: inline-block;
-            background: #1f3b57;
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin-top: 12px;
+        .ust-top-avatar-btn img {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .ust-top-avatar-btn.has-image img {
+            display: block;
+        }
+
+        .ust-top-avatar-btn.has-image .ust-top-avatar-letter {
+            display: none;
+        }
+
+        .ust-top-user-info {
+            max-width: 92px;
+            display: flex;
+            align-items: center;
+            min-width: 0;
+        }
+
+        .ust-top-user-label {
+            display: none;
+        }
+
+        .ust-top-user-name {
+            display: block;
+            width: 100%;
+            color: #1c628f;
+            font-size: 10.5px;
+            font-weight: 900;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ust-top-logout-form {
+            margin: 0;
+            padding: 0;
+        }
+
+        .ust-top-logout-btn {
+            height: 28px;
+            padding: 0 8px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+
+            border: 1px solid #dceaf3;
+            border-radius: 9px;
+            background: #fbfdff;
+            color: #2d729d;
+
+            font-family: inherit;
+            font-size: 9.5px;
+            font-weight: 900;
+
+            cursor: pointer;
+            transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+        }
+
+        .ust-top-logout-btn:hover {
+            border-color: #afd0e5;
+            background: #f2f9fd;
+            color: #175f8c;
+        }
+
+        .ust-top-logout-icon {
+            width: 12px;
+            height: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ust-top-logout-icon svg {
+            width: 12px;
+            height: 12px;
+            fill: currentColor;
+        }
+
+        .ust-content {
+            padding-top: 54px;
+        }
+
+        @media (max-width: 900px) {
+            .ust-top-account {
+                position: relative;
+                top: auto;
+                left: auto;
+                width: calc(100% - 18px);
+                margin: 9px;
+                justify-content: space-between;
+            }
+
+            .ust-content {
+                padding-top: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ust-top-user-info {
+                max-width: 70px;
+            }
+
+            .ust-top-logout-btn {
+                width: 28px;
+                padding: 0;
+            }
+
+            .ust-top-logout-btn > span:last-child {
+                display: none;
+            }
         }
     </style>
+
+
+<style id="sidebar-brand-divider-spacing">
+    /* خفض الخط الفاصل أسفل اسم الجامعة قليلًا */
+    .ust-brand {
+        padding-bottom: 22px !important;
+    }
+
+    .ust-nav {
+        padding-top: 12px !important;
+    }
+</style>
+
+
+<style id="main-sidebar-soft-teal-style">
+    /* =========================================================
+       القائمة الجانبية: انحناء ناعم ومنظم
+    ========================================================= */
+
+    .ust-sidebar {
+        background: linear-gradient(
+            180deg,
+            #60b7ef 0%,
+            #2f8ed6 48%,
+            #145d91 100%
+        ) !important;
+
+        border-radius: 15px 0 0 15px !important;
+
+        box-shadow:
+            -7px 0 22px rgba(20, 93, 145, 0.10),
+            inset 1px 0 0 rgba(255, 255, 255, 0.14) !important;
+
+        overflow: hidden !important;
+    }
+
+    .ust-sidebar::before {
+        content: "" !important;
+        position: absolute !important;
+        inset: 0 !important;
+        border-radius: 22px 0 0 22px !important;
+        pointer-events: none !important;
+        box-shadow:
+            inset 0 0 0 1px rgba(255, 255, 255, 0.10) !important;
+    }
+
+    /* الخط الفاصل أسفل اسم الجامعة */
+    .ust-brand {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.20) !important;
+    }
+
+    /* عناصر القائمة */
+    .ust-nav-link {
+        border-radius: 15px !important;
+        background: transparent !important;
+        color: #ffffff !important;
+        transition:
+            background 0.20s ease,
+            transform 0.20s ease,
+            box-shadow 0.20s ease !important;
+    }
+
+    .ust-nav-link:hover {
+        background: rgba(255, 255, 255, 0.12) !important;
+        transform: translateX(-2px);
+    }
+
+    /* العنصر النشط */
+    .ust-nav-link.active {
+        border-radius: 18px !important;
+        background: rgba(255, 255, 255, 0.97) !important;
+        color: #145d91 !important;
+
+        box-shadow:
+            0 6px 16px rgba(20, 93, 145, 0.13) !important;
+    }
+
+    .ust-nav-link.active .ust-nav-icon {
+        border-radius: 12px !important;
+
+        background: linear-gradient(
+            135deg,
+            #60b7ef,
+            #2f8ed6
+        ) !important;
+
+        border-color: rgba(255, 255, 255, 0.45) !important;
+        color: #ffffff !important;
+    }
+
+    .ust-nav-link:not(.active) .ust-nav-icon {
+        border-radius: 12px !important;
+        background: rgba(255, 255, 255, 0.11) !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        color: #ffffff !important;
+    }
+
+    .ust-brand-text h2,
+    .ust-brand-text p {
+        color: #ffffff !important;
+    }
+
+    @media (max-width: 900px) {
+        .ust-sidebar,
+        .ust-sidebar::before {
+            border-radius: 0 !important;
+        }
+    }
+</style>
+
+
+<style id="compact-sidebar-content-final">
+    /* =========================================================
+       تصغير محتويات القائمة الجانبية فقط
+    ========================================================= */
+
+    /* تصغير مساحة الشعار */
+    .ust-logo-box {
+        width: 82px !important;
+        height: 82px !important;
+        margin-bottom: 10px !important;
+        padding: 6px !important;
+        border-radius: 21px !important;
+    }
+
+    /* تصغير عنوان النظام واسم الجامعة */
+    .ust-brand-text h2 {
+        margin: 0 0 4px !important;
+        font-size: 18px !important;
+        line-height: 1.35 !important;
+        font-weight: 900 !important;
+    }
+
+    .ust-brand-text p {
+        margin: 0 !important;
+        font-size: 11.5px !important;
+        line-height: 1.45 !important;
+        font-weight: 800 !important;
+    }
+
+    /* تقليل المساحة أعلى القائمة وأسفل اسم الجامعة */
+    .ust-brand {
+        padding-top: 14px !important;
+        padding-bottom: 15px !important;
+    }
+
+    /* تقليل المسافات داخل قائمة الروابط */
+    .ust-nav {
+        padding-top: 8px !important;
+        padding-right: 13px !important;
+        padding-left: 13px !important;
+        padding-bottom: 14px !important;
+        gap: 4px !important;
+    }
+
+    /* تصغير كل رابط */
+    .ust-nav-link {
+        min-height: 43px !important;
+        height: 43px !important;
+        padding: 5px 10px !important;
+        border-radius: 13px !important;
+        font-size: 14px !important;
+        line-height: 1.25 !important;
+    }
+
+    .ust-nav-link.active {
+        border-radius: 14px !important;
+    }
+
+    /* تصغير الأيقونات */
+    .ust-nav-icon {
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        border-radius: 11px !important;
+    }
+
+    .ust-nav-icon svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    /* المحافظة على وضوح النص داخل الروابط */
+    .ust-nav-link > span:last-child {
+        font-size: 14px !important;
+        font-weight: 900 !important;
+        line-height: 1.25 !important;
+    }
+
+    @media (max-width: 900px) {
+        .ust-logo-box {
+            width: 70px !important;
+            height: 70px !important;
+        }
+
+        .ust-brand-text h2 {
+            font-size: 16px !important;
+        }
+
+        .ust-brand-text p {
+            font-size: 11px !important;
+        }
+
+        .ust-nav-link,
+        .ust-nav-link > span:last-child {
+            font-size: 13.5px !important;
+        }
+    }
+    
+</style>
+
+{% block extra_css %}{% endblock %}
 </head>
+
 <body>
 
-<div class="sidebar">
-    <h2>نظام الجودة الأكاديمية</h2>
+{% with current=request.resolver_match.url_name %}
 
-    <a href="{% url 'home' %}">لوحة التحكم</a>
+<!-- =========================
+     المستخدم أعلى يسار الصفحة
+========================== -->
+{% if user.is_authenticated %}
+<div class="ust-top-account">
 
-    <a href="{% url 'data_entry' %}">إدخال بيانات المعايير</a>
+    <div class="ust-top-user">
 
-    <a href="{% url 'evaluation' %}">التقييم</a>
+        <button
+            type="button"
+            class="ust-top-avatar-btn"
+            id="ustMainProfileAvatarBtn"
+            title="تغيير صورة الملف الشخصي"
+            aria-label="تغيير صورة الملف الشخصي"
+        >
+            <img
+                id="ustMainProfileAvatarImg"
+                alt="صورة المستخدم"
+            >
 
-    <a href="{% url 'analysis' %}">التحليل</a>
+            <span class="ust-top-avatar-letter">
+                {% if user.get_full_name %}
+                    {{ user.get_full_name|slice:":1"|upper }}
+                {% else %}
+                    {{ user.username|slice:":1"|upper }}
+                {% endif %}
+            </span>
+        </button>
 
-    <a href="{% url 'improvement_plans' %}">خطط التحسين</a>
+        <input
+            type="file"
+            id="ustMainProfileAvatarInput"
+            accept="image/*"
+            hidden
+        >
 
-    <a href="{% url 'reports' %}">التقارير</a>
+        <div class="ust-top-user-info">
+            <strong class="ust-top-user-name">
+                {{ user.get_full_name|default:user.username }}
+            </strong>
+        </div>
 
-    <a href="{% url 'system_management' %}">إدارة النظام</a>
+    </div>
+
+    <form
+        method="post"
+        action="{% url 'system_logout' %}"
+        class="ust-top-logout-form"
+    >
+        {% csrf_token %}
+
+        <button
+            type="submit"
+            class="ust-top-logout-btn"
+        >
+            <span class="ust-top-logout-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="
+                        M10 17v-2h7V9h-7V7l-5 5 5 5Zm2-15h7
+                        a2 2 0 0 1 2 2v16
+                        a2 2 0 0 1-2 2h-7v-2h7V4h-7V2Z
+                    "/>
+                </svg>
+            </span>
+
+            <span>تسجيل الخروج</span>
+        </button>
+    </form>
+
 </div>
+{% endif %}
 
-<div class="content">
+
+<aside class="ust-sidebar">
+
+    <!-- =========================
+         شعار النظام
+    ========================== -->
+    <div class="ust-brand">
+
+        <div class="ust-logo-box" id="ustLogoBox">
+            <img
+                id="ustUniversityLogo"
+                src="/static/admin/img/ust_logo.png?v=2"
+                alt="شعار جامعة العلوم والتكنولوجيا"
+                class="ust-logo"
+                onerror="
+                    this.style.display='none';
+                    this.parentElement.classList.add('no-logo');
+                "
+            >
+
+            <span class="ust-logo-fallback">UST</span>
+        </div>
+
+        <div class="ust-brand-text">
+            <h2>
+                نظام أداء البرامج الأكاديمية
+            </h2>
+
+            <p>
+                جامعة العلوم والتكنولوجيا
+            </p>
+        </div>
+<p></p>
+    </div>
+
+
+    <!-- =========================
+         قائمة التنقل
+    ========================== -->
+    <nav class="ust-nav">
+
+        <!-- لوحة التحكم -->
+        <a
+            href="{% url 'home' %}"
+            class="ust-nav-link
+                   {% if current == 'home' %}active{% endif %}"
+        >
+            <span class="ust-nav-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="
+                        M3 11.5 12 4l9 7.5v8
+                        A1.5 1.5 0 0 1 19.5 21h-5v-6h-5v6h-5
+                        A1.5 1.5 0 0 1 3 19.5v-8Z
+                    "/>
+                </svg>
+            </span>
+
+            <span>
+                لوحة التحكم
+            </span>
+        </a>
+
+
+        <!-- إدخال البيانات -->
+        <a
+            href="{% url 'data_entry' %}"
+            class="ust-nav-link
+                   {% if current == 'data_entry' %}active{% endif %}"
+        >
+            <span class="ust-nav-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="
+                        M5 3h14
+                        a1.5 1.5 0 0 1 1.5 1.5v15
+                        A1.5 1.5 0 0 1 19 21H5
+                        a1.5 1.5 0 0 1-1.5-1.5v-15
+                        A1.5 1.5 0 0 1 5 3Zm2 4v2h10V7H7Zm0 4v2h10v-2H7Zm0 4v2h6v-2H7Z
+                    "/>
+                </svg>
+            </span>
+
+            <span>
+                إدخال بيانات المعايير
+            </span>
+        </a>
+
+
+        <!-- التقييم -->
+        <a
+            href="{% url 'evaluation' %}"
+            class="ust-nav-link
+                   {% if current == 'evaluation' %}active{% endif %}"
+        >
+            <span class="ust-nav-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="
+                        M19.5 4.5 21 6l-9.5 9.5L7 11l1.5-1.5 3 3 8-8ZM5 5h9v2H5v12h12v-6h2v6.5
+                        A1.5 1.5 0 0 1 17.5 21h-13
+                        A1.5 1.5 0 0 1 3 19.5v-13
+                        A1.5 1.5 0 0 1 4.5 5H5Z
+                    "/>
+                </svg>
+            </span>
+
+            <span>
+                التقييم
+            </span>
+        </a>
+
+
+        <!-- التحليل -->
+        <a
+            href="{% url 'analysis' %}"
+            class="ust-nav-link
+                   {% if current == 'analysis' %}active{% endif %}"
+        >
+            <span class="ust-nav-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="
+                        M4 19h16v2H3a1 1 0 0 1-1-1V4h2v15Zm3-2V9h3v8H7Zm5 0V5h3v12h-3Zm5 0v-6h3v6h-3Z
+                    "/>
+                </svg>
+            </span>
+
+            <span>
+                التحليل
+            </span>
+        </a>
+
+
+        <!-- خطط التحسين -->
+        <a
+            href="{% url 'improvement_plans' %}"
+            class="ust-nav-link
+                   {% if current == 'improvement_plans' %}active{% endif %}"
+        >
+            <span class="ust-nav-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="
+                        M12 2a10 10 0 1 0 10 10h-2
+                        a8 8 0 1 1-8-8V2Zm1 1v9.6l6.8-6.8 1.4 1.4L12 16.4
+                        6.8 11.2l1.4-1.4 2.8 2.8V3h2Z
+                    "/>
+                </svg>
+            </span>
+
+            <span>
+                خطط التحسين
+            </span>
+        </a>
+
+
+        <!-- التقارير -->
+        <a
+            href="{% url 'reports' %}"
+            class="ust-nav-link
+                   {% if current == 'reports' %}active{% endif %}"
+        >
+            <span class="ust-nav-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="
+                        M6 2h9l5 5v15H6a2 2 0 0 1-2-2V4
+                        a2 2 0 0 1 2-2Zm8 1.8V8h4.2L14 3.8ZM8 12h8v2H8v-2Zm0 4h8v2H8v-2Zm0-8h4v2H8V8Z
+                    "/>
+                </svg>
+            </span>
+
+            <span>
+                التقارير
+            </span>
+        </a>
+
+
+
+
+    </nav>
+
+
+
+</aside>
+
+
+<!-- =========================
+     محتوى الصفحات
+========================== -->
+<main class="ust-content">
+
+    {% if messages %}
+        <div class="ust-messages">
+            {% for message in messages %}
+                <div class="ust-message ust-message-{{ message.tags|default:'info' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     {% block content %}
     {% endblock %}
-</div>
+
+</main>
+
+{% endwith %}
+
+
+{% block extra_js %}{% endblock %}
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const avatarBtn = document.getElementById("ustMainProfileAvatarBtn");
+    const avatarInput = document.getElementById("ustMainProfileAvatarInput");
+    const avatarImg = document.getElementById("ustMainProfileAvatarImg");
+
+    if (!avatarBtn || !avatarInput || !avatarImg) {
+        return;
+    }
+
+    const userName = "{{ request.user.username|escapejs }}";
+
+    /*
+        نفس المفتاح المستخدم في لوحة الإدارة؛
+        لذلك الصورة المختارة هناك ستظهر هنا أيضًا.
+    */
+    const storageKey = "ust_admin_profile_avatar_" + userName;
+    const savedAvatar = localStorage.getItem(storageKey);
+
+    if (savedAvatar) {
+        avatarImg.src = savedAvatar;
+        avatarBtn.classList.add("has-image");
+    }
+
+    avatarBtn.addEventListener("click", function () {
+        avatarInput.click();
+    });
+
+    avatarInput.addEventListener("change", function () {
+        const file = avatarInput.files && avatarInput.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+            alert("يرجى اختيار صورة فقط.");
+            avatarInput.value = "";
+            return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+            alert("حجم الصورة كبير. يرجى اختيار صورة أقل من 2MB.");
+            avatarInput.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            const imageData = event.target.result;
+
+            avatarImg.src = imageData;
+            avatarBtn.classList.add("has-image");
+            localStorage.setItem(storageKey, imageData);
+        };
+
+        reader.readAsDataURL(file);
+    });
+});
+</script>
 
 </body>
 </html>

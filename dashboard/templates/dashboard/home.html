@@ -1,35 +1,535 @@
 {% extends 'dashboard/base.html' %}
+{% load static %}
 
 {% block title %}لوحة التحكم{% endblock %}
 
+{% block extra_css %}
+
+<link rel="stylesheet"
+      href="{% static 'dashboard/css/home.css' %}?v=5">
+
+<style>
+    /*
+    ============================================================
+    إعادة ألوان لوحة التحكم إلى الهوية الزرقاء
+    دون تغيير الأحجام أو المسافات أو ترتيب العناصر
+    ============================================================
+    */
+
+    .home-page {
+        --home-blue-deep: #145d91;
+        --home-blue-dark: #247fc5;
+        --home-blue: #2f8ed6;
+        --home-blue-light: #60b7ef;
+        --home-blue-soft: #edf8ff;
+        --home-blue-border: #d3e8f8;
+        --home-blue-border-strong: #acd9f6;
+    }
+
+
+    /* الشارة أعلى عنوان لوحة التحكم */
+    .home-page .home-kicker {
+        color: var(--home-blue-deep) !important;
+        background: var(--home-blue-soft) !important;
+        border-color: var(--home-blue-border) !important;
+    }
+
+
+    /* عنوان لوحة التحكم والعناوين الرئيسية */
+    .home-page .home-hero h1,
+    .home-page .dashboard-card h3,
+    .home-page .home-section h2,
+    .home-page .home-chart-head h2 {
+        color: var(--home-blue-deep) !important;
+    }
+
+
+    /* مربع APPI */
+    .home-page .home-hero-mark {
+        color: #ffffff !important;
+
+        background: linear-gradient(
+            135deg,
+            var(--home-blue-light) 0%,
+            var(--home-blue) 55%,
+            var(--home-blue-deep) 100%
+        ) !important;
+
+        border-color: rgba(255, 255, 255, 0.28) !important;
+
+        box-shadow:
+            0 14px 30px rgba(20, 93, 145, 0.20) !important;
+    }
+
+
+    /* الزر الرئيسي: إدخال بيانات المعايير */
+    .home-page .home-action-btn.primary {
+        color: #ffffff !important;
+
+        background: linear-gradient(
+            135deg,
+            var(--home-blue-light) 0%,
+            var(--home-blue) 55%,
+            var(--home-blue-dark) 100%
+        ) !important;
+
+        border-color: var(--home-blue) !important;
+
+        box-shadow:
+            0 8px 18px rgba(47, 142, 214, 0.20) !important;
+    }
+
+    .home-page .home-action-btn.primary:hover {
+        color: #ffffff !important;
+
+        background: linear-gradient(
+            135deg,
+            var(--home-blue) 0%,
+            var(--home-blue-dark) 55%,
+            var(--home-blue-deep) 100%
+        ) !important;
+
+        border-color: var(--home-blue-dark) !important;
+    }
+
+
+    /* الأزرار الثانوية */
+    .home-page .home-action-btn:not(.primary) {
+        color: var(--home-blue-deep) !important;
+        background: #ffffff !important;
+        border-color: var(--home-blue-border-strong) !important;
+    }
+
+    .home-page .home-action-btn:not(.primary):hover {
+        color: var(--home-blue-deep) !important;
+        background: var(--home-blue-soft) !important;
+        border-color: var(--home-blue) !important;
+    }
+
+
+    /* أيقونات بطاقات الإحصائيات */
+    .home-page .dashboard-icon {
+        color: var(--home-blue-deep) !important;
+        background: var(--home-blue-soft) !important;
+        border-color: var(--home-blue-border) !important;
+    }
+
+
+    /* أرقام بطاقات الإحصائيات */
+    .home-page .dashboard-card .number {
+        color: var(--home-blue-deep) !important;
+    }
+
+
+    /* حدود البطاقات */
+    .home-page .home-hero,
+    .home-page .dashboard-card,
+    .home-page .home-section {
+        border-color: var(--home-blue-border) !important;
+    }
+
+
+    /* الزخارف الخلفية داخل القسم والبطاقات */
+    .home-page .home-hero::before,
+    .home-page .home-hero::after,
+    .home-page .dashboard-card::before,
+    .home-page .dashboard-card::after {
+        background-color: rgba(47, 142, 214, 0.055) !important;
+    }
+
+
+    /* الرقم داخل الرسم الدائري */
+    .home-page .home-donut-center strong {
+        color: var(--home-blue-deep) !important;
+    }
+
+
+    /* شريط خطط التحسين فقط */
+    .home-page .bar-plan {
+        background: linear-gradient(
+            90deg,
+            var(--home-blue-light),
+            var(--home-blue)
+        ) !important;
+    }
+
+
+    /* ملاحظة الرسم */
+    .home-page .home-chart-note {
+        color: var(--home-blue-deep) !important;
+        background: var(--home-blue-soft) !important;
+        border-color: var(--home-blue-border) !important;
+    }
+
+
+    /* لون التركيز عند استخدام لوحة المفاتيح */
+    .home-page a:focus-visible {
+        outline-color: var(--home-blue) !important;
+    }
+</style>
+
+{% endblock %}
+
 {% block content %}
-<h1 class="page-title">لوحة التحكم</h1>
-<p class="page-subtitle">نظرة عامة على نظام تحسين أداء البرامج الأكاديمية</p>
 
-<div class="cards">
-    <div class="card">
-        <h3>البرامج الأكاديمية</h3>
-        <p>{{ programs_count }}</p>
-    </div>
+<div class="home-page dashboard-page">
 
-    <div class="card">
-        <h3>التقييمات</h3>
-        <p>{{ evaluations_count }}</p>
-    </div>
+    <!-- =========================
+         القسم الترحيبي
+    ========================== -->
+    <section class="home-hero">
 
-    <div class="card">
-        <h3>المعايير</h3>
-        <p>{{ standards_count }}</p>
-    </div>
+        <div class="home-hero-content">
 
-    <div class="card">
-        <h3>خطط التحسين</h3>
-        <p>0</p>
-    </div>
+            <span class="home-kicker">
+                 أداء البرامج الأكاديمية
+            </span>
+
+            <h1>
+                لوحة التحكم
+            </h1>
+
+            <p>
+                نظرة عامة على أداء البرامج الأكاديمية، مع وصول سريع إلى إدخال
+                بيانات المعايير، وتنفيذ التقييم، ومتابعة التحليل، وإعداد خطط التحسين.
+            </p>
+
+            <div class="home-actions">
+
+                <a href="{% url 'data_entry' %}"
+                   class="home-action-btn primary">
+                    إدخال بيانات المعايير
+                </a>
+
+                <a href="{% url 'evaluation' %}"
+                   class="home-action-btn">
+                    بدء التقييم
+                </a>
+
+                <a href="{% url 'reports' %}"
+                   class="home-action-btn">
+                    عرض التقارير
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="home-hero-mark">
+            APPI
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         بطاقات الإحصائيات
+    ========================== -->
+    <section class="dashboard-cards">
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+                ▦
+            </div>
+
+            <h3>
+                البرامج الأكاديمية
+            </h3>
+
+            <div class="number">
+                {{ programs_count|default:"0" }}
+            </div>
+
+            <div class="hint">
+                عدد البرامج المسجلة في النظام.
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+                ✓
+            </div>
+
+            <h3>
+                التقييمات
+            </h3>
+
+            <div class="number">
+                {{ evaluations_count|default:"0" }}
+            </div>
+
+            <div class="hint">
+                المعايير التي تم حفظها كمسودة أو اعتمادها.
+            </div>
+
+            <div class="dashboard-mini-stats">
+
+                <span class="mini-draft">
+                    مسودات:
+                    {{ draft_standards_count|default:"0" }}
+                </span>
+
+                <span class="mini-approved">
+                    معتمدة:
+                    {{ approved_standards_count|default:"0" }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+                ☷
+            </div>
+
+            <h3>
+                المعايير
+            </h3>
+
+            <div class="number">
+                {{ standards_count|default:"0" }}
+            </div>
+
+            <div class="hint">
+                عدد معايير جودة البرنامج الأكاديمي.
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+                ↗
+            </div>
+
+            <h3>
+                خطط التحسين
+            </h3>
+
+            <div class="number">
+                {{ improvement_plans_count|default:"0" }}
+            </div>
+
+            <div class="hint">
+                إجراءات التحسين المقترحة أو المعتمدة.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         التنبيهات ومؤشر المتابعة
+    ========================== -->
+    <section class="home-lower-grid">
+
+        <div class="home-section home-alerts-card">
+
+            <h2>
+                آخر التنبيهات
+            </h2>
+
+            {% if home_alerts %}
+
+                <div class="home-alert-list">
+
+                    {% for alert in home_alerts %}
+
+                        <div class="home-alert-item">
+                            {{ alert }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <p class="home-empty-text">
+                    لا توجد تنبيهات حالياً. عند وجود مسودات أو تقييمات تحتاج
+                    إلى مراجعة ستظهر التنبيهات هنا.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="home-section home-chart-section">
+
+            <div class="home-chart-head">
+
+                <h2>
+                    مؤشر المتابعة العامة
+                </h2>
+
+                <p>
+                    قراءة بصرية مختصرة لحالة التقييمات وخطط التحسين في النظام.
+                </p>
+
+            </div>
+
+
+            <div class="home-chart-content">
+
+                <div class="home-donut-wrap">
+
+                    <div class="home-donut"
+                         style="
+                            --approved: {{ approved_chart_percent|default:'0' }}%;
+                            --draft: {{ draft_chart_percent|default:'0' }}%;
+                         ">
+
+                        <div class="home-donut-center">
+
+                            <strong>
+                                {{ status_total_count|default:"0" }}
+                            </strong>
+
+                            <span>
+                                تقييم محفوظ
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="home-donut-legend">
+
+                        <span class="legend-approved">
+                            معتمدة:
+                            {{ approved_standards_count|default:"0" }}
+                        </span>
+
+                        <span class="legend-draft">
+                            مسودات:
+                            {{ draft_standards_count|default:"0" }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="home-chart-bars">
+
+                    <div class="home-bar-row">
+
+                        <div class="home-bar-label">
+
+                            <span>
+                                المعايير المعتمدة
+                            </span>
+
+                            <strong>
+                                {{ approved_standards_count|default:"0" }}
+                            </strong>
+
+                        </div>
+
+                        <div class="home-bar-track">
+
+                            <span class="bar-approved"
+                                  style="
+                                    width: {{ approved_bar_width|default:'0' }}%;
+                                  ">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="home-bar-row">
+
+                        <div class="home-bar-label">
+
+                            <span>
+                                المسودات المفتوحة
+                            </span>
+
+                            <strong>
+                                {{ draft_standards_count|default:"0" }}
+                            </strong>
+
+                        </div>
+
+                        <div class="home-bar-track">
+
+                            <span class="bar-draft"
+                                  style="
+                                    width: {{ draft_bar_width|default:'0' }}%;
+                                  ">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="home-bar-row">
+
+                        <div class="home-bar-label">
+
+                            <span>
+                                خطط التحسين
+                            </span>
+
+                            <strong>
+                                {{ improvement_plans_count|default:"0" }}
+                            </strong>
+
+                        </div>
+
+                        
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="home-chart-note">
+
+                {% if draft_standards_count %}
+
+                    توجد مسودات تحتاج إلى مراجعة قبل اعتمادها؛ لذلك الأولوية
+                    الحالية هي استكمال مراجعة المسودات المفتوحة.
+
+                {% elif improvement_plans_count %}
+
+                    توجد خطط تحسين محفوظة؛ لذلك الأولوية الحالية هي متابعة
+                    تنفيذ إجراءات التحسين وتحديث حالتها.
+
+                {% elif approved_standards_count %}
+
+                    توجد تقييمات معتمدة ولا توجد مسودات مفتوحة، وحالة المتابعة
+                    الحالية مستقرة.
+
+                {% else %}
+
+                    لا توجد مؤشرات عاجلة حالياً. ابدأ بإدخال بيانات المعايير
+                    ثم إنشاء التقييمات ومتابعة نتائجها.
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
 </div>
 
-<div class="section-box">
-    <h2>آخر التنبيهات</h2>
-    <p>لا توجد تنبيهات حالياً.</p>
-</div>
 {% endblock %}

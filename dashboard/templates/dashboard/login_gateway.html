@@ -1,0 +1,235 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>بوابة الدخول الموحد</title>
+
+    <link rel="stylesheet"
+          href="{% static 'dashboard/css/login_gateway.css' %}?v=8">
+</head>
+
+<body>
+
+    <main class="portal-page">
+
+        <!-- خلفية خفيفة مرتبطة بالتحليل والبيانات -->
+        <div class="portal-analytics-bg"
+             aria-hidden="true">
+
+            <!-- اتجاه أداء -->
+            <svg class="portal-bg-chart portal-bg-chart-line"
+                 viewBox="0 0 320 180"
+                 preserveAspectRatio="none">
+
+                <line x1="20" y1="145"
+                      x2="300" y2="145"></line>
+
+                <line x1="20" y1="105"
+                      x2="300" y2="105"></line>
+
+                <line x1="20" y1="65"
+                      x2="300" y2="65"></line>
+
+                <path d="
+                    M25 130
+                    L80 112
+                    L135 121
+                    L190 78
+                    L245 91
+                    L298 46
+                "></path>
+
+                <circle cx="25" cy="130" r="4"></circle>
+                <circle cx="80" cy="112" r="4"></circle>
+                <circle cx="135" cy="121" r="4"></circle>
+                <circle cx="190" cy="78" r="4"></circle>
+                <circle cx="245" cy="91" r="4"></circle>
+                <circle cx="298" cy="46" r="4"></circle>
+
+            </svg>
+
+            <!-- مؤشرات أداء -->
+            <svg class="portal-bg-chart portal-bg-chart-bars"
+                 viewBox="0 0 300 180"
+                 preserveAspectRatio="none">
+
+                <line x1="20" y1="150"
+                      x2="280" y2="150"></line>
+
+                <rect x="40"
+                      y="108"
+                      width="28"
+                      height="42"
+                      rx="7"></rect>
+
+                <rect x="87"
+                      y="79"
+                      width="28"
+                      height="71"
+                      rx="7"></rect>
+
+                <rect x="134"
+                      y="96"
+                      width="28"
+                      height="54"
+                      rx="7"></rect>
+
+                <rect x="181"
+                      y="55"
+                      width="28"
+                      height="95"
+                      rx="7"></rect>
+
+                <rect x="228"
+                      y="69"
+                      width="28"
+                      height="81"
+                      rx="7"></rect>
+
+            </svg>
+
+            <span class="portal-data-node node-one"></span>
+            <span class="portal-data-node node-two"></span>
+            <span class="portal-data-node node-three"></span>
+
+        </div>
+
+        <section class="portal-heading">
+
+            <h1>بوابة الدخول الموحد</h1>
+
+            <p>
+                حدد نوع النظام الذي تريد الدخول إليه
+            </p>
+
+        </section>
+
+        <section class="portal-card"
+                 id="portalCard">
+
+            <div class="portal-card-logo">
+                <img
+                    src="{% static 'admin/img/ust_logo.png' %}"
+                    alt="شعار جامعة العلوم والتكنولوجيا"
+                >
+            </div>
+
+            <!-- النظام الأكاديمي -->
+            <button
+                type="button"
+                class="portal-option portal-main-system"
+                data-color="#dceeff"
+                data-url="{% url 'gateway_system_login' %}"
+                aria-label="الدخول إلى النظام الأكاديمي"
+            >
+
+                <span class="portal-option-content main-content">
+
+                    <span class="portal-icon">
+
+                        <svg viewBox="0 0 24 24"
+                             aria-hidden="true">
+
+                            <path d="M4 4h16v12H4z"></path>
+                            <path d="M8 20h8"></path>
+                            <path d="M12 16v4"></path>
+                            <path d="M8 8h8"></path>
+                            <path d="M8 11h5"></path>
+
+                        </svg>
+
+                    </span>
+
+                    <span class="portal-option-title">
+                        النظام الأكاديمي
+                    </span>
+
+                    <span class="portal-option-description">
+                        إدخال البيانات، التقييم، التحليل،
+                        خطط التحسين والتقارير
+                    </span>
+
+                    <span class="portal-enter">
+                        الدخول إلى النظام
+                        <span>←</span>
+                    </span>
+
+                </span>
+
+            </button>
+
+            <!-- لوحة الإدارة -->
+            <button
+                type="button"
+                class="portal-option portal-admin-system"
+                data-color="#2486c4"
+                data-url="{% url 'gateway_admin_login' %}"
+                aria-label="الدخول إلى لوحة الإدارة"
+            >
+
+                <span class="portal-option-content admin-content">
+
+                    <span class="portal-icon admin-icon">
+
+                        <svg viewBox="0 0 24 24"
+                             aria-hidden="true">
+
+                            <path d="
+                                M12 3
+                                l8 4
+                                v5
+                                c0 5-3.4 8.4-8 9
+                                c-4.6-.6-8-4-8-9
+                                V7z
+                            "></path>
+
+                            <path d="M9 12l2 2 4-4"></path>
+
+                        </svg>
+
+                    </span>
+
+                    <span class="portal-option-title">
+                        لوحة الإدارة
+                    </span>
+
+                    <span class="portal-option-description">
+                        إدارة المستخدمين، البرامج،
+                        الصلاحيات وبيانات النظام
+                    </span>
+
+                    <span class="portal-enter">
+                        الدخول إلى الإدارة
+                        <span>←</span>
+                    </span>
+
+                </span>
+
+            </button>
+
+            <div class="portal-transition"
+                 id="portalTransition">
+            </div>
+
+            <span class="portal-diagonal-line"></span>
+
+        </section>
+
+        <p class="portal-help-text">
+            اختر القسم المناسب للانتقال إلى صفحة تسجيل الدخول
+        </p>
+
+    </main>
+
+    <script
+        src="{% static 'dashboard/js/login_gateway.js' %}?v=2">
+    </script>
+
+</body>
+</html>

@@ -3412,11 +3412,7 @@ def data_entry(request):
         "page_title": "إدخال بيانات البرنامج الأكاديمي",
         "program_options": program_options,
         "programs": [program["name"] for program in program_options],
-        "academic_years": [
-            "2024-2025",
-            "2025-2026",
-            "2026-2027",
-        ],
+        
         "evaluation_files": evaluation_files,
         "selected_evaluation_file": selected_evaluation_file,
         "graduation_year_options": graduation_year_options,
@@ -3437,23 +3433,7 @@ def evaluation(request):
     return render(request, "dashboard/evaluation.html")
 
 
-def analysis(request):
-    programs = (
-        Program.objects
-        .filter(is_active=True)
-        .order_by(
-            "name",
-            "specialization",
-        )
-    )
 
-    return render(
-        request,
-        "dashboard/analysis.html",
-        {
-            "programs": programs,
-        },
-    )
 
 
 def improvement_plans(request):

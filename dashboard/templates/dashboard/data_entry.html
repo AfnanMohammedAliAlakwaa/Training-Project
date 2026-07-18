@@ -14092,8 +14092,23 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
-    const DEFAULT_START_YEAR = 2019;
-    const CURRENT_YEAR = new Date().getFullYear();
+    const now = new Date();
+
+/*
+سبتمبر هو بداية السنة الأكاديمية.
+getMonth() يبدأ من صفر، لذلك الرقم 8 يعني سبتمبر.
+*/
+const ACADEMIC_YEAR_START_MONTH = 8;
+
+const CURRENT_ACADEMIC_START_YEAR =
+    now.getMonth() >= ACADEMIC_YEAR_START_MONTH
+        ? now.getFullYear()
+        : now.getFullYear() - 1;
+
+/*
+يُستخدم فقط عندما تكون سنة إنشاء البرنامج غير مدخلة في الأدمن.
+*/
+const DEFAULT_START_YEAR = CURRENT_ACADEMIC_START_YEAR;
 
     function readProgramOptions() {
         const script = document.getElementById("programOptionsData");
@@ -14192,7 +14207,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         startYear = toInteger(startYear, DEFAULT_START_YEAR);
 
-        const endYear = Math.max(CURRENT_YEAR, startYear);
+        const endYear = Math.max(CURRENT_ACADEMIC_START_YEAR, startYear);
 
         clearSelect(yearSelect, "اختار سنة التقييم");
 
@@ -14327,7 +14342,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     noteElement,
                     "سنوات " + programName + " - " + specialtyName +
                     " تبدأ من " + academicYearText(startYear) +
-                    " إلى " + academicYearText(Math.max(CURRENT_YEAR, startYear)) + "."
+                    " إلى " + academicYearText(Math.max(CURRENT_ACADEMIC_START_YEAR, startYear)) + "."
                 );
 
                 return;
@@ -14351,7 +14366,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 noteElement,
                 "سنوات " + programName +
                 " تبدأ من " + academicYearText(startYear) +
-                " إلى " + academicYearText(Math.max(CURRENT_YEAR, startYear)) + "."
+                " إلى " + academicYearText(Math.max(CURRENT_ACADEMIC_START_YEAR, startYear)) + "."
             );
         }
 
@@ -17049,8 +17064,20 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
-    const CURRENT_YEAR = new Date().getFullYear();
-    const DEFAULT_START_YEAR = 2024;
+    const now = new Date();
+
+/*
+سبتمبر هو بداية السنة الأكاديمية.
+getMonth() يبدأ من صفر، لذلك الرقم 8 يعني سبتمبر.
+*/
+const ACADEMIC_YEAR_START_MONTH = 8;
+
+const CURRENT_ACADEMIC_START_YEAR =
+    now.getMonth() >= ACADEMIC_YEAR_START_MONTH
+        ? now.getFullYear()
+        : now.getFullYear() - 1;
+
+const DEFAULT_START_YEAR = CURRENT_ACADEMIC_START_YEAR;
 
     function clean(value) {
         return String(value || "").trim();
@@ -17131,7 +17158,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         startYear = toInt(startYear, DEFAULT_START_YEAR);
 
-        const endYear = Math.max(CURRENT_YEAR, startYear);
+        const endYear = Math.max(CURRENT_ACADEMIC_START_YEAR, startYear);
 
         clearSelect(select, "اختار سنة التقييم");
 
@@ -17256,7 +17283,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 note.textContent =
                     "سنوات " + programName +
                     " تبدأ من " + academicYearText(startYear) +
-                    " إلى " + academicYearText(Math.max(CURRENT_YEAR, startYear)) + ".";
+                    " إلى " + academicYearText(Math.max(CURRENT_ACADEMIC_START_YEAR, startYear)) + ".";
             }
         }
 
@@ -17295,7 +17322,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 note.textContent =
                     "سنوات " + programName + " - " + specialtyName +
                     " تبدأ من " + academicYearText(startYear) +
-                    " إلى " + academicYearText(Math.max(CURRENT_YEAR, startYear)) + ".";
+                    " إلى " + academicYearText(Math.max(CURRENT_ACADEMIC_START_YEAR, startYear)) + ".";
             }
         }
 

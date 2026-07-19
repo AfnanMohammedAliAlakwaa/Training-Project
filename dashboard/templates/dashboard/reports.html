@@ -2,8 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet"
-      href="{% static 'dashboard/css/reports.css' %}?v=1">
+{% include 'dashboard/includes/reports_styles.html' %}
 {% endblock %}
 
 {% block content %}

@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "storages",
 
     "programs.apps.ProgramsConfig",
     "evaluations",
@@ -255,17 +256,85 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
-STORAGES = {
-    # مؤقتًا تبقى المرفقات محلية.
-    # سنغير هذا الجزء إلى Cloudflare R2 لاحقًا.
-    "default": {
-        "BACKEND": (
-            "django.core.files.storage."
-            "FileSystemStorage"
-        ),
-    },
+# ============================================================
+# تخزين المرفقات: Supabase Storage عبر S3
+# ============================================================
 
-    # ملفات CSS وJavaScript والصور الثابتة
+SUPABASE_S3_ENDPOINT = os.environ.get(
+    "SUPABASE_S3_ENDPOINT",
+    "",
+).strip().rstrip("/")
+
+SUPABASE_S3_REGION = os.environ.get(
+    "SUPABASE_S3_REGION",
+    "",
+).strip()
+
+SUPABASE_S3_ACCESS_KEY_ID = os.environ.get(
+    "SUPABASE_S3_ACCESS_KEY_ID",
+    "",
+).strip()
+
+SUPABASE_S3_SECRET_ACCESS_KEY = os.environ.get(
+    "SUPABASE_S3_SECRET_ACCESS_KEY",
+    "",
+).strip()
+
+SUPABASE_S3_BUCKET = os.environ.get(
+    "SUPABASE_S3_BUCKET",
+    "",
+).strip()
+
+
+SUPABASE_S3_ENABLED = all(
+    [
+        SUPABASE_S3_ENDPOINT,
+        SUPABASE_S3_REGION,
+        SUPABASE_S3_ACCESS_KEY_ID,
+        SUPABASE_S3_SECRET_ACCESS_KEY,
+        SUPABASE_S3_BUCKET,
+    ]
+)
+
+
+# التخزين المحلي عند تشغيل المشروع على الجهاز
+DEFAULT_STORAGE_CONFIG = {
+    "BACKEND": "django.core.files.storage.FileSystemStorage",
+}
+
+
+# تخزين المرفقات في Supabase عند وجود المتغيرات السرية
+if SUPABASE_S3_ENABLED:
+    DEFAULT_STORAGE_CONFIG = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "access_key": SUPABASE_S3_ACCESS_KEY_ID,
+            "secret_key": SUPABASE_S3_SECRET_ACCESS_KEY,
+            "bucket_name": SUPABASE_S3_BUCKET,
+            "endpoint_url": SUPABASE_S3_ENDPOINT,
+            "region_name": SUPABASE_S3_REGION,
+
+            # Supabase يتطلب Path Style مع واجهة S3
+            "addressing_style": "path",
+            "signature_version": "s3v4",
+
+            # الحاوية خاصة
+            "default_acl": None,
+
+            # روابط مؤقتة لفتح المرفقات
+            "querystring_auth": True,
+            "querystring_expire": 3600,
+
+            # منع استبدال الملفات المتشابهة في الاسم
+            "file_overwrite": False,
+        },
+    }
+
+
+STORAGES = {
+    "default": DEFAULT_STORAGE_CONFIG,
+
+    # تبقى ملفات CSS وJavaScript مع WhiteNoise
     "staticfiles": {
         "BACKEND": (
             "whitenoise.storage."
@@ -273,7 +342,6 @@ STORAGES = {
         ),
     },
 }
-
 
 MEDIA_URL = "/media/"
 

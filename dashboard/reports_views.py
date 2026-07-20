@@ -634,6 +634,43 @@ def _get_filtered_evaluation_files(request):
     return files, filters, catalog_metadata
 
 
+def _get_program_ranking_files(request, catalog_metadata=None):
+    """
+    يعيد ملفات التقييم المستخدمة في ترتيب البرامج.
+
+    يطبق فلتر السنة والكلية، لكنه يتجاهل فلتر البرنامج عمدًا؛
+    حتى يحسب الترتيب العام أولًا، ثم يعرض البرنامج المختار
+    برتبته الحقيقية بدل أن يصبح رقم 1 لمجرد أنه البرنامج الوحيد بعد الفلترة.
+    """
+    filters = _get_selected_filters(request)
+    catalog_metadata = catalog_metadata or _get_catalog_program_metadata()
+
+    files_qs = (
+        EvaluationFile.objects
+        .select_related("program")
+        .order_by("-updated_at")
+    )
+
+    selected_year = filters["year"]
+    if not _is_all_value(selected_year):
+        files_qs = files_qs.filter(academic_year=selected_year)
+
+    files = list(files_qs)
+
+    selected_college = filters["college"]
+    if not _is_all_value(selected_college):
+        selected_college_key = _normalize_arabic(selected_college)
+        files = [
+            item
+            for item in files
+            if _normalize_arabic(
+                _program_college_name(item.program, catalog_metadata)
+            ) == selected_college_key
+        ]
+
+    return files
+
+
 def _build_report_filter_summary(files, filters):
     selected_program = filters.get("program", "all")
     selected_college = filters.get("college", "all")
@@ -974,19 +1011,25 @@ def _build_improvement_reports(file_ids):
     return rows
 
 
-def _build_program_rankings(files):
+def _build_program_rankings(files, selected_program="all"):
     """
-    يرتب البرامج بحسب عدد عناصر المعايير المكتملة فعليًا.
+    يرتب البرامج حسب نسبة الجاهزية الشاملة نفسها المستخدمة في
+    "التقرير الشامل للبرنامج":
 
-    المقصود بالعناصر هنا سجلات المعايير التابعة للملفات المطابقة للفلاتر:
-    - ready: عدد سجلات المعايير المكتملة 100%.
-    - missing: عدد سجلات المعايير التي ما زالت تحتاج إلى استكمال.
-    - progress: نسبة العناصر المكتملة من إجمالي العناصر.
+    - اكتمال بيانات المعايير: 45%
+    - نتائج التقييم: 35%
+    - المرفقات والشواهد: 20%
 
-    لا تدخل المرفقات في هذا الحساب؛ لها تقرير مستقل.
+    تبقى ready وmissing لعرض عدد المعايير المكتملة وغير المكتملة،
+    لكنها لا تكون أساس الترتيب. كما يحسب الترتيب العام قبل تطبيق
+    فلتر البرنامج حتى لا يتحول كل برنامج مختار منفردًا إلى المرتبة الأولى.
     """
     files_by_program = {}
+
     for evaluation_file in files:
+        if not evaluation_file.program_id or not evaluation_file.program:
+            continue
+
         files_by_program.setdefault(
             evaluation_file.program_id,
             [],
@@ -998,45 +1041,104 @@ def _build_program_rankings(files):
         program = program_files[0].program
         file_ids = [item.id for item in program_files]
 
-        entries = StandardEntry.objects.filter(
+        entries_qs = StandardEntry.objects.filter(
             evaluation_file_id__in=file_ids
         )
 
-        required = entries.count()
-        ready = entries.filter(
+        required = entries_qs.count()
+        ready = entries_qs.filter(
             completion_percentage__gte=100
         ).count()
-
         missing = max(required - ready, 0)
-        progress = (
-            _to_int_percent((ready / required) * 100)
-            if required
-            else 0
+
+        completion_rate = _to_int_percent(
+            _avg(
+                entries_qs.values_list(
+                    "completion_percentage",
+                    flat=True,
+                ),
+                0,
+            )
+        )
+
+        program_reviews_qs = ProgramEvaluationReview.objects.filter(
+            evaluation_file_id__in=file_ids
+        )
+
+        final_percentages = []
+        for review in program_reviews_qs:
+            if review.final_percentage is not None:
+                final_percentages.append(review.final_percentage)
+            elif review.overall_reviewer_percentage is not None:
+                final_percentages.append(
+                    review.overall_reviewer_percentage
+                )
+            else:
+                final_percentages.append(
+                    review.overall_auto_percentage
+                )
+
+        evaluation_progress = _to_int_percent(
+            _avg(final_percentages, 0)
+        )
+
+        attachment_stats = _build_attachment_stats(file_ids)
+        attachments_rate = attachment_stats["rate"]
+
+        comprehensive_progress = _to_int_percent(
+            (completion_rate * 0.45)
+            + (evaluation_progress * 0.35)
+            + (attachments_rate * 0.20)
         )
 
         rankings.append({
             "program": _program_display_name(program),
+            "program_id": program.id,
             "ready": ready,
             "missing": missing,
             "required": required,
-            "progress": progress,
-            "missing_progress": max(0, 100 - progress),
-            "missing_percent": max(0, 100 - progress),
+            "progress": comprehensive_progress,
+            "missing_progress": max(
+                0,
+                100 - comprehensive_progress,
+            ),
+            "missing_percent": max(
+                0,
+                100 - comprehensive_progress,
+            ),
+            "completion_rate": completion_rate,
+            "evaluation_progress": evaluation_progress,
+            "attachments_rate": attachments_rate,
+            "_program_object": program,
         })
 
     rankings.sort(
         key=lambda item: (
-            item["progress"],
-            item["ready"],
-            item["program"],
-        ),
-        reverse=True,
+            -item["progress"],
+            -item["ready"],
+            _normalize_arabic(item["program"]),
+        )
     )
 
     for index, item in enumerate(rankings, start=1):
         item["rank"] = index
 
-    return rankings[:8]
+    if not _is_all_value(selected_program):
+        rankings = [
+            item
+            for item in rankings
+            if _program_matches(
+                item["_program_object"],
+                selected_program,
+            )
+        ]
+    else:
+        rankings = rankings[:8]
+
+    for item in rankings:
+        item.pop("_program_object", None)
+
+    return rankings
 
 
 def _build_report_types(report_progress):
@@ -1253,7 +1355,14 @@ def _build_reports_data_from_database(request):
     academic_years = [item["value"] for item in academic_year_options]
     default_academic_year = _default_year_from_options(academic_year_options)
     max_academic_year_start = _max_year_start_from_options(academic_year_options)
-    program_rankings = _build_program_rankings(files)
+    ranking_files = _get_program_ranking_files(
+        request,
+        catalog_metadata,
+    )
+    program_rankings = _build_program_rankings(
+        ranking_files,
+        filters.get("program", "all"),
+    )
 
     latest_update = _get_latest_update(files, program_reviews_qs, standard_reviews_qs, improvement_plans_qs)
 

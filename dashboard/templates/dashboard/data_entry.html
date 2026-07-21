@@ -10082,10 +10082,14 @@ if (openSavedFilesBtn) {
 
     var fixedStd8Configs = {
         "std8Annex29Table": {
-            currentCalc: "annex29_current",
-            previousCalc: "annex29_previous",
-            totalLabel: "الإجمالي",
-            rows: [
+         currentCalc: "annex29_current",
+         previousCalc: "annex29_previous",
+
+         totalLabel: "الإجمالي المدخل",
+         totalCurrentName: "std8_29_total_current",
+         totalPreviousName: "std8_29_total_previous",
+
+         rows: [
                 {
                     label: "الرواتب والحوافز",
                     currentName: "std8_29_current_salary[]",
@@ -10125,10 +10129,14 @@ if (openSavedFilesBtn) {
         },
 
         "std8Annex30EducationTable": {
-            currentCalc: "annex30_edu_current",
-            previousCalc: "annex30_edu_previous",
-            totalLabel: "الإجمالي",
-            rows: [
+         currentCalc: "annex30_edu_current",
+         previousCalc: "annex30_edu_previous",
+
+         totalLabel: "الإجمالي المدخل",
+         totalCurrentName: "std8_30_edu_total_current",
+         totalPreviousName: "std8_30_edu_total_previous",
+
+         rows: [
                 {
                     label: "البنية التحتية",
                     currentName: "std8_30_edu_current_infrastructure[]",
@@ -10168,10 +10176,14 @@ if (openSavedFilesBtn) {
         },
 
         "std8Annex30LibraryTable": {
-            currentCalc: "annex30_lib_current",
-            previousCalc: "annex30_lib_previous",
-            totalLabel: "الإجمالي",
-            rows: [
+         currentCalc: "annex30_lib_current",
+         previousCalc: "annex30_lib_previous",
+
+         totalLabel: "الإجمالي المدخل",
+         totalCurrentName: "std8_30_lib_total_current",
+         totalPreviousName: "std8_30_lib_total_previous",
+
+         rows: [
                 {
                     label: "الخدمات الإدارية",
                     currentName: "std8_30_lib_current_admin_services[]",
@@ -10191,10 +10203,14 @@ if (openSavedFilesBtn) {
         },
 
         "std8Annex33Table": {
-            currentCalc: "annex33_current",
-            previousCalc: "annex33_previous",
-            totalLabel: "المتوسط",
-            rows: [
+         currentCalc: "annex33_current",
+         previousCalc: "annex33_previous",
+
+         totalLabel: "الإجمالي المدخل",
+         totalCurrentName: "std8_33_total_current",
+         totalPreviousName: "std8_33_total_previous",
+
+         rows: [
                 {
                     label: "الشكل التنظيمي",
                     currentName: "std8_33_current_organization[]",
@@ -10258,6 +10274,28 @@ if (openSavedFilesBtn) {
 
         return input;
     }
+    function createManualTotalInput(name, value, placeholder) {
+    var input = document.createElement("input");
+
+    input.type = "number";
+    input.min = "0";
+    input.max = "100";
+    input.step = "0.01";
+    input.name = name || "";
+    input.placeholder = placeholder || "";
+
+    /*
+        لا نضيف data-std8-calc هنا؛
+        لأن هذا الإجمالي مدخل يدويًا وليس متوسطًا تلقائيًا.
+    */
+    input.setAttribute("data-manual-total", "true");
+
+    if (value !== undefined && value !== null && String(value).trim() !== "") {
+        input.value = value;
+    }
+
+    return input;
+}
 
     function rebuildFixedStd8Table(table, config, rowsData) {
         var tbody = table.querySelector("tbody");
@@ -10301,28 +10339,55 @@ if (openSavedFilesBtn) {
         });
 
         var totalTr = document.createElement("tr");
+totalTr.className = "std8-manual-total-row";
 
-        var totalLabelTd = document.createElement("td");
-        totalLabelTd.className = "std8-total-label";
-        totalLabelTd.textContent = config.totalLabel || "الإجمالي";
+var totalLabelTd = document.createElement("td");
+totalLabelTd.className = "std8-total-label";
+totalLabelTd.textContent = config.totalLabel || "الإجمالي المدخل";
 
-        var totalCurrentTd = document.createElement("td");
-        totalCurrentTd.className = "std8-total-cell";
-        totalCurrentTd.setAttribute("data-std8-total-for", config.currentCalc);
-        totalCurrentTd.setAttribute("data-std8-total-type", "avg");
-        totalCurrentTd.setAttribute("data-std8-total-format", "percent");
+var totalCurrentTd = document.createElement("td");
+totalCurrentTd.className = "std8-total-cell";
 
-        var totalPreviousTd = document.createElement("td");
-        totalPreviousTd.className = "std8-total-cell";
-        totalPreviousTd.setAttribute("data-std8-total-for", config.previousCalc);
-        totalPreviousTd.setAttribute("data-std8-total-type", "avg");
-        totalPreviousTd.setAttribute("data-std8-total-format", "percent");
+var totalPreviousTd = document.createElement("td");
+totalPreviousTd.className = "std8-total-cell";
 
-        totalTr.appendChild(totalLabelTd);
-        totalTr.appendChild(totalCurrentTd);
-        totalTr.appendChild(totalPreviousTd);
+/*
+    نبحث عن القيم المحفوظة داخل بيانات الجدول.
+*/
+var savedTotalCurrent = getSavedValue(
+    rowsData,
+    config.totalCurrentName
+);
 
-        tbody.appendChild(totalTr);
+var savedTotalPrevious = getSavedValue(
+    rowsData,
+    config.totalPreviousName
+);
+
+/*
+    إنشاء حقول إجمالي قابلة للكتابة والاسترجاع.
+*/
+totalCurrentTd.appendChild(
+    createManualTotalInput(
+        config.totalCurrentName,
+        savedTotalCurrent,
+        "أدخل الإجمالي الحالي"
+    )
+);
+
+totalPreviousTd.appendChild(
+    createManualTotalInput(
+        config.totalPreviousName,
+        savedTotalPrevious,
+        "أدخل إجمالي العام الماضي"
+    )
+);
+
+totalTr.appendChild(totalLabelTd);
+totalTr.appendChild(totalCurrentTd);
+totalTr.appendChild(totalPreviousTd);
+
+tbody.appendChild(totalTr);
 
         table.querySelectorAll("input, select, textarea").forEach(function (field) {
             field.dispatchEvent(new Event("input", { bubbles: true }));
@@ -13275,6 +13340,41 @@ function addResearchRow() {
 
     const icon = card.querySelector(".std8-fold-btn");
     if (!icon) return;
+    /*
+    معالجة خاصة للجداول التي تسمح بإدخال الإجمالي يدويًا.
+    إذا أدخل المستخدم إجمالي الحالي والماضي،
+    نعتبر الجدول مكتملًا حتى لو كانت المحاور التفصيلية فارغة.
+*/
+const manualTotalInputs = Array.from(
+    card.querySelectorAll('input[data-manual-total="true"]')
+);
+
+if (manualTotalInputs.length === 2) {
+    const filledManualTotals = manualTotalInputs.filter(function (input) {
+        return String(input.value || "").trim() !== "";
+    }).length;
+
+    icon.classList.remove(
+        "status-empty",
+        "status-partial",
+        "status-complete"
+    );
+
+    if (filledManualTotals === 2) {
+        icon.classList.add("status-complete");
+        return;
+    }
+
+    if (filledManualTotals === 1) {
+        icon.classList.add("status-partial");
+        return;
+    }
+
+    /*
+        إذا الإجماليان فارغان، نكمل الحساب المعتاد
+        اعتمادًا على المحاور التفصيلية.
+    */
+}
 
     /*
        مهم:

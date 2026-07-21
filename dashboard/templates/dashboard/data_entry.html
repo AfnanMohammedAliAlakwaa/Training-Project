@@ -8860,13 +8860,13 @@ table[data-save-table="true"] textarea {
                         </div>
 
 
-                        <!-- ================= ملحق 29 ================= -->
+                         <!-- ================= ملحق 29 ================= -->
                         <div class="std8-card" id="std8-app-29">
                             <div class="std8-card-head" onclick="std8ToggleCard(this)">
                                 <div class="std8-title">
                                     
                                     <h3>نتائج رضا أعضاء هيئة التدريس</h3>
-                                    <p>إدخال نسب الرضا للعام الحالي والعام الماضي، ويُحسب الإجمالي كمتوسط تلقائي.</p>
+                                    <p>يمكن إدخال تفاصيل المحاور عند توفرها، ويُدخل الإجمالي يدويًا للعام الحالي والعام الماضي.</p>
                                 </div>
 
                                 <div class="std8-actions">
@@ -8933,9 +8933,17 @@ table[data-save-table="true"] textarea {
 
                                         <tfoot>
                                             <tr>
-                                                <td class="std8-total-label">الإجمالي</td>
-                                                <td class="std8-total-cell" data-std8-total-for="annex29_current" data-std8-total-type="avg" data-std8-total-format="percent"></td>
-                                                <td class="std8-total-cell" data-std8-total-for="annex29_previous" data-std8-total-type="avg" data-std8-total-format="percent"></td>
+                                                <td class="std8-total-label">الإجمالي المدخل</td>
+                                                <td class="std8-total-cell">
+                                                    <input type="number" min="0" max="100" step="0.01"
+                                                           name="std8_29_total_current"
+                                                           placeholder="أدخل الإجمالي الحالي">
+                                                </td>
+                                                <td class="std8-total-cell">
+                                                    <input type="number" min="0" max="100" step="0.01"
+                                                           name="std8_29_total_previous"
+                                                           placeholder="أدخل إجمالي العام الماضي">
+                                                </td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -8950,7 +8958,7 @@ table[data-save-table="true"] textarea {
                                 <div class="std8-title">
                                     
                                     <h3>نتائج رضا الطلبة على جودة الخدمات التعليمية والمكتبية المقدمة لهم</h3>
-                                    <p>إدخال نسب الرضا للعام الحالي والعام الماضي، مع حساب المتوسط تلقائيًا لكل جدول.</p>
+                                    <p>يمكن إدخال تفاصيل المحاور عند توفرها، ويُدخل إجمالي كل جدول يدويًا للعام الحالي والعام الماضي.</p>
                                 </div>
 
                                 <div class="std8-actions">
@@ -9012,9 +9020,17 @@ table[data-save-table="true"] textarea {
 
                                         <tfoot>
                                             <tr>
-                                                <td class="std8-total-label">الإجمالي</td>
-                                                <td class="std8-total-cell" data-std8-total-for="annex30_edu_current" data-std8-total-type="avg" data-std8-total-format="percent"></td>
-                                                <td class="std8-total-cell" data-std8-total-for="annex30_edu_previous" data-std8-total-type="avg" data-std8-total-format="percent"></td>
+                                                <td class="std8-total-label">الإجمالي المدخل</td>
+                                                <td class="std8-total-cell">
+                                                    <input type="number" min="0" max="100" step="0.01"
+                                                           name="std8_30_edu_total_current"
+                                                           placeholder="أدخل الإجمالي الحالي">
+                                                </td>
+                                                <td class="std8-total-cell">
+                                                    <input type="number" min="0" max="100" step="0.01"
+                                                           name="std8_30_edu_total_previous"
+                                                           placeholder="أدخل إجمالي العام الماضي">
+                                                </td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -9053,16 +9069,24 @@ table[data-save-table="true"] textarea {
 
                                         <tfoot>
                                             <tr>
-                                                <td class="std8-total-label">الإجمالي</td>
-                                                <td class="std8-total-cell" data-std8-total-for="annex30_lib_current" data-std8-total-type="avg" data-std8-total-format="percent"></td>
-                                                <td class="std8-total-cell" data-std8-total-for="annex30_lib_previous" data-std8-total-type="avg" data-std8-total-format="percent"></td>
+                                                <td class="std8-total-label">الإجمالي المدخل</td>
+                                                <td class="std8-total-cell">
+                                                    <input type="number" min="0" max="100" step="0.01"
+                                                           name="std8_30_lib_total_current"
+                                                           placeholder="أدخل الإجمالي الحالي">
+                                                </td>
+                                                <td class="std8-total-cell">
+                                                    <input type="number" min="0" max="100" step="0.01"
+                                                           name="std8_30_lib_total_previous"
+                                                           placeholder="أدخل إجمالي العام الماضي">
+                                                </td>
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div>
 
                                 <div class="std8-note">
-                                    إجمالي جداول الرضا هنا هو متوسط النسب، وليس جمعها؛ لأن جمع نسب الرضا يعطي نتيجة غير صحيحة.
+                                    عند توفر إجمالي رسمي في التقرير، أدخليه مباشرة في صف الإجمالي، واتركي المحاور التفصيلية فارغة إذا لم تتوفر نتائجها.
                                 </div>
                             </div>
                         </div>
@@ -9073,7 +9097,7 @@ table[data-save-table="true"] textarea {
                             <div class="std8-card-head" onclick="std8ToggleCard(this)">
                                 <div class="std8-title"> 
                                     <h3>نتائج تقييم سير العملية الامتحانية</h3>
-                                    <p>إدخال نتائج تقييم سير العملية الامتحانية للعام الحالي والعام الماضي، والمتوسط يُحسب تلقائيًا.</p>
+                                    <p>يمكن إدخال تفاصيل المحاور عند توفرها، ويُدخل إجمالي تقييم سير العملية الامتحانية يدويًا.</p>
                                 </div>
 
                                 <div class="std8-actions">
@@ -9125,9 +9149,17 @@ table[data-save-table="true"] textarea {
 
                                         <tfoot>
                                             <tr>
-                                                <td class="std8-total-label">المتوسط</td>
-                                                <td class="std8-total-cell" data-std8-total-for="annex33_current" data-std8-total-type="avg" data-std8-total-format="percent"></td>
-                                                <td class="std8-total-cell" data-std8-total-for="annex33_previous" data-std8-total-type="avg" data-std8-total-format="percent"></td>
+                                                <td class="std8-total-label">الإجمالي المدخل</td>
+                                                <td class="std8-total-cell">
+                                                    <input type="number" min="0" max="100" step="0.01"
+                                                           name="std8_33_total_current"
+                                                           placeholder="أدخل الإجمالي الحالي">
+                                                </td>
+                                                <td class="std8-total-cell">
+                                                    <input type="number" min="0" max="100" step="0.01"
+                                                           name="std8_33_total_previous"
+                                                           placeholder="أدخل إجمالي العام الماضي">
+                                                </td>
                                             </tr>
                                         </tfoot>
                                     </table>

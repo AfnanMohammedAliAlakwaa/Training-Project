@@ -844,63 +844,6 @@ def build_dynamic_standard_rule(standard):
             },
         ],
     }
-
-def build_auto_summary(indicator_results):
-    """
-    إنشاء نقاط قوة وضعف وخطة تحسين بصياغة منطقية.
-
-    - المؤشر المستوفى أو القوي يظهر في نقاط القوة.
-    - المؤشر الضعيف يظهر بصيغة نقص، وليس كعبارة إيجابية.
-    - المؤشرات التوثيقية المستبعدة لا تدخل في الملخص.
-    """
-    strengths = []
-    weaknesses = []
-    improvement_items = []
-
-    for item in indicator_results:
-        if not item.get("included_in_standard", True):
-            continue
-
-        text = clean_text(item.get("indicator_text"))
-        score = int(item.get("score") or 1)
-        snapshot = item.get("snapshot") or {}
-        missing_items = snapshot.get("missing_items") or []
-
-        if score >= 3:
-            strengths.append(f"• {text}")
-        else:
-            weaknesses.append(f"• عدم اكتمال: {text}")
-
-            if missing_items:
-                improvement_items.append(
-                    f"• استكمال البيانات الناقصة المرتبطة بـ {text}"
-                )
-            else:
-                improvement_items.append(
-                    f"• مراجعة واستكمال البيانات المرتبطة بـ {text}"
-                )
-
-    return {
-        "strengths": "\\n".join(strengths)
-        if strengths
-        else "لا توجد نقاط قوة آلية واضحة بناءً على البيانات الحالية.",
-
-        "weaknesses": "\\n".join(weaknesses)
-        if weaknesses
-        else "لا توجد نقاط ضعف آلية واضحة بناءً على البيانات الحالية.",
-
-        "improvement_plan": "\\n".join(improvement_items)
-        if improvement_items
-        else "المحافظة على اكتمال البيانات وتحديثها دوريًا.",
-
-        "execution_time": (
-            "خلال الفصل القادم"
-            if weaknesses
-            else "متابعة دورية"
-        ),
-    }
-
-
 @transaction.atomic
 def generate_auto_review(evaluation_file, user=None):
     review, created = ProgramEvaluationReview.objects.get_or_create(
@@ -989,11 +932,6 @@ def generate_auto_review(evaluation_file, user=None):
                 standard.number,
                 indicator,
             )
-
-            # نحتفظ بنص المؤشر ومفتاحه لبناء ملخص منطقي
-            # لنقاط القوة والضعف وخطة التحسين.
-            result["indicator_key"] = indicator_key
-            result["indicator_text"] = indicator["text"]
 
             indicator_results.append(
                 result
@@ -1087,31 +1025,6 @@ def generate_auto_review(evaluation_file, user=None):
                 " تم تقييم هذا المعيار اعتمادًا على "
                 "البيانات العامة المدخلة له من صفحة إدخال البيانات."
             )
-
-        # إنشاء ملخص آلي منطقي، دون وضع العبارات الإيجابية
-        # داخل نقاط الضعف.
-        #
-        # لا نستخدم standard_has_reviewer_input هنا؛ لأن الحقول
-        # strengths / weaknesses / improvement_plan / execution_time
-        # قد تحتوي أصلًا على ملخص آلي قديم، وهذا كان يمنع تحديثه.
-        auto_summary = build_auto_summary(indicator_results)
-
-        has_manual_reviewer_input = (
-            standard_review.modified_by_reviewer
-            or standard_review.reviewer_score is not None
-            or value_has_content(standard_review.reviewer_notes)
-            or standard_review.review_status in ["draft", "reviewed"]
-            or any(
-                indicator_has_reviewer_input(indicator_review)
-                for indicator_review in standard_review.indicator_reviews.all()
-            )
-        )
-
-        if not has_manual_reviewer_input:
-            standard_review.strengths = auto_summary["strengths"]
-            standard_review.weaknesses = auto_summary["weaknesses"]
-            standard_review.improvement_plan = auto_summary["improvement_plan"]
-            standard_review.execution_time = auto_summary["execution_time"]
 
         if (
             standard_review.reviewer_score

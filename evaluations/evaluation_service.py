@@ -1135,22 +1135,48 @@ def apply_standard_post_data(request, standard_review):
     # حتى لا يتغير السلوك اليدوي الحالي.
     reviewer_result = None
 
-    if evaluation_mode == "auto":
-        reviewer_result = calculate_reviewer_result_from_indicators(
-            indicator_reviews
+# لا نحسب تقييم مراجع في الوضع الآلي
+# إلا إذا عدّل المراجع فعلًا إحدى درجات المؤشرات.
+    if (
+        evaluation_mode == "auto"
+        and indicator_score_modified
+):
+        reviewer_result = (
+            calculate_reviewer_result_from_indicators(
+                indicator_reviews
         )
+    )
 
     if reviewer_result is not None:
-        reviewer_score = reviewer_result["reviewer_score"]
-        reviewer_percentage = reviewer_result["reviewer_percentage"]
+        reviewer_score = (
+            reviewer_result[
+                "reviewer_score"
+        ]
+    )
 
-    elif submitted_standard_score is not None:
-        reviewer_score = submitted_standard_score
-        reviewer_percentage = percentage_from_score(
-            reviewer_score
+        reviewer_percentage = (
+            reviewer_result[
+                "reviewer_percentage"
+        ]
+    )
+
+    elif (
+        evaluation_mode == "manual"
+        and submitted_standard_score
+        is not None
+):
+        reviewer_score = (
+            submitted_standard_score
+    )
+
+        reviewer_percentage = (
+            percentage_from_score(
+                reviewer_score
         )
+    )
 
     else:
+    # لم يحدث تقييم مراجع فعلي
         reviewer_score = None
         reviewer_percentage = None
 
@@ -1166,12 +1192,12 @@ def apply_standard_post_data(request, standard_review):
         standard_review.reviewer_weighted_score = None
 
     standard_review.modified_by_reviewer = (
-        indicator_score_modified
-        or (
-            reviewer_score is not None
-            and reviewer_score != standard_review.auto_score
-        )
+    indicator_score_modified
+    or (
+        evaluation_mode == "manual"
+        and reviewer_score is not None
     )
+)
 
     standard_review.save()
 

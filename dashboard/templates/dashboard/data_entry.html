@@ -20961,8 +20961,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         input.type = "email";
-        input.pattern =
-            "[A-Za-z0-9._%+-]+@gmail\\.com";
+        input.removeAttribute("pattern");
 
         input.placeholder =
             "example@gmail.com";
@@ -20978,14 +20977,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            const gmailPattern =
-                /^[A-Za-z0-9._%+-]+@gmail\.com$/i;
+            const emailPattern =
+    /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-            if (!gmailPattern.test(value)) {
-                input.setCustomValidity(
-                    "يجب أن يكون البريد بصيغة صحيحة وينتهي بـ @gmail.com"
-                );
-            } else {
+            if (!emailPattern.test(value)) {
+    input.setCustomValidity(
+        "يجب إدخال بريد إلكتروني صحيح مثل name@example.com"
+    );
+}else {
                 input.setCustomValidity("");
             }
         });

@@ -20886,69 +20886,76 @@ document.addEventListener("DOMContentLoaded", function () {
        1) أرقام الهواتف: أرقام فقط وبحد أقصى 9 أرقام
     ===================================================== */
 
-    const phoneFieldNames = [
-        "program_phone",
-        "manager_personal_phone",
-        "manager_office_phone"
-    ];
+    /* =====================================================
+   1) أرقام الهواتف: تبدأ بـ 7 وتتكون من 9 أرقام
+===================================================== */
 
-    phoneFieldNames.forEach(function (fieldName) {
-        const input = document.querySelector(
-            'input[name="' + fieldName + '"]'
-        );
+const phoneFieldNames = [
+    "program_phone",
+    "manager_personal_phone",
+    "manager_office_phone"
+];
 
-        if (!input) {
+phoneFieldNames.forEach(function (fieldName) {
+    const input = document.querySelector(
+        'input[name="' + fieldName + '"]'
+    );
+
+    if (!input) {
+        return;
+    }
+
+    input.type = "text";
+    input.inputMode = "numeric";
+    input.maxLength = 9;
+    input.pattern = "7[0-9]{8}";
+    input.title =
+        "يجب أن يبدأ رقم الهاتف بـ 7 ويتكون من 9 أرقام";
+    input.autocomplete = "off";
+
+    input.addEventListener("input", function () {
+        input.value = input.value
+            .replace(/[^0-9]/g, "")
+            .slice(0, 9);
+
+        if (!input.value) {
+            input.setCustomValidity("");
             return;
         }
 
-        input.type = "text";
-        input.inputMode = "numeric";
-        input.maxLength = 9;
-        input.pattern = "7[0-9]{8}";
-        input.title = "يجب أن يبدأ رقم الهاتف بـ 7 ويتكون من 9 أرقام";        input.autocomplete = "off";
+        if (!input.value.startsWith("7")) {
+            input.setCustomValidity(
+                "يجب أن يبدأ رقم الهاتف بالرقم 7."
+            );
+            return;
+        }
 
-        input.addEventListener("input", function () {
-    input.value = input.value
-        .replace(/[^0-9]/g, "")
-        .slice(0, 9);
+        if (input.value.length !== 9) {
+            input.setCustomValidity(
+                "رقم الهاتف يجب أن يتكون من 9 أرقام."
+            );
+            return;
+        }
 
-    if (!input.value) {
         input.setCustomValidity("");
-        return;
-    }
+    });
 
-    if (!input.value.startsWith("7")) {
-        input.setCustomValidity(
-            "يجب أن يبدأ رقم الهاتف بالرقم 7."
-        );
-        return;
-    }
+    input.addEventListener("blur", function () {
+        if (!input.value) {
+            input.setCustomValidity("");
+            return;
+        }
 
-    if (input.value.length !== 9) {
-        input.setCustomValidity(
-            "رقم الهاتف يجب أن يتكون من 9 أرقام."
-        );
-        return;
-    }
+        if (!/^7[0-9]{8}$/.test(input.value)) {
+            input.setCustomValidity(
+                "يجب أن يبدأ رقم الهاتف بـ 7 ويتكون من 9 أرقام."
+            );
 
-    input.setCustomValidity("");
-});
-
-        input.addEventListener("blur", function () {
-    if (!input.value) {
-        input.setCustomValidity("");
-        return;
-    }
-
-    if (!/^7[0-9]{8}$/.test(input.value)) {
-        input.setCustomValidity(
-            "يجب أن يبدأ رقم الهاتف بـ 7 ويتكون من 9 أرقام."
-        );
-
-        input.reportValidity();
-    } else {
-        input.setCustomValidity("");
-    }
+            input.reportValidity();
+        } else {
+            input.setCustomValidity("");
+        }
+    });
 });
 
 

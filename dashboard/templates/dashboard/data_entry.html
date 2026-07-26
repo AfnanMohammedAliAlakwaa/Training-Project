@@ -20878,4 +20878,235 @@ html body main.ust-content
     );
 })();
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    "use strict";
+
+    /* =====================================================
+       1) أرقام الهواتف: أرقام فقط وبحد أقصى 9 أرقام
+    ===================================================== */
+
+    const phoneFieldNames = [
+        "program_phone",
+        "manager_personal_phone",
+        "manager_office_phone"
+    ];
+
+    phoneFieldNames.forEach(function (fieldName) {
+        const input = document.querySelector(
+            'input[name="' + fieldName + '"]'
+        );
+
+        if (!input) {
+            return;
+        }
+
+        input.type = "text";
+        input.inputMode = "numeric";
+        input.maxLength = 9;
+        input.pattern = "[0-9]{9}";
+        input.title = "يجب إدخال 9 أرقام فقط";
+        input.autocomplete = "off";
+
+        input.addEventListener("input", function () {
+            input.value = input.value
+                .replace(/[^0-9]/g, "")
+                .slice(0, 9);
+
+            if (
+                input.value.length > 0 &&
+                input.value.length !== 9
+            ) {
+                input.setCustomValidity(
+                    "رقم الهاتف يجب أن يتكون من 9 أرقام."
+                );
+            } else {
+                input.setCustomValidity("");
+            }
+        });
+
+        input.addEventListener("blur", function () {
+            if (
+                input.value &&
+                input.value.length !== 9
+            ) {
+                input.setCustomValidity(
+                    "رقم الهاتف يجب أن يتكون من 9 أرقام."
+                );
+
+                input.reportValidity();
+            } else {
+                input.setCustomValidity("");
+            }
+        });
+    });
+
+
+    /* =====================================================
+       2) البريد الإلكتروني: يجب أن ينتهي بـ gmail.com
+    ===================================================== */
+
+    const emailFieldNames = [
+        "program_email",
+        "manager_email"
+    ];
+
+    emailFieldNames.forEach(function (fieldName) {
+        const input = document.querySelector(
+            'input[name="' + fieldName + '"]'
+        );
+
+        if (!input) {
+            return;
+        }
+
+        input.type = "email";
+        input.pattern =
+            "[A-Za-z0-9._%+-]+@gmail\\.com";
+
+        input.placeholder =
+            "example@gmail.com";
+
+        input.title =
+            "يجب إدخال بريد Gmail صحيح مثل example@gmail.com";
+
+        input.addEventListener("input", function () {
+            const value = input.value.trim();
+
+            if (!value) {
+                input.setCustomValidity("");
+                return;
+            }
+
+            const gmailPattern =
+                /^[A-Za-z0-9._%+-]+@gmail\.com$/i;
+
+            if (!gmailPattern.test(value)) {
+                input.setCustomValidity(
+                    "يجب أن يكون البريد بصيغة صحيحة وينتهي بـ @gmail.com"
+                );
+            } else {
+                input.setCustomValidity("");
+            }
+        });
+
+        input.addEventListener("blur", function () {
+            if (input.value && !input.checkValidity()) {
+                input.reportValidity();
+            }
+        });
+    });
+
+
+    /* =====================================================
+       3) معدلات الأداء: أرقام فقط من 0 إلى 100
+    ===================================================== */
+
+    const rateFieldNames = [
+        "male_success_rate",
+        "female_success_rate",
+        "average_success_rate",
+
+        "male_cumulative_gpa",
+        "female_cumulative_gpa",
+        "average_cumulative_gpa",
+
+        "male_progress_rate",
+        "female_progress_rate",
+        "average_progress_rate",
+
+        "male_retention_rate",
+        "female_retention_rate",
+        "average_retention_rate",
+
+        "male_flow_rate",
+        "female_flow_rate",
+        "average_flow_rate",
+
+        "male_withdrawal_rate",
+        "female_withdrawal_rate",
+        "average_withdrawal_rate"
+    ];
+
+    rateFieldNames.forEach(function (fieldName) {
+        const input = document.querySelector(
+            'input[name="' + fieldName + '"]'
+        );
+
+        if (!input) {
+            return;
+        }
+
+        input.type = "number";
+        input.inputMode = "decimal";
+        input.min = "0";
+        input.max = "100";
+        input.step = "0.01";
+        input.placeholder = "0 - 100";
+
+        input.addEventListener("input", function () {
+            const value = input.value;
+
+            if (value === "") {
+                input.setCustomValidity("");
+                return;
+            }
+
+            const numberValue = Number(value);
+
+            if (
+                Number.isNaN(numberValue) ||
+                numberValue < 0 ||
+                numberValue > 100
+            ) {
+                input.setCustomValidity(
+                    "يجب إدخال رقم من 0 إلى 100 فقط."
+                );
+            } else {
+                input.setCustomValidity("");
+            }
+        });
+
+        input.addEventListener("keydown", function (event) {
+            const blockedKeys = [
+                "e",
+                "E",
+                "+",
+                "-"
+            ];
+
+            if (blockedKeys.includes(event.key)) {
+                event.preventDefault();
+            }
+        });
+
+        input.addEventListener("blur", function () {
+            if (input.value && !input.checkValidity()) {
+                input.reportValidity();
+            }
+        });
+    });
+
+
+    /* =====================================================
+       منع إرسال النموذج إذا كانت القيم غير صحيحة
+    ===================================================== */
+
+    const form = document.getElementById("dataEntryForm");
+
+    if (form) {
+        form.addEventListener("submit", function (event) {
+            const invalidField =
+                form.querySelector(":invalid");
+
+            if (invalidField) {
+                event.preventDefault();
+
+                invalidField.focus();
+                invalidField.reportValidity();
+            }
+        });
+    }
+});
+</script>
 {% endblock %}

@@ -613,8 +613,8 @@
     <span>حالة المعيار الحالية</span>
 
     <strong class="js-current-standard-percentage">
-        {{ block.final_percentage }}%
-    </strong>
+    {{ block.final_percentage|unlocalize }}%
+</strong>
 
     <em>{{ block.final_label }}</em>
 </div>

@@ -2339,3 +2339,16 @@ html body main.ust-content .evaluation-page {
     font-weight: 700;
     font-style: normal;
 }
+.ev-standard-score-box.status-only-box em {
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 700;
+    font-style: normal;
+    margin-top: 4px;
+}
+
+.ev-standard-score-box.status-only-box .js-current-standard-percentage {
+    font-size: 25px;
+    line-height: 1.2;
+    font-weight: 700;
+}

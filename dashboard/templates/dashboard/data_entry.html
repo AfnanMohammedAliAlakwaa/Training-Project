@@ -20887,35 +20887,46 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     /* =====================================================
-   1) أرقام الهواتف: تبدأ بـ 7 وتتكون من 9 أرقام
+   أرقام الجوال اليمنية:
+   - أرقام فقط
+   - تبدأ بـ 7
+   - تتكون من 9 أرقام
 ===================================================== */
 
-const phoneFieldNames = [
-    "program_phone",
-    "manager_personal_phone",
-    "manager_office_phone"
+const phoneSelectors = [
+    'input[name="program_phone"]',
+    'input[name="manager_personal_phone"]',
+    'input[name="manager_phone"]',
+    'input[name="personal_phone"]'
 ];
 
-phoneFieldNames.forEach(function (fieldName) {
-    const input = document.querySelector(
-        'input[name="' + fieldName + '"]'
-    );
+phoneSelectors.forEach(function (selector) {
+    const input = document.querySelector(selector);
 
     if (!input) {
         return;
     }
 
-    input.type = "text";
+    input.type = "tel";
     input.inputMode = "numeric";
     input.maxLength = 9;
-    input.pattern = "7[0-9]{8}";
+    input.pattern = "^7[0-9]{8}$";
     input.title =
-        "يجب أن يبدأ رقم الهاتف بـ 7 ويتكون من 9 أرقام";
+        "يجب أن يبدأ رقم الجوال بـ 7 ويتكون من 9 أرقام";
     input.autocomplete = "off";
+
+    input.addEventListener("beforeinput", function (event) {
+        if (
+            event.data &&
+            !/^[0-9]+$/.test(event.data)
+        ) {
+            event.preventDefault();
+        }
+    });
 
     input.addEventListener("input", function () {
         input.value = input.value
-            .replace(/[^0-9]/g, "")
+            .replace(/\D/g, "")
             .slice(0, 9);
 
         if (!input.value) {
@@ -20923,37 +20934,34 @@ phoneFieldNames.forEach(function (fieldName) {
             return;
         }
 
-        if (!input.value.startsWith("7")) {
+        if (!/^7[0-9]{8}$/.test(input.value)) {
             input.setCustomValidity(
-                "يجب أن يبدأ رقم الهاتف بالرقم 7."
+                "يجب أن يبدأ رقم الجوال بـ 7 ويتكون من 9 أرقام."
             );
-            return;
+        } else {
+            input.setCustomValidity("");
         }
+    });
 
-        if (input.value.length !== 9) {
-            input.setCustomValidity(
-                "رقم الهاتف يجب أن يتكون من 9 أرقام."
-            );
-            return;
-        }
+    input.addEventListener("paste", function (event) {
+        event.preventDefault();
 
-        input.setCustomValidity("");
+        const pastedText =
+            (event.clipboardData || window.clipboardData)
+                .getData("text")
+                .replace(/\D/g, "")
+                .slice(0, 9);
+
+        input.value = pastedText;
+        input.dispatchEvent(new Event("input"));
     });
 
     input.addEventListener("blur", function () {
-        if (!input.value) {
-            input.setCustomValidity("");
-            return;
-        }
-
-        if (!/^7[0-9]{8}$/.test(input.value)) {
-            input.setCustomValidity(
-                "يجب أن يبدأ رقم الهاتف بـ 7 ويتكون من 9 أرقام."
-            );
-
+        if (
+            input.value &&
+            !/^7[0-9]{8}$/.test(input.value)
+        ) {
             input.reportValidity();
-        } else {
-            input.setCustomValidity("");
         }
     });
 });

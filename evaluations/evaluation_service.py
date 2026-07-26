@@ -637,6 +637,13 @@ def standard_status_label(status):
 # ============================================================
 
 def recalculate_review_totals(review):
+    """
+    إعادة حساب النتيجة العامة للبرنامج.
+
+    لا تدخل نتيجة المراجع في الحساب إلا عندما يوجد تعديل يدوي فعلي
+    ومعلَّم بالحقل modified_by_reviewer. وبذلك لا تتحول درجات النظام
+    المنسوخة قديمًا إلى نتيجة مراجع بالخطأ.
+    """
     standard_reviews = (
         review.standard_reviews
         .select_related("standard")
@@ -648,22 +655,39 @@ def recalculate_review_totals(review):
     reviewer_has_any_score = False
 
     for standard_review in standard_reviews:
-        auto_total += to_decimal(standard_review.auto_weighted_score)
+        auto_weighted = to_decimal(
+            standard_review.auto_weighted_score
+        )
+        auto_total += auto_weighted
 
-        if standard_review.reviewer_score is not None:
+        has_actual_reviewer_result = (
+            standard_review.modified_by_reviewer
+            and standard_review.reviewer_score is not None
+            and standard_review.reviewer_percentage is not None
+        )
+
+        if has_actual_reviewer_result:
             reviewer_has_any_score = True
-            reviewer_total += to_decimal(standard_review.reviewer_weighted_score)
+            reviewer_total += to_decimal(
+                standard_review.reviewer_weighted_score
+            )
         else:
-            reviewer_total += to_decimal(standard_review.auto_weighted_score)
+            reviewer_total += auto_weighted
 
     review.overall_auto_percentage = decimal_round(auto_total)
 
     if reviewer_has_any_score:
-        review.overall_reviewer_percentage = decimal_round(reviewer_total)
-        review.final_percentage = decimal_round(reviewer_total)
+        review.overall_reviewer_percentage = decimal_round(
+            reviewer_total
+        )
+        review.final_percentage = decimal_round(
+            reviewer_total
+        )
     else:
         review.overall_reviewer_percentage = None
-        review.final_percentage = decimal_round(auto_total)
+        review.final_percentage = decimal_round(
+            auto_total
+        )
 
     review.final_status_label = score_label(
         score_from_percentage(review.final_percentage)
@@ -678,15 +702,15 @@ def recalculate_review_totals(review):
     ])
 
     return review
+
+
 def sync_review_weights(review):
     """
-    مزامنة أوزان سجلات التقييم الموجودة مع الأوزان
-    الحالية الموجودة في جدول معايير الجودة.
+    مزامنة أوزان سجلات التقييم مع جدول معايير الجودة.
 
-    لا تغيّر درجات المراجع أو ملاحظاته، وإنما تعيد
-    حساب المساهمة الموزونة والنتيجة النهائية فقط.
+    كما تنظف أي نتيجة مراجع قديمة لم تكن ناتجة عن تعديل يدوي فعلي.
+    لا تمس ملاحظات المراجع أو نقاط القوة والضعف وخطة التحسين.
     """
-
     has_changes = False
 
     standard_reviews = (
@@ -700,31 +724,35 @@ def sync_review_weights(review):
             standard_review.standard.weight or 0
         )
 
-        stored_weight = to_decimal(
-            standard_review.weight or 0
-        )
+        update_fields = []
 
-        if stored_weight == current_weight:
-            continue
+        if to_decimal(standard_review.weight or 0) != current_weight:
+            standard_review.weight = current_weight
+            update_fields.append("weight")
 
-        standard_review.weight = current_weight
-
-        standard_review.auto_weighted_score = decimal_round(
+        expected_auto_weighted = decimal_round(
             (
-                to_decimal(
-                    standard_review.auto_percentage
-                )
+                to_decimal(standard_review.auto_percentage)
                 / Decimal("100")
             )
             * current_weight
         )
 
-        update_fields = [
-            "weight",
-            "auto_weighted_score",
-        ]
+        if (
+            to_decimal(standard_review.auto_weighted_score)
+            != expected_auto_weighted
+        ):
+            standard_review.auto_weighted_score = (
+                expected_auto_weighted
+            )
+            update_fields.append("auto_weighted_score")
 
-        if standard_review.reviewer_score is not None:
+        has_actual_reviewer_result = (
+            standard_review.modified_by_reviewer
+            and standard_review.reviewer_score is not None
+        )
+
+        if has_actual_reviewer_result:
             reviewer_percentage = (
                 standard_review.reviewer_percentage
             )
@@ -734,11 +762,7 @@ def sync_review_weights(review):
                     standard_review.reviewer_score
                 )
 
-            standard_review.reviewer_percentage = (
-                reviewer_percentage
-            )
-
-            standard_review.reviewer_weighted_score = decimal_round(
+            expected_reviewer_weighted = decimal_round(
                 (
                     to_decimal(reviewer_percentage)
                     / Decimal("100")
@@ -746,21 +770,59 @@ def sync_review_weights(review):
                 * current_weight
             )
 
-            update_fields.extend([
-                "reviewer_percentage",
-                "reviewer_weighted_score",
-            ])
+            if (
+                standard_review.reviewer_percentage
+                != reviewer_percentage
+            ):
+                standard_review.reviewer_percentage = (
+                    reviewer_percentage
+                )
+                update_fields.append("reviewer_percentage")
 
-        standard_review.save(
-            update_fields=update_fields
-        )
+            if (
+                to_decimal(
+                    standard_review.reviewer_weighted_score
+                )
+                != expected_reviewer_weighted
+            ):
+                standard_review.reviewer_weighted_score = (
+                    expected_reviewer_weighted
+                )
+                update_fields.append(
+                    "reviewer_weighted_score"
+                )
 
-        has_changes = True
+        else:
+            # إزالة قيم مراجع قديمة أنشأها الوضع الآلي بالخطأ.
+            if standard_review.reviewer_score is not None:
+                standard_review.reviewer_score = None
+                update_fields.append("reviewer_score")
+
+            if standard_review.reviewer_percentage is not None:
+                standard_review.reviewer_percentage = None
+                update_fields.append("reviewer_percentage")
+
+            if standard_review.reviewer_weighted_score is not None:
+                standard_review.reviewer_weighted_score = None
+                update_fields.append(
+                    "reviewer_weighted_score"
+                )
+
+            if standard_review.modified_by_reviewer:
+                standard_review.modified_by_reviewer = False
+                update_fields.append("modified_by_reviewer")
+
+        if update_fields:
+            standard_review.save(
+                update_fields=list(dict.fromkeys(update_fields))
+            )
+            has_changes = True
 
     if has_changes:
         recalculate_review_totals(review)
 
     return review
+
 
 def refresh_program_review_status(review):
     """
@@ -1026,15 +1088,20 @@ def generate_auto_review(evaluation_file, user=None):
                 "البيانات العامة المدخلة له من صفحة إدخال البيانات."
             )
 
-        if (
-            standard_review.reviewer_score
-            is not None
-        ):
+        has_actual_reviewer_result = (
+            standard_review.modified_by_reviewer
+            and standard_review.reviewer_score is not None
+        )
+
+        if has_actual_reviewer_result:
             reviewer_percentage = (
-                percentage_from_score(
+                standard_review.reviewer_percentage
+            )
+
+            if reviewer_percentage is None:
+                reviewer_percentage = percentage_from_score(
                     standard_review.reviewer_score
                 )
-            )
 
             standard_review.reviewer_percentage = (
                 reviewer_percentage
@@ -1043,12 +1110,23 @@ def generate_auto_review(evaluation_file, user=None):
             standard_review.reviewer_weighted_score = (
                 decimal_round(
                     (
-                        reviewer_percentage
+                        to_decimal(reviewer_percentage)
                         / Decimal("100")
                     )
                     * weight
                 )
             )
+        else:
+            # لا يوجد تقييم مراجع فعلي؛ احذف أي قيم قديمة.
+            standard_review.reviewer_score = None
+            standard_review.reviewer_percentage = None
+            standard_review.reviewer_weighted_score = None
+            standard_review.modified_by_reviewer = False
+
+            # تنظيف درجات مؤشرات قديمة كانت نسخة من النظام.
+            standard_review.indicator_reviews.filter(
+                reviewer_notes=""
+            ).update(reviewer_score=None)
 
         standard_review.save()
 
@@ -1062,6 +1140,16 @@ def generate_auto_review(evaluation_file, user=None):
 # ============================================================
 
 def apply_standard_post_data(request, standard_review):
+    """
+    حفظ بيانات المراجع لمعيار واحد.
+
+    القاعدة الأساسية:
+    - الوضع الآلي لا ينشئ درجة مراجع تلقائيًا.
+    - درجة المراجع تبقى فارغة ما لم يغيّر المراجع درجة مؤشر
+      أو يدخل درجة معيار يدويًا.
+    - القيم المطابقة تمامًا لدرجة النظام في الوضع الآلي لا تعتبر
+      تعديلًا من المراجع، وتُنظف بدل حفظها.
+    """
     score_field = f"standard_score_{standard_review.id}"
     notes_field = f"standard_notes_{standard_review.id}"
     strengths_field = f"strengths_{standard_review.id}"
@@ -1080,19 +1168,15 @@ def apply_standard_post_data(request, standard_review):
     standard_review.reviewer_notes = clean_text(
         request.POST.get(notes_field, "")
     )
-
     standard_review.strengths = clean_text(
         request.POST.get(strengths_field, "")
     )
-
     standard_review.weaknesses = clean_text(
         request.POST.get(weaknesses_field, "")
     )
-
     standard_review.improvement_plan = clean_text(
         request.POST.get(improvement_field, "")
     )
-
     standard_review.execution_time = clean_text(
         request.POST.get(execution_field, "")
     )
@@ -1102,8 +1186,8 @@ def apply_standard_post_data(request, standard_review):
     )
 
     indicator_score_modified = False
+    indicator_notes_modified = False
 
-    # حفظ درجات وملاحظات المراجع لكل مؤشر أولًا.
     for indicator_review in indicator_reviews:
         indicator_score_field = (
             f"indicator_score_{indicator_review.id}"
@@ -1112,71 +1196,80 @@ def apply_standard_post_data(request, standard_review):
             f"indicator_notes_{indicator_review.id}"
         )
 
-        indicator_score = parse_score(
+        submitted_indicator_score = parse_score(
             request.POST.get(indicator_score_field, "")
         )
-
-        indicator_review.reviewer_score = indicator_score
-        indicator_review.reviewer_notes = clean_text(
+        submitted_indicator_notes = clean_text(
             request.POST.get(indicator_notes_field, "")
         )
 
-        if (
-            indicator_score is not None
-            and indicator_score != indicator_review.auto_score
-        ):
-            indicator_score_modified = True
+        if evaluation_mode == "auto":
+            # في الوضع الآلي لا نحفظ نسخة مطابقة لدرجة النظام
+            # على أنها درجة مراجع.
+            if (
+                submitted_indicator_score is not None
+                and submitted_indicator_score
+                != indicator_review.auto_score
+            ):
+                indicator_review.reviewer_score = (
+                    submitted_indicator_score
+                )
+                indicator_score_modified = True
+            else:
+                indicator_review.reviewer_score = None
+        else:
+            indicator_review.reviewer_score = (
+                submitted_indicator_score
+            )
+            if submitted_indicator_score is not None:
+                indicator_score_modified = True
 
-        indicator_review.save()
+        indicator_review.reviewer_notes = (
+            submitted_indicator_notes
+        )
 
-    # في وضع التقييم الآلي المعدل، تصبح درجات المؤشرات التي
-    # عدلها أو اعتمدها المراجع هي المصدر لدرجة المعيار العامة.
-    # أما في الوضع اليدوي فيبقى حقل درجة المعيار هو المصدر،
-    # حتى لا يتغير السلوك اليدوي الحالي.
+        if value_has_content(submitted_indicator_notes):
+            indicator_notes_modified = True
+
+        indicator_review.save(update_fields=[
+            "reviewer_score",
+            "reviewer_notes",
+            "updated_at",
+        ])
+
     reviewer_result = None
 
-# لا نحسب تقييم مراجع في الوضع الآلي
-# إلا إذا عدّل المراجع فعلًا إحدى درجات المؤشرات.
-    if (
-        evaluation_mode == "auto"
-        and indicator_score_modified
-):
-        reviewer_result = (
-            calculate_reviewer_result_from_indicators(
-                indicator_reviews
-        )
-    )
-
-    if reviewer_result is not None:
-        reviewer_score = (
-            reviewer_result[
-                "reviewer_score"
-        ]
-    )
-
-        reviewer_percentage = (
-            reviewer_result[
-                "reviewer_percentage"
-        ]
-    )
-
-    elif (
-        evaluation_mode == "manual"
-        and submitted_standard_score
-        is not None
-):
-        reviewer_score = (
-            submitted_standard_score
-    )
-
-        reviewer_percentage = (
-            percentage_from_score(
-                reviewer_score
-        )
-    )
+    if evaluation_mode == "auto":
+        # لا تحسب نتيجة مراجع إلا إذا غيّر المراجع درجة مؤشر فعليًا.
+        if indicator_score_modified:
+            reviewer_result = (
+                calculate_reviewer_result_from_indicators(
+                    indicator_reviews
+                )
+            )
 
     else:
-    # لم يحدث تقييم مراجع فعلي
+        # في الوضع اليدوي: الأولوية لدرجة المعيار المحسوبة/المختارة.
+        if submitted_standard_score is not None:
+            reviewer_result = {
+                "reviewer_score": submitted_standard_score,
+                "reviewer_percentage": percentage_from_score(
+                    submitted_standard_score
+                ),
+            }
+        elif indicator_score_modified:
+            reviewer_result = (
+                calculate_reviewer_result_from_indicators(
+                    indicator_reviews
+                )
+            )
+
+    if reviewer_result is not None:
+        reviewer_score = reviewer_result["reviewer_score"]
+        reviewer_percentage = reviewer_result[
+            "reviewer_percentage"
+        ]
+    else:
         reviewer_score = None
         reviewer_percentage = None
 
@@ -1185,19 +1278,20 @@ def apply_standard_post_data(request, standard_review):
 
     if reviewer_percentage is not None:
         standard_review.reviewer_weighted_score = decimal_round(
-            (reviewer_percentage / Decimal("100"))
+            (
+                to_decimal(reviewer_percentage)
+                / Decimal("100")
+            )
             * to_decimal(standard_review.weight)
         )
     else:
         standard_review.reviewer_weighted_score = None
 
     standard_review.modified_by_reviewer = (
-    indicator_score_modified
-    or (
-        evaluation_mode == "manual"
-        and reviewer_score is not None
+        reviewer_result is not None
+        or value_has_content(standard_review.reviewer_notes)
+        or indicator_notes_modified
     )
-)
 
     standard_review.save()
 
@@ -1397,16 +1491,31 @@ def build_review_context(
         if only_reviewer_filled and not has_input:
             continue
 
-        final_score = standard_review.reviewer_score or standard_review.auto_score
-        final_percentage = standard_review.reviewer_percentage or standard_review.auto_percentage
-        final_weighted = standard_review.reviewer_weighted_score or standard_review.auto_weighted_score
+        has_actual_reviewer_result = (
+            standard_review.modified_by_reviewer
+            and standard_review.reviewer_score is not None
+            and standard_review.reviewer_percentage is not None
+        )
+
+        if has_actual_reviewer_result:
+            final_score = standard_review.reviewer_score
+            final_percentage = standard_review.reviewer_percentage
+            final_weighted = standard_review.reviewer_weighted_score
+        else:
+            final_score = standard_review.auto_score
+            final_percentage = standard_review.auto_percentage
+            final_weighted = standard_review.auto_weighted_score
 
         indicators = []
         filled_indicators = []
 
         for indicator in standard_review.indicator_reviews.all():
             indicator_has_input = indicator_has_reviewer_input(indicator)
-            indicator_final_score = indicator.reviewer_score or indicator.auto_score
+            indicator_final_score = (
+                indicator.reviewer_score
+                if indicator.reviewer_score is not None
+                else indicator.auto_score
+            )
 
             indicator_data = {
                 "obj": indicator,

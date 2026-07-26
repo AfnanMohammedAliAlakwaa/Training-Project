@@ -610,10 +610,14 @@
                         </div>
 
                         <div class="ev-standard-score-box">
-                            <span>نتيجة المعيار الحالية</span>
-                            <strong>{{ block.final_percentage|unlocalize }}%</strong>
-                            <em>{{ block.final_label }}</em>
-                        </div>
+    <span>حالة المعيار الحالية</span>
+
+    {% if block.has_reviewer_input %}
+        <strong>{{ block.final_percentage }}%</strong>
+    {% endif %}
+
+    <em>{{ block.final_label }}</em>
+</div>
                     </div>
 
                     <div class="ev-standard-sections">

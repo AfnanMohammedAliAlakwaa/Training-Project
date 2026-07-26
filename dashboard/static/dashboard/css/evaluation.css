@@ -2326,3 +2326,16 @@ html body main.ust-content .evaluation-page {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
 }
+.ev-standard-score-box.status-only-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.ev-standard-score-box.status-only-box em {
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-style: normal;
+}

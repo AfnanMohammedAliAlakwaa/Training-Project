@@ -1089,10 +1089,25 @@ def generate_auto_review(evaluation_file, user=None):
             )
 
         # إنشاء ملخص آلي منطقي، دون وضع العبارات الإيجابية
-        # داخل نقاط الضعف. لا نستبدل إدخال المراجع اليدوي.
+        # داخل نقاط الضعف.
+        #
+        # لا نستخدم standard_has_reviewer_input هنا؛ لأن الحقول
+        # strengths / weaknesses / improvement_plan / execution_time
+        # قد تحتوي أصلًا على ملخص آلي قديم، وهذا كان يمنع تحديثه.
         auto_summary = build_auto_summary(indicator_results)
 
-        if not standard_has_reviewer_input(standard_review):
+        has_manual_reviewer_input = (
+            standard_review.modified_by_reviewer
+            or standard_review.reviewer_score is not None
+            or value_has_content(standard_review.reviewer_notes)
+            or standard_review.review_status in ["draft", "reviewed"]
+            or any(
+                indicator_has_reviewer_input(indicator_review)
+                for indicator_review in standard_review.indicator_reviews.all()
+            )
+        )
+
+        if not has_manual_reviewer_input:
             standard_review.strengths = auto_summary["strengths"]
             standard_review.weaknesses = auto_summary["weaknesses"]
             standard_review.improvement_plan = auto_summary["improvement_plan"]

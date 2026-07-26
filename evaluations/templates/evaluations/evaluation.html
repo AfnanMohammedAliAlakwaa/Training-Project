@@ -684,10 +684,10 @@
                                         <label>ملاحظات المراجع على المعيار</label>
 
                                         <textarea name="standard_notes_{{ block.obj.id }}"
-                                                  rows="3"
-                                                  class="js-standard-notes"
-                                                  data-auto-note="{{ block.obj.auto_notes|escape }}"
-                                                  placeholder="اكتبي ملاحظة المراجع اليدوية هنا">{% if load_draft and block.obj.reviewer_notes and block.obj.reviewer_notes != block.obj.auto_notes %}{{ block.obj.reviewer_notes }}{% endif %}</textarea>
+                                        rows="3"
+                                        class="js-standard-notes"
+                                        data-auto-note="{{ block.obj.auto_notes|escape }}"
+                                        placeholder="اكتبي ملاحظة المراجع اليدوية هنا">{{ block.obj.reviewer_notes|default:"" }}</textarea>>
                                     </div>
                                 </div>
                             </div>
@@ -757,12 +757,11 @@
                                                     </td>
 
                                                     <td>
-                                                        <textarea name="indicator_notes_{{ indicator.obj.id }}"
-                                                                  rows="2"
-                                                                  class="js-indicator-notes"
-                                                                  data-auto-note="{{ indicator.obj.auto_notes|escape }}"
-                                                                  placeholder="اكتبي ملاحظة المراجع اليدوية هنا">{% if load_draft and indicator.obj.reviewer_notes and indicator.obj.reviewer_notes != indicator.obj.auto_notes %}{{ indicator.obj.reviewer_notes }}{% endif %}</textarea>
-                                                    </td>
+<textarea name="indicator_notes_{{ indicator.obj.id }}"
+          rows="2"
+          class="js-indicator-notes"
+          data-auto-note="{{ indicator.obj.auto_notes|escape }}"
+          placeholder="اكتبي ملاحظة المراجع اليدوية هنا">{{ indicator.obj.reviewer_notes|default:"" }}</textarea>                                                    </td>
                                                 </tr>
                                             {% empty %}
                                                 <tr>
@@ -793,39 +792,35 @@
                                     <div class="ev-field">
                                         <label>نقاط القوة</label>
 
-                                        <textarea name="strengths_{{ block.obj.id }}"
-                                                  rows="3"
-                                                  class="js-strengths"
-                                                  placeholder="تعبأ تلقائيًا عند اختيار التقييم الآلي، أو يدويًا عند اختيار التقييم اليدوي">{% if load_draft %}{{ block.obj.strengths }}{% endif %}</textarea>
-                                    </div>
+<textarea name="strengths_{{ block.obj.id }}"
+          rows="3"
+          class="js-strengths"
+          placeholder="تعبأ تلقائيًا عند اختيار التقييم الآلي، أو يدويًا عند اختيار التقييم اليدوي">{{ block.obj.strengths|default:"" }}</textarea>                                    </div>
 
                                     <div class="ev-field">
                                         <label>نقاط الضعف</label>
 
-                                        <textarea name="weaknesses_{{ block.obj.id }}"
-                                                  rows="3"
-                                                  class="js-weaknesses"
-                                                  placeholder="تعبأ تلقائيًا عند اختيار التقييم الآلي، أو يدويًا عند اختيار التقييم اليدوي">{% if load_draft %}{{ block.obj.weaknesses }}{% endif %}</textarea>
-                                    </div>
+<textarea name="weaknesses_{{ block.obj.id }}"
+          rows="3"
+          class="js-weaknesses"
+          placeholder="تعبأ تلقائيًا عند اختيار التقييم الآلي، أو يدويًا عند اختيار التقييم اليدوي">{{ block.obj.weaknesses|default:"" }}</textarea>                                    </div>
 
                                     <div class="ev-field">
                                         <label>خطة التحسين</label>
 
-                                        <textarea name="improvement_plan_{{ block.obj.id }}"
-                                                  rows="3"
-                                                  class="js-improvement-plan"
-                                                  placeholder="تعبأ تلقائيًا عند اختيار التقييم الآلي، أو يدويًا عند اختيار التقييم اليدوي">{% if load_draft %}{{ block.obj.improvement_plan }}{% endif %}</textarea>
-                                    </div>
+<textarea name="improvement_plan_{{ block.obj.id }}"
+          rows="3"
+          class="js-improvement-plan"
+          placeholder="تعبأ تلقائيًا عند اختيار التقييم الآلي، أو يدويًا عند اختيار التقييم اليدوي">{{ block.obj.improvement_plan|default:"" }}</textarea>                                    </div>
 
                                     <div class="ev-field">
                                         <label>زمن التنفيذ</label>
 
-                                        <input type="text"
-                                               name="execution_time_{{ block.obj.id }}"
-                                               class="js-execution-time"
-                                               value="{% if load_draft %}{{ block.obj.execution_time }}{% endif %}"
-                                               placeholder="مثال: خلال الفصل القادم">
-                                    </div>
+<input type="text"
+       name="execution_time_{{ block.obj.id }}"
+       class="js-execution-time"
+       value="{{ block.obj.execution_time|default:'' }}"
+       placeholder="مثال: خلال الفصل القادم">                                    </div>
                                 </div>
                             </div>
                         </details>
@@ -837,10 +832,9 @@
             <div class="ev-general-notes">
                 <label>ملاحظات عامة على التقييم</label>
 
-                <textarea name="general_notes"
-                          rows="4"
-                          placeholder="اكتبي الملاحظات العامة هنا">{% if load_draft %}{{ review.general_notes }}{% endif %}</textarea>
-            </div>
+<textarea name="general_notes"
+          rows="4"
+          placeholder="اكتبي الملاحظات العامة هنا">{{ review.general_notes|default:"" }}</textarea>            </div>
 
             <div class="ev-actions">
                 {% if selected_standard_review and selected_standard_review.review_status == "reviewed" %}

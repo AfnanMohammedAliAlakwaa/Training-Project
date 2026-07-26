@@ -326,6 +326,26 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         );
     });
+    function updateCurrentResultCards(mode) {
+    document
+        .querySelectorAll(
+            ".js-current-standard-percentage"
+        )
+        .forEach(function (percentageElement) {
+            /*
+             * في التقييم الآلي:
+             * نخفي النسبة ونبقي حالة المعيار فقط.
+             *
+             * في التقييم اليدوي:
+             * نظهر النسبة مباشرة، سواء كان التقييم
+             * محفوظًا أو لم يبدأ المراجع بعد.
+             */
+            percentageElement.style.display =
+                mode === "auto"
+                    ? "none"
+                    : "";
+        });
+}
 
     function setActiveMode(mode) {
         if (
@@ -360,6 +380,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         normalizeInputsDirection();
         resizeAllTextareas();
+        updateCurrentResultCards(mode);
     }
 
     function markScoreGap(select) {

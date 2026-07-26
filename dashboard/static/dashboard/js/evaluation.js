@@ -392,6 +392,115 @@ document.addEventListener("DOMContentLoaded", function () {
             );
         }
     }
+    /*
+ * تحويل النسبة إلى درجة من 1 إلى 5
+ * بنفس حدود التقييم المستخدمة في Django.
+ */
+function reviewerScoreFromPercentage(percentage) {
+    const value = Number(percentage || 0);
+
+    if (value >= 90) {
+        return 5;
+    }
+
+    if (value >= 80) {
+        return 4;
+    }
+
+    if (value >= 65) {
+        return 3;
+    }
+
+    if (value >= 40) {
+        return 2;
+    }
+
+    return 1;
+}
+
+
+/*
+ * حساب درجة المراجع العامة للمعيار
+ * من درجات المؤشرات التي اختارها المراجع.
+ */
+function calculateManualStandardScore(panel) {
+    if (!panel) {
+        return;
+    }
+
+    const indicatorScores = [];
+
+    panel
+        .querySelectorAll(".js-indicator-score")
+        .forEach(function (select) {
+            const score = parseInt(
+                select.value || "",
+                10
+            );
+
+            if (
+                !Number.isNaN(score) &&
+                score >= 1 &&
+                score <= 5
+            ) {
+                indicatorScores.push(score);
+            }
+        });
+
+    const standardScoreSelect =
+        panel.querySelector(".js-standard-score");
+
+    if (!standardScoreSelect) {
+        return;
+    }
+
+    /*
+     * إذا لم يحدد المراجع أي مؤشر،
+     * نجعل درجة المعيار فارغة.
+     */
+    if (indicatorScores.length === 0) {
+        standardScoreSelect.value = "";
+        markScoreGap(standardScoreSelect);
+        return;
+    }
+
+    const totalScore =
+        indicatorScores.reduce(
+            function (total, score) {
+                return total + score;
+            },
+            0
+        );
+
+    /*
+     * النسبة = مجموع الدرجات
+     * ÷ أقصى مجموع ممكن × 100
+     */
+    const reviewerPercentage =
+        (
+            totalScore /
+            (indicatorScores.length * 5)
+        ) * 100;
+
+    const reviewerScore =
+        reviewerScoreFromPercentage(
+            reviewerPercentage
+        );
+
+    standardScoreSelect.value =
+        String(reviewerScore);
+
+    markScoreGap(standardScoreSelect);
+
+    /*
+     * تخزين النسبة داخل العنصر للاستفادة
+     * منها لاحقًا إن احتجنا إلى عرضها.
+     */
+    standardScoreSelect.setAttribute(
+        "data-calculated-reviewer-percentage",
+        reviewerPercentage.toFixed(2)
+    );
+}
 
     function buildStrengths(panel) {
         const strengths = [];
@@ -1342,6 +1451,39 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
             }
         );
+        /*
+ * عند تغيير أي درجة داخل جدول المؤشرات
+ * في الوضع اليدوي، نحسب تلقائيًا
+ * درجة المراجع العامة للمعيار.
+ */
+document
+    .querySelectorAll(
+        ".js-indicator-score"
+    )
+    .forEach(function (select) {
+        select.addEventListener(
+            "change",
+            function () {
+                const panel =
+                    select.closest(
+                        ".ev-standard-panel"
+                    );
+
+                /*
+                 * الحساب التلقائي المطلوب هنا
+                 * خاص بالوضع اليدوي.
+                 */
+                if (
+                    modeInput &&
+                    modeInput.value === "manual"
+                ) {
+                    calculateManualStandardScore(
+                        panel
+                    );
+                }
+            }
+        );
+    });
 
     document
         .querySelectorAll(

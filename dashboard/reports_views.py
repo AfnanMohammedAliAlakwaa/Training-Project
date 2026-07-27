@@ -1141,7 +1141,7 @@ def _build_program_rankings(files, selected_program="all"):
     return rankings
 
 
-def _build_report_types(report_progress):
+def _build_report_types(report_progress, plans_total=0):
     """
     يبني حالة كل تقرير من نسبة جاهزيته.
 
@@ -1163,6 +1163,9 @@ def _build_report_types(report_progress):
                 status, status_class = "مسودة", "warning"
             else:
                 status, status_class = "لا توجد بيانات", "danger"
+        elif report_id == "improvement" and plans_total > 0 and progress == 0:
+            status, status_class = "لم تكتمل أي خطة بعد", "warning"
+   
         else:
             status, status_class = _status_from_progress(progress)
 
@@ -1334,7 +1337,10 @@ def _build_reports_data_from_database(request):
         "executive": executive_progress,
     }
 
-    report_types = _build_report_types(report_progress)
+    report_types = _build_report_types(
+    report_progress,
+    plans_total=plans_total,
+)
     ready_reports = len([report for report in report_types if report["status_class"] == "success"])
     status_counts = _build_status_counts(report_types)
 

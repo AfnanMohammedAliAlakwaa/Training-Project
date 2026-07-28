@@ -4,7 +4,11 @@ from django import forms
 from django.contrib import admin
 from django.contrib.admin.sites import NotRegistered
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.contrib.auth.forms import (
+    AdminPasswordChangeForm,
+    UserChangeForm,
+    UserCreationForm,
+)
 from django.contrib.auth.models import Group, User
 from django.db.models import CharField, Count, F, OuterRef, Q, Subquery, Value
 from django.core.exceptions import PermissionDenied
@@ -1269,11 +1273,17 @@ try:
 except NotRegistered:
     pass
 
+class CleanAdminPasswordChangeForm(AdminPasswordChangeForm):
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(user, *args, **kwargs)
 
+        if "usable_password" in self.fields:
+            self.fields["usable_password"].help_text = ""
 @admin.register(User)
 class CustomUserAdmin(DefaultUserAdmin):
     form = CleanUserChangeForm
     add_form = CleanUserCreationForm
+    change_password_form = CleanAdminPasswordChangeForm
 
     list_display = (
         "username",

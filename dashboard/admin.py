@@ -1183,6 +1183,9 @@ class CleanUserChangeForm(UserChangeForm):
 
         if "username" in self.fields:
             self.fields["username"].help_text = ""
+        if "usable_password" in self.fields:
+            self.fields["usable_password"].help_text = ""
+    
 
         self._original_group_ids = []
         self._original_permission_ids = []
